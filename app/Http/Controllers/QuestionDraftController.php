@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\UseCases\QuestionUseCase;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,16 @@ class QuestionDraftController extends Controller
     public function edit(Request $request): View
     {
         return view('questiondraft.edit', [
-            'question' => $request->user(),
+            'question' => $request->all(),
         ]);
+    }
+
+    public function update(ProfileUpdateRequest $request): RedirectResponse
+    {
+        print_r($request->all());
+
+        //$request->user()->save();
+
+        return Redirect::route('questiondraft.edit',1)->with('status', 'question-updated');
     }
 }

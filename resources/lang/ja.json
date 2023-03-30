@@ -1,4 +1,8 @@
 {
     "Profile": "プロフィール",
-    "Questions": "作成中問題閲覧"
+    "Questions": "試験問題一覧",
+    "Categories": "カテゴリ一覧",
+    "Submit": "送信",
+    "Save": "保存",
+    "Cancel": "クリア"
 }
