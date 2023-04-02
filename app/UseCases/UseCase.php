@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UseCases\UseCase;
+namespace App\UseCases;
 
 class UseCase{
 

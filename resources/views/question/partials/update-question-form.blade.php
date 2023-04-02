@@ -18,6 +18,28 @@
         @method('patch')
 
         <div>
+            <x-input-label for="code" :value="__('categories.parent_category')"/>
+            <x-categories.select-primary-categories name="primary_id"
+                                                    class="mt-1 block w-full" autofocus
+                                                    autocomplete="primary_id"
+                                                    :value="old('primary_id')" :options="$p_categories"
+            />
+            <x-categories.select-secondary-categories name="secondary_id"
+                                                      class="mt-1 block w-full" autofocus
+                                                      autocomplete="secondary_id"
+                                                      :value="old('secondary_id')" :options="$s_categories"
+            />
+            <x-categories.select-categories name="category_id"
+                                            class="mt-1 block w-full" autofocus
+                                            autocomplete="category_id"
+                                            :value="old('category_id')" :options="$categories"
+            />
+            <x-input-error class="mt-2" :messages="$errors->get('primary_id')"/>
+            <x-input-error class="mt-2" :messages="$errors->get('secondary_id')"/>
+            <x-input-error class="mt-2" :messages="$errors->get('category_id')"/>
+        </div>
+
+        <div>
             <x-input-label for="name" :value="__('questions.topic')"/>
             <x-text-input id="name" name="topic" type="text" class="mt-1 block w-full" autofocus
                           autocomplete="name" :value="old('topic', $question->topic)" />

@@ -21,6 +21,14 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
+     * @return View
+     */
+    public function admin_create(): View
+    {
+        return view('auth.admin_login');
+    }
+
+    /**
      * Handle an incoming authentication request.
      */
     public function store(LoginRequest $request): RedirectResponse
@@ -30,6 +38,15 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         return redirect()->intended(RouteServiceProvider::HOME);
+    }
+
+    public function admin_store(LoginRequest $request): RedirectResponse
+    {
+        $request->admin_authenticate();
+
+        $request->session()->regenerate();
+
+        return redirect()->intended(RouteServiceProvider::ADMIN_HOME);
     }
 
     /**

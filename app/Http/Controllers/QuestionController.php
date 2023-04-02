@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\UseCases\CategoryUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
+use JetBrains\PhpStorm\Pure;
 
 class QuestionController extends Controller
 {
+    public CategoryUseCase $categoryUC;
+
+    #[Pure] public function __construct()
+    {
+        $this->categoryUC = new CategoryUseCase();
+    }
     /**
      * Display a listing of the resource.
      */
@@ -21,7 +30,11 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        return view('question.create');//
+        $p_categories = $this->categoryUC->getPrimaryCategories();
+        $s_categories = $this->categoryUC->getSecondaryAllCategories();
+        $categories = $this->categoryUC->getSimpleCategories();
+
+        return view('question.create', compact('p_categories', 's_categories', 'categories'));//
     }
 
     /**
@@ -29,7 +42,8 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->questionUC->saveQuestion($request);
+        return Redirect::route('question.create')->with('question', 'saved');//
     }
 
     /**
@@ -46,7 +60,11 @@ class QuestionController extends Controller
     public function edit(string $id)
     {
         $question = DB::table('questions')->find($id);
-        return view('question.edit', compact('question'));//
+        $p_categories = $this->categoryUC->getPrimaryCategories();
+        $s_categories = $this->categoryUC->getSecondaryAllCategories();
+        $categories = $this->categoryUC->getSimpleCategories();
+
+        return view('question.edit', compact('question', 'p_categories', 's_categories', 'categories'));//
     }
 
     /**
@@ -54,7 +72,8 @@ class QuestionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $this->questionUC->updateQuestion($request);
+        return Redirect::route('question.edit',$id)->with('question', 'saved');////
     }
 
     /**

@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Question extends Model
+class Admin extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -18,14 +18,9 @@ class Question extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'text',
-        'topic',
-        'category_id',
-        'correct_choice',
-        'wrong_choice_1',
-        'wrong_choice_2',
-        'wrong_choice_3',
-        'explanation'
+        'name',
+        'email',
+        'password',
     ];
 
     /**
@@ -34,6 +29,8 @@ class Question extends Model
      * @var array<int, string>
      */
     protected $hidden = [
+        'password',
+        'remember_token',
     ];
 
     /**
