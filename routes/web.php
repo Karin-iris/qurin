@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\QuestionDraftController;
-use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\QuestionDraftController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,21 +30,7 @@ Route::get('/admin_dashboard', function () {
 })->middleware('auth:admin')->name('admin_dashboard');
 
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::controller(QuestionDraftController::class)->group(function () {
-        Route::get('/questiondrafts/{id}', 'edit')->name('questiondraft.edit');
-        Route::patch('/questiondrafts', 'update')->name('questiondraft.update');
-        Route::post('/questiondrafts', 'store');
-    });
-    Route::controller(QuestionController::class)->group(function () {
-        Route::get('/question', 'index')->name('question.index');
-        Route::get('/question/edit/{id}', 'edit')->name('question.edit');
-        Route::get('/question/add', 'create')->name('question.create');
-        Route::delete('/question', [QuestionController::class, 'destroy'])->name('question.destroy');
-    });
+Route::middleware('auth:admin')->group(function () {
     Route::controller(CategoryController::class)->group(function () {
         Route::get('/category', 'index')->name('category.index');
         Route::get('/category/edit/{id}', 'edit')->name('category.edit');
@@ -61,6 +47,24 @@ Route::middleware('auth')->group(function () {
         Route::post('/category/s_add', 'store_s')->name('category.store_s');
         Route::delete('/category', [CategoryController::class, 'destroy'])->name('category.destroy');
     });
+
+});
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::controller(QuestionDraftController::class)->group(function () {
+        Route::get('/questiondrafts/{id}', 'edit')->name('questiondraft.edit');
+        Route::patch('/questiondrafts', 'update')->name('questiondraft.update');
+        Route::post('/questiondrafts', 'store');
+    });
+    Route::controller(QuestionController::class)->group(function () {
+        Route::get('/question', 'index')->name('question.index');
+        Route::get('/question/edit/{id}', 'edit')->name('question.edit');
+        Route::get('/question/add', 'create')->name('question.create');
+        Route::delete('/question', [QuestionController::class, 'destroy'])->name('question.destroy');
+    });
+
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
