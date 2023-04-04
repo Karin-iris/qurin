@@ -13,9 +13,9 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('question.store') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('userquestion.update',$user_question->id) }}" class="mt-6 space-y-6">
         @csrf
-        @method('post')
+        @method('put')
 
         <div>
             <x-input-label for="code" :value="__('categories.parent_category')"/>
@@ -37,53 +37,54 @@
         </div>
 
         <div>
-            <x-input-label for="topic" :value="__('questions.topic')"/>
+            <x-input-label for="name" :value="__('questions.topic')"/>
             <x-text-input id="topic" name="topic" type="text" class="mt-1 block w-full" autofocus
-                          autocomplete="topic" :value="old('topic')" />
-            <x-input-error class="mt-2" :messages="$errors->get('topic')"/>
+                          autocomplete="name" :value="old('topic',$user_question->topic)" />
+            <x-input-error class="mt-2" :messages="$errors->get('name')"/>
         </div>
 
         <div>
             <x-input-label for="text" :value="__('questions.text')"/>
             <x-textarea cols="30" rows="4" id="text" name="text" class="mt-1 block w-full" required autofocus
-                        autocomplete="name">{{old('explanation')}}</x-textarea>
+                        autocomplete="name">{{old('explanation',$user_question->explanation)}}</x-textarea>
             <x-input-error class="mt-2" :messages="$errors->get('name')"/>
         </div>
 
         <div>
             <x-input-label for="correct_choice" :value="__('questions.correct_choice')"/>
             <x-text-input id="correct_choice" name="correct_choice" type="text" class="mt-1 block w-full" required autofocus
-                          autocomplete="correct_choice" :value="old('correct_choice')" />
-            <x-input-error class="mt-2" :messages="$errors->get('correct_choice')"/>
+                          autocomplete="correct_choice" :value="old('correct_choice',$user_question->correct_choice)" />
+            <x-input-error class="mt-2" :messages="$errors->get('name')"/>
         </div>
 
         <div>
             <x-input-label for="wrong_choice_1" :value="__('questions.wrong_choice',['num'=>1])"/>
             <x-text-input id="wrong_choice_1" name="wrong_choice_1" type="text" class="mt-1 block w-full" required autofocus
-                          autocomplete="wrong_choice_1" :value="old('wrong_choice_1')"/>
-            <x-input-error class="mt-2" :messages="$errors->get('wrong_choice_1')"/>
+                          autocomplete="wrong_choice_1" :value="old('wrong_choice_1',$user_question->wrong_choice_1)"/>
+            <x-input-error class="mt-2" :messages="$errors->get('name')"/>
         </div>
 
         <div>
             <x-input-label for="wrong_choice_2" :value="__('questions.wrong_choice',['num'=>2])"/>
             <x-text-input id="wrong_choice_2" name="wrong_choice_2" type="text" class="mt-1 block w-full" required autofocus
-                          autocomplete="name" :value="old('wrong_choice_2')"/>
-            <x-input-error class="mt-2" :messages="$errors->get('wrong_choice_2')"/>
+                          autocomplete="name" :value="old('wrong_choice_2',$user_question->wrong_choice_2)"/>
+            <x-input-error class="mt-2" :messages="$errors->get('name')"/>
         </div>
 
         <div>
             <x-input-label for="wrong_choice_3" :value="__('questions.wrong_choice',['num'=>3])"/>
             <x-text-input id="wrong_choice_3" name="wrong_choice_3" type="text" class="mt-1 block w-full" required autofocus
-                          autocomplete="name" :value="old('wrong_choice_3')"/>
-            <x-input-error class="mt-2" :messages="$errors->get('wrong_choice_3')"/>
+                          autocomplete="wrong_choice_3" :value="old('wrong_choice_3',$user_question->wrong_choice_3)"/>
+            <x-input-error class="mt-2" :messages="$errors->get('name')"/>
         </div>
 
         <div>
             <x-input-label for="explanation" :value="__('questions.explanation')"/>
             <x-textarea cols="30" rows="4" id="explanation" name="explanation" class="mt-1 block w-full" required autofocus
-                        autocomplete="name">{{old('explanation')}}</x-textarea>
-            <x-input-error class="mt-2" :messages="$errors->get('explanation')"/>
+                        autocomplete="explanation">{{old('explanation',$user_question->explanation)}}</x-textarea>
+            <x-input-error class="mt-2" :messages="$errors->get('name')"/>
         </div>
+        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
 
         <x-secondary-button x-on:click="$dispatch('close')">
             {{ __('Cancel') }}

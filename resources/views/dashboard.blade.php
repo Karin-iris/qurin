@@ -13,9 +13,5 @@
                 </div>
             </div>
         </div>
-
-        <div class="flex flex-wrap">
-
-        </div>
     </div>
 </x-app-layout>

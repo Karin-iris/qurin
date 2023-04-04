@@ -1,4 +1,4 @@
-<x-admin-layout>
+<x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Questions') }}
@@ -18,9 +18,11 @@
                             {{ __('questions.question_explain') }}
                         </p>
                     </header>
+
                     <button type="button"
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                            onClick="location.href='{{ route('question.create') }}'">{{ __('questions.create') }}
+                            onClick="location.href='{{ route('userquestion.create') }}'">
+                        <i class="fas fa-heart"></i> With Icon and Text
                     </button>
                     <table class="border-1 border-gray-900 w-full text-lg text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -34,20 +36,20 @@
                         </tr>
                         </thead>
                         <tbody class="text-md">
-                        @foreach($questions as $question)
+                        @foreach($user_questions as $user_question)
                             <tr class="border-b border-gray-500 bg-white">
-                                <td>{{$question->topic}}</td>
-                                <td>{{$question->text}}</td>
-                                <td>{{$question->created_at}}</td>
-                                <td>{{$question->updated_at}}</td>
+                                <td>{{$user_question->topic}}</td>
+                                <td>{{$user_question->text}}</td>
+                                <td>{{$user_question->created_at}}</td>
+                                <td>{{$user_question->updated_at}}</td>
                                 <td>
-                                    @if(!empty($question->id))
-                                        <a href="{{ route('question.edit', ['id'=> $question->id]) }}">編集</a>
+                                    @if(!empty($user_question->id))
+                                        <a href="{{ route('userquestion.edit', ['id'=> $user_question->id]) }}">編集</a>
                                     @endif
                                 </td>
                                 <td>
-                                    @if(!empty($question->id))
-                                        <a href="{{ route('question.destroy', ['id'=> $question->id]) }}">削除</a>
+                                    @if(!empty($user_question->id))
+                                        <a href="{{ route('userquestion.destroy', ['id'=> $user_question->id]) }}">削除</a>
                                     @endif
                                 </td>
                             </tr>
@@ -61,7 +63,7 @@
                 <div class="w-full">
                     <header>
                         <h2 class="text-lg font-medium text-gray-900">
-                            {{ __('questions.cases') }}
+                            {{ __('questions.my_cases') }}
                         </h2>
 
                         <p class="mt-1 text-sm text-gray-600">
@@ -70,7 +72,8 @@
                     </header>
                     <button type="button"
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                            onClick="location.href='{{ route('question.create_c') }}'">{{ __('questions.create') }}
+                            onClick="location.href='{{ route('userquestion.create_c') }}'">
+                        <i class="fas fa-heart"></i> With Icon and Text
                     </button>
                     <table class="border-1 border-gray-900 w-full text-lg text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -84,20 +87,20 @@
                         </tr>
                         </thead>
                         <tbody class="text-md">
-                        @foreach($question_cases as $question_case)
+                        @foreach($user_question_cases as $user_question_case)
                             <tr class="border-b border-gray-500 bg-white">
-                                <td>{{$question_case->topic}}</td>
-                                <td>{{$question_case->text}}</td>
-                                <td>{{$question_case->created_at}}</td>
-                                <td>{{$question_case->updated_at}}</td>
+                                <td>{{$user_question_case->topic}}</td>
+                                <td>{{$user_question_case->text}}</td>
+                                <td>{{$user_question_case->created_at}}</td>
+                                <td>{{$user_question_case->updated_at}}</td>
                                 <td>
-                                    @if(!empty($question_case->id))
-                                        <a href="{{ route('question.edit_c', ['id'=> $question_case->id]) }}">編集</a>
+                                    @if(!empty($user_question_case->id))
+                                        <a href="{{ route('userquestion.edit_c', ['id'=> $user_question_case->id]) }}">編集</a>
                                     @endif
                                 </td>
                                 <td>
-                                    @if(!empty($question_case->id))
-                                        <a href="{{ route('question.destroy_c', ['id'=> $question_case->id]) }}">削除</a>
+                                    @if(!empty($user_question_case->id))
+                                        <a href="{{ route('userquestion.destroy_c', ['id'=> $user_question_case->id]) }}">削除</a>
                                     @endif
                                 </td>
                             </tr>
@@ -109,4 +112,4 @@
         </div>
     </div>
 
-</x-admin-layout>
+</x-app-layout>

@@ -25,7 +25,8 @@ class Question extends Model
         'wrong_choice_1',
         'wrong_choice_2',
         'wrong_choice_3',
-        'explanation'
+        'explanation',
+        'user_id',
     ];
 
     /**

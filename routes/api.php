@@ -19,5 +19,6 @@ use App\Http\Controllers\Api\ApiCategoryController;
 //    return $request->user();
 //});
 Route::controller(ApiCategoryController::class)->group(function () {
-        Route::get('/category/get_secondaries/{id}', 'get_secondaries');
+    Route::get('/category/get_secondaries/{id}', 'get_secondaries');
+    Route::get('/category/get_children/{id}', 'get_children');
 });

@@ -11,17 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('questions', function (Blueprint $table) {
+        Schema::create('question_cases', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->nullable(true);
-            $table->integer('category_id');
             $table->text('topic');
             $table->text('text');
-            $table->text('correct_choice');
-            $table->text('wrong_choice_1');
-            $table->text('wrong_choice_2');
-            $table->text('wrong_choice_3');
-            $table->text('explanation');
             $table->timestamps();
         });
     }
@@ -31,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('questions');
+        Schema::dropIfExists('question_cases');
     }
 };

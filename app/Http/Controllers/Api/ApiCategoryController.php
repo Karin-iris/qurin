@@ -23,4 +23,9 @@ class ApiCategoryController extends ApiController
             $this->categoryUC->getSecondaryCategories($id)
         );
     }
+    public function get_children(int $id){
+        return response()->json(
+            $this->categoryUC->getChildCategories($id)
+        );
+    }
 }

@@ -3,7 +3,11 @@
 namespace App\UseCases;
 
 use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\CategoryPrimaryRequest;
+use App\Http\Requests\CategorySecondaryRequest;
 use App\Models\Category;
+use App\Models\CategoryPrimary;
+use App\Models\CategorySecondary;
 use App\UseCases\UseCase;
 
 class CategoryUseCase extends UseCase
@@ -13,6 +17,8 @@ class CategoryUseCase extends UseCase
     function __construct()
     {
         $this->category = new Category;
+        $this->category_primary = new CategoryPrimary();
+        $this->category_secondary = new CategorySecondary();
     }
 
     function getAllCategories()
@@ -57,17 +63,20 @@ class CategoryUseCase extends UseCase
         })->orderBy('p.order')->orderBy('s.order')->orderBy('c.order')->get();
     }
 
-    function getPrimaryCategories(){
-        return $this->category
+    function getPrimaryCategories()
+    {
+        return $this->category_primary
             ->select([
                 'id',
                 'name'
-        ])
+            ])
             ->from('primary_categories')
             ->get();
     }
-    function getSecondaryAllCategories(){
-        return $this->category
+
+    function getSecondaryAllCategories()
+    {
+        return $this->category_secondary
             ->select([
                 'id',
                 'name'
@@ -76,15 +85,27 @@ class CategoryUseCase extends UseCase
             ->get();
     }
 
-    function getSecondaryCategories(int $p_id){
+    function getSecondaryCategories(int $p_id)
+    {
+        return $this->category_secondary
+            ->select([
+                'id',
+                'name'
+            ])
+            ->where('primary_id', $p_id)
+            ->from('secondary_categories')
+            ->get()->pluck('name', 'id');
+    }
+
+    function getChildCategories(int $s_id){
         return $this->category
             ->select([
                 'id',
                 'name'
             ])
-            ->where('primary_id',$p_id)
-            ->from('secondary_categories')
-            ->get()->pluck('name','id');
+            ->where('secondary_id', $s_id)
+            ->from('categories')
+            ->get()->pluck('name', 'id');
     }
     function getDetail(int $id)
     {
@@ -107,9 +128,36 @@ class CategoryUseCase extends UseCase
         })->where('c.id', $id)->firstOrFail();
     }
 
+    function getPrimaryDetail(int $id)
+    {
+
+    }
+    function getSecondaryDetail(int $id)
+    {
+
+    }
     function saveCategory(CategoryRequest $request)
     {
         $this->category->fill($request->all())->save();
+    }
+
+    function savePrimaryCategory(CategoryPrimaryRequest $request)
+    {
+        $this->category_primary->fill([
+            'name' => $request->input('name'),
+            'code' => $request->input('code'),
+            'order' => 1,
+        ])->save();
+    }
+
+    function saveSecondaryCategory(CategorySecondaryRequest $request)
+    {
+        $this->category_secondary->fill([
+            'name' => $request->input('name'),
+            'code' => $request->input('code'),
+            'primary_id' => $request->input('primary_id'),
+            'order' => 1,
+        ])->save();
     }
 
     function updateCategory(CategoryRequest $request, int $id)
@@ -117,7 +165,25 @@ class CategoryUseCase extends UseCase
         $this->category->find($id)->fill([
             'name' => $request->input('name'),
             'code' => $request->input('code'),
-            'secondary_id' => $request->input('secondary_id')
+            'secondary_id' => $request->input('secondary_id'),
+            'order' => 1,
+        ])->save();
+    }
+
+    function updatePrimaryCategory(CategoryPrimaryRequest $request, int $id)
+    {
+        $this->category->find($id)->fill([
+            'name' => $request->input('name'),
+            'code' => $request->input('code'),
+        ])->save();
+    }
+
+    function updateSecondaryCategory(CategoryRequest $request, int $id)
+    {
+        $this->category->find($id)->fill([
+            'name' => $request->input('name'),
+            'code' => $request->input('code'),
+            'primary_id' => $request->input('primary_id')
         ])->save();
     }
 

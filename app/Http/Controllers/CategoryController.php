@@ -7,6 +7,8 @@ use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\CategoryPrimaryRequest;
+use App\Http\Requests\CategorySecondaryRequest;
 use App\UseCases\CategoryUseCase;
 use JetBrains\PhpStorm\Pure;
 
@@ -36,7 +38,18 @@ class CategoryController extends Controller
         $p_categories = $this->categoryUC->getPrimaryCategories();
         $s_categories = $this->categoryUC->getSecondaryAllCategories();
 
-        return view('category.create',compact('p_categories','s_categories'));
+        return view('category.create', compact('p_categories', 's_categories'));
+    }
+
+    public function create_p()
+    {
+        return view('category.create_p');
+    }
+
+    public function create_s()
+    {
+        $p_categories = $this->categoryUC->getPrimaryCategories();
+        return view('category.create_s', compact('p_categories'));
     }
 
     /**
@@ -48,30 +61,23 @@ class CategoryController extends Controller
         return Redirect::route('category.create')->with('category', 'saved');
     }
 
-    public function create_p()
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store_p(CategoryPrimaryRequest $request)
     {
-        return view('category.create');
+        $this->categoryUC->savePrimaryCategory($request);
+        return Redirect::route('category.create_p')->with('category', 'saved');
     }
+
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store_p(Request $request)
+    public function store_s(CategorySecondaryRequest $request)
     {
-        //
-    }
-
-    public function create_s()
-    {
-        return view('category.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store_s(Request $request)
-    {
-        //
+        $this->categoryUC->saveSecondaryCategory($request);
+        return Redirect::route('category.create_s')->with('category', 'saved');
     }
 
     /**
@@ -92,19 +98,49 @@ class CategoryController extends Controller
         $p_categories = $this->categoryUC->getPrimaryCategories();
         $s_categories = $this->categoryUC->getSecondaryAllCategories();
 
-        return view('category.edit',compact('category','categories','p_categories','s_categories'));//
+        return view('category.edit', compact('category', 'categories', 'p_categories', 's_categories'));//
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit_p(string $id)
+    {
+        $p_category = $this->categoryUC->getPrimaryDetail($id);
+
+        return view('category.edit', compact('p_category'));//
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit_s(string $id)
+    {
+        $s_category = $this->categoryUC->getSecondaryDetail($id);
+        $p_categories = $this->categoryUC->getPrimaryCategories();
+        return view('category.edit', compact('s_category', 'p_categories'));//
+    }
     /**
      * Update the specified resource in storage.
      */
     public function update(CategoryRequest $request, string $id)
     {
-        $this->categoryUC->updateCategoryOrder(100,$id);
-        $this->categoryUC->updateCategory($request,$id);
-        return Redirect::route('category.edit',$id)->with('category', 'saved');//
+        //$this->categoryUC->updateCategoryOrder(100, $id);
+        $this->categoryUC->updateCategory($request, $id);
+        return Redirect::route('category.edit', $id)->with('category', 'saved');//
     }
-
+    public function update_p(CategoryPrimaryRequest $request, string $id)
+    {
+        //$this->categoryUC->updateCategoryOrder(100, $id);
+        $this->categoryUC->updatePrimaryCategory($request, $id);
+        return Redirect::route('category.edit', $id)->with('category', 'saved');//
+    }
+    public function update_s(CategorySecondaryRequest $request, string $id)
+    {
+        //$this->categoryUC->updateCategoryOrder(100, $id);
+        $this->categoryUC->updateSecondaryCategory($request, $id);
+        return Redirect::route('category.edit', $id)->with('category', 'saved');//
+    }
     /**
      * Remove the specified resource from storage.
      */

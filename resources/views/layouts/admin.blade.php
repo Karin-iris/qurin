@@ -15,10 +15,11 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="/js/category.js"></script>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+            @include('layouts.admin_navigation')
 
             <!-- Page Heading -->
             @if (isset($header))

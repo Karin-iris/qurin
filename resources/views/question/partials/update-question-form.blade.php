@@ -13,9 +13,9 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('questiondraft.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('question.update',$question->id) }}" class="mt-6 space-y-6">
         @csrf
-        @method('patch')
+        @method('put')
 
         <div>
             <x-input-label for="code" :value="__('categories.parent_category')"/>
