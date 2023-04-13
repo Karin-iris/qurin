@@ -6,13 +6,13 @@ use App\Http\Controllers\Api\ApiController;
 use App\UseCases\CategoryUseCase;
 use JetBrains\PhpStorm\Pure;
 
-class ApiCategoryController extends ApiController
+class ApiQuestionController extends ApiController
 {
-    public CategoryUseCase $categoryUC;
+    public QuestionUseCase $questionUC;
 
     #[Pure] public function __construct()
     {
-        $this->categoryUC = new CategoryUseCase();
+        $this->questionUC = new QuestionUseCase();
     }
 
     public function index(){

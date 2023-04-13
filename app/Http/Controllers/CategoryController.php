@@ -146,6 +146,17 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
+        $this->categoryUC->delCategory($id);
+        //
+    }
+    public function destroy_p(string $id)
+    {
+        $this->categoryUC->delPrimaryCategory($id);
+        //
+    }
+    public function destroy_s(string $id)
+    {
+        $this->categoryUC->delSecondaryCategory($id);
         //
     }
 }

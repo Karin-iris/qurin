@@ -32,6 +32,8 @@ class CategoryUseCase extends UseCase
             's.id as s_id',
             'c.order as order',
             'c.code as code',
+            'p.code as p_code',
+            's.code as s_code',
             'c.updated_at as updated_at',
             'c.created_at as created_at',
         ])->from('categories as c')->rightJoin('secondary_categories as s', function ($join) {
@@ -53,6 +55,8 @@ class CategoryUseCase extends UseCase
             's.id as s_id',
             'c.order as order',
             'c.code as code',
+            'p.code as p_code',
+            's.code as s_code',
             'c.updated_at as updated_at',
             'c.created_at as created_at',
         ])->from('categories as c')->leftJoin('secondary_categories as s', function ($join) {
@@ -118,6 +122,8 @@ class CategoryUseCase extends UseCase
             's.id as s_id',
             'c.order as order',
             'c.code as code',
+            'p.code as p_code',
+            's.code as s_code',
             'c.updated_at as updated_at',
             'c.created_at as created_at',
         ])->from('categories as c')->rightJoin('secondary_categories as s', function ($join) {
@@ -194,6 +200,14 @@ class CategoryUseCase extends UseCase
             'order' => $order
         ])->save();
     }
+    function delCategory(){
 
+    }
+    function delPrimaryCategory(){
+
+    }
+    function delSecondaryCategory(){
+
+    }
 
 }

@@ -60,9 +60,10 @@ class UserQuestionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(QuestionRequest $request, string $id): RedirectResponse
+    public function update(QuestionRequest $request, int $id): RedirectResponse
     {
         $this->questionUC->updateUserQuestion($request, $id);
+        $this->questionUC->updateUserQuestionImage($request,$id);
         return Redirect::route('userquestion.edit', $id)->with('status', 'question-updated');
     }
 
@@ -102,7 +103,19 @@ class UserQuestionController extends Controller
     public function store_c(QuestionCaseRequest $request)
     {
         $this->questionUC->saveUserQuestionCase($request);
-        return Redirect::route('question.create')->with('question', 'saved');//
+        return Redirect::route('userquestion.create_c')->with('question', 'saved');//
     }
-
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(int $id)
+    {
+        $this->questionUC->delUserQuestion($id);
+        return Redirect::route('userquestion.index')->with('question', 'deleted');//
+    }
+    public function destroy_c(int $id)
+    {
+        $this->questionUC->delUserQuestionCase($id);
+        return Redirect::route('userquestion.index')->with('question', 'deleted');//
+    }
 }

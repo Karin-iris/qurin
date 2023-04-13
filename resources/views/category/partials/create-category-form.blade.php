@@ -18,16 +18,17 @@
         @method('post')
 
         <div>
-            <x-input-label for="code" :value="__('categories.parent_category')"/>
+            <x-input-label for="code" :value="__('categories.category_p')"/>
             <x-categories.select-primary-categories name="primary_id"
                                                     class="mt-1 block w-full" autofocus
                                                     autocomplete="primary_id"
                                                     :value="old('primary_id')" :options="$p_categories"/>
+            <x-input-error class="mt-2" :messages="$errors->get('primary_id')"/>
+            <x-input-label for="code" :value="__('categories.category_s')"/>
             <x-categories.select-secondary-categories name="secondary_id"
                                                       class="mt-1 block w-full" autofocus
                                                       autocomplete="secondary_id"
                                                       />
-            <x-input-error class="mt-2" :messages="$errors->get('primary_id')"/>
             <x-input-error class="mt-2" :messages="$errors->get('secondary_id')"/>
         </div>
 

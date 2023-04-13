@@ -1,11 +1,11 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('questions.question_draft') }}
+            {{ __('questions.question_case_edit') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("questions.question_draft_message") }}
+            {{ __("questions.question_case_edit_message") }}
         </p>
     </header>
 

@@ -1,11 +1,11 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('categories.create') }}
+            {{ __('categories.create_s') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("categories.create_explain") }}
+            {{ __("categories.create_s_explain") }}
         </p>
     </header>
 
@@ -18,7 +18,8 @@
         @method('post')
 
         <div>
-            <x-input-label for="code" :value="__('categories.parent_category')"/>
+            <x-input-label for="code" :value="__('categories.category_p')"/>
+
             <x-categories.select-primary-categories name="primary_id"
                                                     class="mt-1 block w-full" autofocus
                                                     autocomplete="primary_id"
@@ -28,6 +29,9 @@
 
         <div>
             <x-input-label for="code" :value="__('categories.code')"/>
+            <p class="mt-1 text-sm text-gray-600">
+                {{ __("categories.s_code_rule") }}
+            </p>
             <x-text-input id="code" name="code" type="text" class="mt-1 block w-full" autofocus
                           autocomplete="code" :value="old('code')"/>
             <x-input-error class="mt-2" :messages="$errors->get('code')"/>
@@ -35,6 +39,9 @@
 
         <div>
             <x-input-label for="name" :value="__('categories.name')"/>
+            <p class="mt-1 text-sm text-gray-600">
+                {{ __("categories.s_name_rule") }}
+            </p>
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" autofocus
                           autocomplete="name" :value="old('name')"/>
             <x-input-error class="mt-2" :messages="$errors->get('name')"/>

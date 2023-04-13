@@ -17,6 +17,7 @@ class CategoryPrimaryRequest extends FormRequest
     {
         return [
             'name' => ['string', 'max:255'],
+            'code' => ['regex:/^[A-Z]{2}$/'],
             'order' => ['integer'],
         ];
     }

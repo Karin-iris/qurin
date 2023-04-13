@@ -2,12 +2,18 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class CategoryRequest extends FormRequest
+class QuestionImageRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return false;
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -16,9 +22,7 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['string', 'max:255'],
-            'code' => ['regex:/^[0-9]{2}$/'],
-            'order' => ['integer'],
+            //
         ];
     }
 }

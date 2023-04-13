@@ -1,11 +1,11 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('questions.question_draft') }}
+            {{ __('questions.my_question_case_edit') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("questions.question_draft_message") }}
+            {{ __("questions.my_question_case_add_message") }}
         </p>
     </header>
 
@@ -42,7 +42,7 @@
         </x-primary-button>
 
         <x-danger-button class="ml-3">
-            {{ __('Submit') }}
+            {{ __('SubmitReview') }}
         </x-danger-button>
     </form>
 </section>

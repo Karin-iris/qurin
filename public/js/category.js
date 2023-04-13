@@ -18,11 +18,11 @@ function pCategoryChange() {
     });
 }
 function sCategoryChange() {
-    var p_id = $('#sCategorySelect').val();
+    var s_id = $('#sCategorySelect').val();
     $("#categorySelect option").remove();
     $.ajax({
         type: "GET",
-        url: "/api/category/get_children/" + p_id,
+        url: "/api/category/get_children/" + s_id,
         dataType: "json"
     }).done(function (data) {
         str = "";
@@ -30,9 +30,16 @@ function sCategoryChange() {
         $.map(data, function (index, element) {
             $('#categorySelect').append("<option value=" + element + ">" + index + "</option>");
         });
-
-
     }).fail(function (XMLHttpRequest, textStatus, error) {
         alert("エラーが発生しました。");
     });
 }
+$(function(){
+    if($('#pCategorySelect').val()) {
+        pCategoryChange();
+    }
+    if($('#sCategorySelect').val()){
+        sCategoryChange();
+    }
+});
+

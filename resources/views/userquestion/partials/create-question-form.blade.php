@@ -1,11 +1,11 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('questions.question_draft') }}
+            {{ __('questions.my_question_add') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("questions.question_draft_message") }}
+            {{ __("questions.my_question_add_message") }}
         </p>
     </header>
 
@@ -26,11 +26,11 @@
             <x-categories.select-secondary-categories name="secondary_id"
                                                       class="mt-1 block w-full" autofocus
                                                       autocomplete="secondary_id"
-            />
+                                                      :value="old('secondary_id')" :options="$s_categories"/>
             <x-categories.select-categories name="category_id"
                                             class="mt-1 block w-full" autofocus
                                             autocomplete="category_id"
-            />
+                                            :value="old('category_id')" :options="$categories"/>
             <x-input-error class="mt-2" :messages="$errors->get('primary_id')" />
             <x-input-error class="mt-2" :messages="$errors->get('secondary_id')" />
             <x-input-error class="mt-2" :messages="$errors->get('category_id')" />
@@ -48,6 +48,13 @@
             <x-textarea cols="30" rows="4" id="text" name="text" class="mt-1 block w-full" required autofocus
                         autocomplete="name">{{old('explanation')}}</x-textarea>
             <x-input-error class="mt-2" :messages="$errors->get('name')"/>
+        </div>
+
+        <div>
+            <x-input-label for="image" :value="__('questions.image')"/>
+            <x-file-input name="image[new]" id="image_1"></x-file-input>
+            <input type="hidden" name="image_id[new]" value=""></input-input>
+            <x-input-error class="mt-2" :messages="$errors->get('image.0')"/>
         </div>
 
         <div>
@@ -95,7 +102,7 @@
         </x-primary-button>
 
         <x-danger-button class="ml-3">
-            {{ __('Submit') }}
+            {{ __('SubmitReview') }}
         </x-danger-button>
     </form>
 </section>

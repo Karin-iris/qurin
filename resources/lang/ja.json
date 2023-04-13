@@ -1,8 +1,17 @@
 {
     "Profile": "プロフィール",
     "Questions": "試験問題一覧",
-    "Categories": "カテゴリ一覧",
+    "QuestionAdd": "試験問題作成",
+    "QuestionEdit": "試験問題編集",
+    "MyQuestions": "自作試験問題一覧",
+    "MyQuestionAdd": "自作試験問題作成",
+    "MyQuestionEdit": "自作試験問題編集",
+    "MyQuestionCases": "自作ケース問題文一覧",
+    "MyQuestionCaseAdd": "自作ケース問題文作成",
+    "MyQuestionCaseEdit": "自作ケース問題文編集",
+    "Categories": "分類一覧",
     "Submit": "送信",
+    "SubmitReview": "レビュー依頼送信",
     "Save": "保存",
     "Cancel": "クリア"
 }

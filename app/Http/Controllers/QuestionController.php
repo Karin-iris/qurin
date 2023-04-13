@@ -94,6 +94,7 @@ class QuestionController extends Controller
      */
     public function update(QuestionRequest $request, string $id)
     {
+
         $this->questionUC->updateQuestion($request, $id);
         return Redirect::route('question.edit',$id)->with('question', 'saved');////
     }
@@ -106,15 +107,14 @@ class QuestionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
-        //論理削除
-        //
+        $this->questionUC->delQuestion($id);
+        return Redirect::route('question.index')->with('question', 'deleted');//
     }
-
-    public function destroy_c(string $id)
+    public function destroy_c(int $id)
     {
-        //論理削除
-        //
+        $this->questionUC->delQuestionCase($id);
+        return Redirect::route('question.index')->with('question', 'deleted');//
     }
 }

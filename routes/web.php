@@ -45,8 +45,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/my_question/c_add', 'create_c')->name('userquestion.create_c');
         Route::post('/my_question/add', 'store')->name('userquestion.store');
         Route::post('/my_question/c_add', 'store_c')->name('userquestion.store_c');
-        Route::delete('/my_question', 'destroy')->name('userquestion.destroy');
-        Route::delete('/my_question/c_del', 'destroy_c')->name('userquestion.destroy_c');
+        Route::delete('/my_question/del/{id}', 'destroy')->name('userquestion.destroy');
+        Route::delete('/my_question/c_del/{id}', 'destroy_c')->name('userquestion.destroy_c');
     });
 });
 
@@ -62,9 +62,8 @@ Route::middleware('auth:admin')->group(function () {
         Route::get('/question/c_add', 'create_c')->name('question.create_c');
         Route::post('/question/add', 'store')->name('question.store');
         Route::post('/question/c_add', 'store_c')->name('question.store_c');
-
-        Route::delete('/question/del', 'destroy')->name('question.destroy');
-        Route::delete('/question/c_del', 'destroy')->name('question.destroy_c');
+        Route::delete('/question/del/{id}', 'destroy')->name('question.destroy');
+        Route::delete('/question/c_del/{id}', 'destroy_c')->name('question.destroy_c');
     });
     Route::controller(CategoryController::class)->group(function () {
         Route::get('/category', 'index')->name('category.index');
@@ -80,6 +79,9 @@ Route::middleware('auth:admin')->group(function () {
         Route::post('/category/p_add', 'store_p')->name('category.store_p');
         Route::get('/category/s_add', 'create_s')->name('category.create_s');
         Route::post('/category/s_add', 'store_s')->name('category.store_s');
+        Route::post('/category/del', 'destroy')->name('category.destroy');
+        Route::post('/category/p_del', 'destroy_p')->name('category.destroy_p');
+        Route::post('/category/s_del', 'destroy_s')->name('category.destroy_s');
         Route::delete('/category', [CategoryController::class, 'destroy'])->name('category.destroy');
     });
 

@@ -1,11 +1,11 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('questions.question_draft') }}
+            {{ __('questions.question_edit') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("questions.question_draft_message") }}
+            {{ __("questions.question_edit_message") }}
         </p>
     </header>
 
@@ -57,21 +57,21 @@
             <x-input-label for="name" :value="__('questions.correct_choice')"/>
             <x-text-input id="name" name="correct_choice" type="text" class="mt-1 block w-full" required autofocus
                           autocomplete="name" :value="old('correct_choice', $question->correct_choice)" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')"/>
+            <x-input-error class="mt-2" :messages="$errors->get('correct_choice')"/>
         </div>
 
         <div>
             <x-input-label for="name" :value="__('questions.wrong_choice',['num'=>1])"/>
             <x-text-input id="name" name="wrong_choice_1" type="text" class="mt-1 block w-full" required autofocus
-                          autocomplete="name" :value="old('wrong_choice_1', $question->wrong_choice_1)"/>
-            <x-input-error class="mt-2" :messages="$errors->get('name')"/>
+                          autocomplete="name" :value="old('wrong_choice_2', $question->wrong_choice_1)"/>
+            <x-input-error class="mt-2" :messages="$errors->get('wrong_choice_2')"/>
         </div>
 
         <div>
             <x-input-label for="name" :value="__('questions.wrong_choice',['num'=>2])"/>
             <x-text-input id="name" name="wrong_choice_2" type="text" class="mt-1 block w-full" required autofocus
-                          autocomplete="name" :value="old('wrong_choice_2', $question->wrong_choice_2)"/>
-            <x-input-error class="mt-2" :messages="$errors->get('name')"/>
+                          autocomplete="wrong_choice_2" :value="old('wrong_choice_2', $question->wrong_choice_2)"/>
+            <x-input-error class="mt-2" :messages="$errors->get('wrong_choice_2')"/>
         </div>
 
         <div>

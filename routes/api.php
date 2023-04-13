@@ -21,4 +21,5 @@ use App\Http\Controllers\Api\ApiCategoryController;
 Route::controller(ApiCategoryController::class)->group(function () {
     Route::get('/category/get_secondaries/{id}', 'get_secondaries');
     Route::get('/category/get_children/{id}', 'get_children');
+    Route::post('/category/upload/', 'upload');
 });

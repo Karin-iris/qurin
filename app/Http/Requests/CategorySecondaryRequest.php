@@ -17,6 +17,7 @@ class CategorySecondaryRequest extends FormRequest
     {
         return [
             'name' => ['string', 'max:255'],
+            'code' => ['regex:/^[0-9]{2}$/'],
             'order' => ['integer'],
         ];
     }
