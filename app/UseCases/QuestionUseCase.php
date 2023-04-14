@@ -89,7 +89,8 @@ class QuestionUseCase extends UseCase
 
     function getQuestionCases()
     {
-        $question_cases = $this->question_case->where([['is_request', '1']])->get();
+        $question_cases = $this->question_case
+            ->Where('is_request',  '1')->orWhere('is_approve',  '1')->get();
         return $question_cases;
     }
 
@@ -125,7 +126,9 @@ class QuestionUseCase extends UseCase
 
     function getUserQuestionCases(int $user_id)
     {
-        $user_question_cases = $this->question_case->where('user_id', $user_id)->where([['is_request', '!=', '1']])->get();
+        $user_question_cases = $this->question_case
+            ->where('user_id', $user_id)
+            ->get();
         return $user_question_cases;
     }
 

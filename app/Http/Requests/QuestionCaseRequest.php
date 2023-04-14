@@ -20,6 +20,7 @@ class QuestionCaseRequest extends FormRequest
             'text' => ['string'],
             'user_id' => ['integer'],
             'is_request' => ['boolean'],
+            'is_approve' => ['boolean'],
         ];
     }
 }

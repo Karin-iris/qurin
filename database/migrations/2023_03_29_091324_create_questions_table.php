@@ -22,8 +22,8 @@ return new class extends Migration
             $table->text('wrong_choice_2');
             $table->text('wrong_choice_3');
             $table->text('explanation');
-            $table->boolean('is_request');
-            $table->boolean('is_approve');
+            $table->boolean('is_request')->default('0');
+            $table->boolean('is_approve')->default('0');
             $table->timestamps();
         });
     }

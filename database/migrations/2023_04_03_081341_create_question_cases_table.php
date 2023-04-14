@@ -16,8 +16,8 @@ return new class extends Migration
             $table->integer('user_id')->nullable(true);
             $table->text('topic');
             $table->text('text');
-            $table->boolean('is_request');
-            $table->boolean('is_approve');
+            $table->boolean('is_request')->default('0');
+            $table->boolean('is_approve')->default('0');
             $table->timestamps();
         });
     }

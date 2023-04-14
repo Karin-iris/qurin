@@ -21,6 +21,7 @@ class QuestionCase extends Model
         'topic',
         'category_id',
         'is_request',
+        'is_approve',
         'user_id'
     ];
 }

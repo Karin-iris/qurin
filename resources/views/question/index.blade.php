@@ -106,7 +106,7 @@
                         </thead>
                         <tbody class="text-md">
                         @foreach($question_cases as $question_case)
-                            <tr class="border-b border-gray-500 bg-white">
+                            <tr class="border-b border-gray-500 @if($question_case->is_approve == 1) bg-red-50 @elseif($question_case->is_request == 1) bg-blue-50 @else bg-white @endif">
                                 <td>{{$question_case->topic}}</td>
                                 <td>{{$question_case->text}}</td>
                                 <td>{{$question_case->created_at}}</td>
