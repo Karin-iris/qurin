@@ -25,11 +25,24 @@ class QuestionUseCase extends UseCase
         $this->question = new Question();
         $this->question_case = new QuestionCase();
         $this->question_image = new QuestionImage();
-        $this->question_summary_column = [];
+        $this->question_summary_column = [
+            'p.name as p_c_name',
+            's.name as s_c_name',
+            'c.name as c_name',
+            'q.topic as topic',
+            'q.id as id',
+            'q.is_request as is_request',
+            'q.is_approve as is_approve',
+            'q.created_at as created_at',
+            'q.updated_at as updated_at',
+        ];
         $this->question_detail_column = [
             'p.name as p_c_name',
             's.name as s_c_name',
             'c.name as c_name',
+            'p.id as p_c_id',
+            's.id as s_c_id',
+            'c.id as c_id',
             'q.topic as topic',
             'q.id as id',
             'q.text as text',
@@ -46,13 +59,15 @@ class QuestionUseCase extends UseCase
 
     function getQuestion(int $id)
     {
-        return $this->question->select([
-            'p.name as p_name',
-            's.name as s_name',
-            'c.name as name',
-            '*'
-        ])
-            ->where('id', $id)->firstOrFail();
+        $question = $this->question->select(
+            $this->question_detail_column
+        )->from('questions as q')
+        ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
+        ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
+        ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
+        ->where('q.id', $id)->firstOrFail();
+        $question['images'] = $this->question_image->where('question_id', $id)->get();
+        return $question;
     }
 
     function getQuestionCase(int $id)
@@ -62,13 +77,19 @@ class QuestionUseCase extends UseCase
 
     function getQuestions()
     {
-        $user_questions = $this->question->get();
-        return $user_questions;
+
+        return $this->question->select(
+            $this->question_summary_column
+        )->from('questions as q')
+        ->rightJoin('categories as c', 'c.id', '=', 'q.category_id')
+        ->rightJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
+        ->rightJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
+        ->Where('is_request',  '1')->orWhere('is_approve',  '1')->get();
     }
 
     function getQuestionCases()
     {
-        $question_cases = $this->question_case->get();
+        $question_cases = $this->question_case->where([['is_request', '1']])->get();
         return $question_cases;
     }
 
@@ -92,25 +113,19 @@ class QuestionUseCase extends UseCase
 
     function getUserQuestions(int $user_id)
     {
-        $model = $this->question->select([
-            'p.name as p_c_name',
-            's.name as s_c_name',
-            'c.name as c_name',
-            'q.topic as topic',
-            'q.id as id',
-            'q.created_at as created_at',
-            'q.updated_at as updated_at',
-        ])->from('questions as q')
+        $model = $this->question->select(
+            $this->question_summary_column
+        )->from('questions as q')
             ->rightJoin('categories as c', 'c.id', '=', 'q.category_id')
             ->rightJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
             ->rightJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
-            ->where([['q.user_id', $user_id], ['is_request', '!=', '1']]);
+            ->where([['q.user_id', $user_id]]);
         return $model->get();
     }
 
     function getUserQuestionCases(int $user_id)
     {
-        $user_question_cases = $this->question_case->where('user_id', $user_id)->get();
+        $user_question_cases = $this->question_case->where('user_id', $user_id)->where([['is_request', '!=', '1']])->get();
         return $user_question_cases;
     }
 
@@ -130,6 +145,7 @@ class QuestionUseCase extends UseCase
             'wrong_choice_2' => $request->input('wrong_choice_2'),
             'wrong_choice_3' => $request->input('wrong_choice_3'),
             'explanation' => $request->input('explanation'),
+            'is_request' => $request->input('is_request'),
             'user_id' => Auth::user()->id
         ])->save();
     }
@@ -140,6 +156,7 @@ class QuestionUseCase extends UseCase
             'topic' => $request->input('topic'),
             'text' => $request->input('text'),
             'explanation' => $request->input('explanation'),
+            'is_request' => $request->input('is_request'),
             'user_id' => Auth::user()->id
         ])->save();
     }
@@ -154,7 +171,8 @@ class QuestionUseCase extends UseCase
             'wrong_choice_2' => $request->input('wrong_choice_2'),
             'wrong_choice_3' => $request->input('wrong_choice_3'),
             'explanation' => $request->input('explanation'),
-            'user_id' => Auth::user()->id
+            'is_request' => $request->input('is_request'),
+            'is_approve' => $request->input('is_approve'),
         ])->save();
     }
 
@@ -168,6 +186,7 @@ class QuestionUseCase extends UseCase
             'wrong_choice_2' => $request->input('wrong_choice_2'),
             'wrong_choice_3' => $request->input('wrong_choice_3'),
             'explanation' => $request->input('explanation'),
+            'is_request' => $request->input('is_request'),
             'user_id' => Auth::user()->id
         ])->save();
     }
@@ -178,7 +197,8 @@ class QuestionUseCase extends UseCase
             'topic' => $request->input('topic'),
             'text' => $request->input('text'),
             'explanation' => $request->input('explanation'),
-            'user_id' => Auth::user()->id
+            'is_request' => $request->input('is_request'),
+            'is_approve' => $request->input('is_approve'),
         ])->save();
     }
 
@@ -188,6 +208,7 @@ class QuestionUseCase extends UseCase
             'topic' => $request->input('topic'),
             'text' => $request->input('text'),
             'explanation' => $request->input('explanation'),
+            'is_request' => $request->input('is_request'),
             'user_id' => Auth::user()->id
         ])->save();
     }

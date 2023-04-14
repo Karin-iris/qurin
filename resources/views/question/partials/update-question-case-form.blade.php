@@ -20,7 +20,7 @@
         <div>
             <x-input-label for="name" :value="__('questions.topic')"/>
             <x-text-input id="topic" name="topic" type="text" class="mt-1 block w-full" autofocus
-                          autocomplete="topic" :value="old('topic',$question_case->topic)" />
+                          autocomplete="topic" :value="old('topic',$question_case->topic)"/>
             <x-input-error class="mt-2" :messages="$errors->get('name')"/>
         </div>
 
@@ -31,18 +31,19 @@
             <x-input-error class="mt-2" :messages="$errors->get('text')"/>
         </div>
 
-        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+        <input type="hidden" name="is_request" value="0">
+        <input type="hidden" name="is_approve" value="0">
 
-        <x-secondary-button x-on:click="$dispatch('close')">
-            {{ __('Cancel') }}
-        </x-secondary-button>
-
-        <x-primary-button class="ml-3" x-on:click="$dispatch('close')">
-            {{ __('Save') }}
+        <x-primary-button class="ml-3">
+            {{ __('TemporarySave') }}
         </x-primary-button>
 
-        <x-danger-button class="ml-3">
-            {{ __('Submit') }}
+        <x-primary-button class="ml-3" onClick="resetApproveValue();">
+            {{ __('SaveAndRemand') }}
+        </x-primary-button>
+
+        <x-danger-button class="ml-3" onClick="changeApproveValue();">
+            {{ __('Approve') }}
         </x-danger-button>
     </form>
 </section>

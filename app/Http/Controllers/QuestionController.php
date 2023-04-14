@@ -74,7 +74,7 @@ class QuestionController extends Controller
      */
     public function edit(string $id)
     {
-        $question = DB::table('questions')->find($id);
+        $question = $this->questionUC->getQuestion($id);
         $p_categories = $this->categoryUC->getPrimaryCategories();
         $s_categories = $this->categoryUC->getSecondaryAllCategories();
         $categories = $this->categoryUC->getSimpleCategories();

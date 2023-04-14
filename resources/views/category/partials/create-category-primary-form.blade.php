@@ -30,7 +30,7 @@
         <div>
             <x-input-label for="name" :value="__('categories.name')"/>
             <p class="mt-1 text-sm text-gray-600">
-                {{ __("categories.code_rule") }}
+                {{ __("categories.p_name_rule") }}
             </p>
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" autofocus
                           autocomplete="name" :value="old('name')"/>

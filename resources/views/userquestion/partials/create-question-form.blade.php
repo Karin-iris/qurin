@@ -18,15 +18,17 @@
         @method('post')
 
         <div>
-            <x-input-label for="code" :value="__('categories.parent_category')"/>
+            <x-input-label for="code" :value="__('categories.category_p')"/>
             <x-categories.select-primary-categories name="primary_id"
                                                     class="mt-1 block w-full" autofocus
                                                     autocomplete="primary_id"
                                                     :value="old('primary_id')" :options="$p_categories"/>
+            <x-input-label for="code" :value="__('categories.category_s')"/>
             <x-categories.select-secondary-categories name="secondary_id"
                                                       class="mt-1 block w-full" autofocus
                                                       autocomplete="secondary_id"
                                                       :value="old('secondary_id')" :options="$s_categories"/>
+            <x-input-label for="code" :value="__('categories.category')"/>
             <x-categories.select-categories name="category_id"
                                             class="mt-1 block w-full" autofocus
                                             autocomplete="category_id"
@@ -91,17 +93,14 @@
                         autocomplete="explanation">{{old('explanation')}}</x-textarea>
             <x-input-error class="mt-2" :messages="$errors->get('name')"/>
         </div>
+        <input type="hidden" name="is_request" value="0">
         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
 
-        <x-secondary-button x-on:click="$dispatch('close')">
-            {{ __('Cancel') }}
-        </x-secondary-button>
-
-        <x-primary-button class="ml-3" x-on:click="$dispatch('close')">
-            {{ __('Save') }}
+        <x-primary-button class="ml-3" onClick="resetRequestValue();">
+            {{ __('TemporarySave') }}
         </x-primary-button>
 
-        <x-danger-button class="ml-3">
+        <x-danger-button class="ml-3" onClick="changeRequestValue();return confirm('レビュー依頼送信後は編集できません。よろしいでしょうか。')">
             {{ __('SubmitReview') }}
         </x-danger-button>
     </form>

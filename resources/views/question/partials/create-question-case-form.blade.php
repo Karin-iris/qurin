@@ -31,8 +31,6 @@
             <x-input-error class="mt-2" :messages="$errors->get('name')"/>
         </div>
 
-        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-
         <x-secondary-button x-on:click="$dispatch('close')">
             {{ __('Cancel') }}
         </x-secondary-button>

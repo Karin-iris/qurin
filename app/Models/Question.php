@@ -26,6 +26,8 @@ class Question extends Model
         'wrong_choice_2',
         'wrong_choice_3',
         'explanation',
+        'is_request',
+        'is_approve',
         'user_id',
     ];
 

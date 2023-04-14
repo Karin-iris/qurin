@@ -19,6 +19,7 @@ class QuestionCaseRequest extends FormRequest
             'topic' => ['string', 'max:255'],
             'text' => ['string'],
             'user_id' => ['integer'],
+            'is_request' => ['boolean'],
         ];
     }
 }

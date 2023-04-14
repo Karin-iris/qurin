@@ -1,7 +1,7 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('questions.my_question_case_edit') }}
+            {{ __('questions.my_question_case_add') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
@@ -30,18 +30,14 @@
                         autocomplete="name">{{old('explanation')}}</x-textarea>
             <x-input-error class="mt-2" :messages="$errors->get('name')"/>
         </div>
-
+        <input type="hidden" name="is_request" value="0">
         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
 
-        <x-secondary-button x-on:click="$dispatch('close')">
-            {{ __('Cancel') }}
-        </x-secondary-button>
-
-        <x-primary-button class="ml-3" x-on:click="$dispatch('close')">
-            {{ __('Save') }}
+        <x-primary-button class="ml-3" onClick="resetRequestValue();">
+            {{ __('TemporarySave') }}
         </x-primary-button>
 
-        <x-danger-button class="ml-3">
+        <x-danger-button class="ml-3" onClick="changeRequestValue();return confirm('レビュー依頼送信後は編集できません。よろしいでしょうか。')">
             {{ __('SubmitReview') }}
         </x-danger-button>
     </form>

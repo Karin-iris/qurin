@@ -20,6 +20,7 @@ class QuestionCase extends Model
         'text',
         'topic',
         'category_id',
+        'is_request',
         'user_id'
     ];
 }

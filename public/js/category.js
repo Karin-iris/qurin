@@ -11,7 +11,7 @@ function pCategoryChange() {
         $.map(data, function (index, element) {
             $('#sCategorySelect').append("<option value=" + element + ">" + index + "</option>");
         });
-
+        sCategoryChange();
 
     }).fail(function (XMLHttpRequest, textStatus, error) {
         alert("エラーが発生しました。");
@@ -38,8 +38,6 @@ $(function(){
     if($('#pCategorySelect').val()) {
         pCategoryChange();
     }
-    if($('#sCategorySelect').val()){
-        sCategoryChange();
-    }
+
 });
 

@@ -34,6 +34,9 @@
 
         <div>
             <x-input-label for="code" :value="__('categories.code')"/>
+            <p class="mt-1 text-sm text-gray-600">
+                {{ __("categories.code_rule") }}
+            </p>
             <x-text-input id="code" name="code" type="text" class="mt-1 block w-full" autofocus
                           autocomplete="code" :value="old('code')"/>
             <x-input-error class="mt-2" :messages="$errors->get('code')"/>
@@ -41,6 +44,9 @@
 
         <div>
             <x-input-label for="name" :value="__('categories.name')"/>
+            <p class="mt-1 text-sm text-gray-600">
+                {{ __("categories.name_rule") }}
+            </p>
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" autofocus
                           autocomplete="name" :value="old('name')"/>
             <x-input-error class="mt-2" :messages="$errors->get('name')"/>

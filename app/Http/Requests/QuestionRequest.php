@@ -22,6 +22,8 @@ class QuestionRequest extends FormRequest
             'wrong_choice_1' => ['string'],
             'wrong_choice_2' => ['string'],
             'wrong_choice_3' => ['string'],
+            'is_request' => ['boolean'],
+            'is_approve' => ['boolean'],
             'user_id' => ['integer'],
         ];
     }

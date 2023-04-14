@@ -32,16 +32,13 @@
         </div>
 
         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+        <input type="hidden" name="is_request" value="0">
 
-        <x-secondary-button x-on:click="$dispatch('close')">
-            {{ __('Cancel') }}
-        </x-secondary-button>
-
-        <x-primary-button class="ml-3" x-on:click="$dispatch('close')">
-            {{ __('Save') }}
+        <x-primary-button class="ml-3" onClick="resetRequestValue();">
+            {{ __('TemporarySave') }}
         </x-primary-button>
 
-        <x-danger-button class="ml-3">
+        <x-danger-button class="ml-3" onClick="changeRequestValue();return confirm('レビュー依頼送信後は編集できません。よろしいでしょうか。')">
             {{ __('SubmitReview') }}
         </x-danger-button>
     </form>

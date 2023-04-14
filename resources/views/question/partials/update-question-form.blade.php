@@ -18,39 +18,38 @@
         @method('put')
 
         <div>
-            <x-input-label for="code" :value="__('categories.parent_category')"/>
-            <x-categories.select-primary-categories name="primary_id"
-                                                    class="mt-1 block w-full" autofocus
-                                                    autocomplete="primary_id"
-                                                    :value="old('primary_id')" :options="$p_categories"
-            />
-            <x-categories.select-secondary-categories name="secondary_id"
-                                                      class="mt-1 block w-full" autofocus
-                                                      autocomplete="secondary_id"
-                                                      :value="old('secondary_id')" :options="$s_categories"
-            />
-            <x-categories.select-categories name="category_id"
-                                            class="mt-1 block w-full" autofocus
-                                            autocomplete="category_id"
-                                            :value="old('category_id')" :options="$categories"
-            />
-            <x-input-error class="mt-2" :messages="$errors->get('primary_id')"/>
-            <x-input-error class="mt-2" :messages="$errors->get('secondary_id')"/>
-            <x-input-error class="mt-2" :messages="$errors->get('category_id')"/>
+            <x-input-label for="code" :value="__('categories.category_p')"/>
+            <p>{{$question->p_c_name}}</p>
+            <x-input-label for="code" :value="__('categories.category_s')"/>
+            <p>{{$question->s_c_name}}</p>
+            <x-input-label for="code" :value="__('categories.category')"/>
+            <p>{{$question->c_name}}</p>
+
         </div>
 
         <div>
             <x-input-label for="name" :value="__('questions.topic')"/>
             <x-text-input id="name" name="topic" type="text" class="mt-1 block w-full" autofocus
-                          autocomplete="name" :value="old('topic', $question->topic)" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')"/>
+                          autocomplete="topic" :value="old('topic', $question->topic)" />
+            <x-input-error class="mt-2" :messages="$errors->get('topic')"/>
         </div>
 
         <div>
             <x-input-label for="name" :value="__('questions.text')"/>
-            <x-textarea cols="30" rows="4" id="aaa" name="explanation" class="mt-1 block w-full" required autofocus
-                        autocomplete="name">{{old('explanation', $question->topic)}}</x-textarea>
-            <x-input-error class="mt-2" :messages="$errors->get('name')"/>
+            <x-textarea cols="30" rows="4" id="text" name="text" class="mt-1 block w-full" required autofocus
+                        autocomplete="text">{{old('explanation', $question->text)}}</x-textarea>
+            <x-input-error class="mt-2" :messages="$errors->get('text')"/>
+        </div>
+
+        <div>
+            <x-input-label for="image" :value="__('questions.image')"/>
+            @if(!empty($user_question->images))
+                @foreach($user_question->images as $key => $image)
+                    <img src="{{ \Storage::url($image->filepath."/".$image->filename) }}">
+                    <x-file-input name="image[{{$key}}]" id="image_1"></x-file-input>
+                    <input type="hidden" name="image_id[{{$key}}]" value="{{$image->id}}"></input-input>
+                @endforeach
+            @endif
         </div>
 
         <div>
@@ -83,21 +82,24 @@
 
         <div>
             <x-input-label for="name" :value="__('questions.explanation')"/>
-            <x-textarea cols="30" rows="4" id="aaa" name="explanation" class="mt-1 block w-full" required autofocus
-                        autocomplete="name">{{old('explanation', $question->explanation)}}</x-textarea>
-            <x-input-error class="mt-2" :messages="$errors->get('name')"/>
+            <x-textarea cols="30" rows="4" id="explanation" name="explanation" class="mt-1 block w-full" required autofocus
+                        autocomplete="explanation">{{old('explanation', $question->explanation)}}</x-textarea>
+            <x-input-error class="mt-2" :messages="$errors->get('explanation')"/>
         </div>
 
-        <x-secondary-button x-on:click="$dispatch('close')">
-            {{ __('Cancel') }}
-        </x-secondary-button>
+        <input type="hidden" name="is_request" value="1">
+        <input type="hidden" name="is_approve" value="0">
 
-        <x-primary-button class="ml-3" x-on:click="$dispatch('close')">
-            {{ __('Save') }}
+        <x-primary-button class="ml-3">
+            {{ __('TemporarySave') }}
         </x-primary-button>
 
-        <x-danger-button class="ml-3">
-            {{ __('Submit') }}
+        <x-primary-button class="ml-3" onClick="resetRequestValue();resetApproveValue();">
+            {{ __('SaveAndRemand') }}
+        </x-primary-button>
+
+        <x-danger-button class="ml-3" onClick="resetRequestValue();changeApproveValue();">
+            {{ __('Approve') }}
         </x-danger-button>
     </form>
 </section>

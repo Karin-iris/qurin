@@ -12,6 +12,9 @@
     "Categories": "分類一覧",
     "Submit": "送信",
     "SubmitReview": "レビュー依頼送信",
+    "Approve": "レビュー完了",
+    "SaveAndRemand": "更新後差し戻し",
+    "TemporarySave": "一時保存",
     "Save": "保存",
     "Cancel": "クリア"
 }
