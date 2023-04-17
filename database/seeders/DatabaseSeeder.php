@@ -31,25 +31,64 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
         CategoryPrimary::factory()->create([
-            'name'=>"大カテゴリ1",
-            'code'=>"AA",
+            'name'=>"傾聴",
+            'code'=>"LA",
             'order'=>1
         ]);
         CategoryPrimary::factory()->create([
-            'name'=>"大カテゴリ2",
-            'code'=>"AB",
+            'name'=>"描く",
+            'code'=>"DR",
             'order'=>2
         ]);
+        CategoryPrimary::factory()->create([
+            'name'=>"提案",
+            'code'=>"SG",
+            'order'=>3
+        ]);
+        CategoryPrimary::factory()->create([
+            'name'=>"記録",
+            'code'=>"RC",
+            'order'=>4
+        ]);
+        CategoryPrimary::factory()->create([
+            'name'=>"計画",
+            'code'=>"PL",
+            'order'=>5
+        ]);
         CategorySecondary::factory()->create([
-            'name'=>"中カテゴリ1",
+            'name'=>"信頼関係の構築",
             'code'=>"01",
             'primary_id'=>1,
             'order'=>1
         ]);
         CategorySecondary::factory()->create([
-            'name'=>"中カテゴリ2",
+            'name'=>"顧客情報の収集",
             'code'=>"02",
-            'primary_id'=>2,
+            'primary_id'=>1,
+            'order'=>1
+        ]);
+        CategorySecondary::factory()->create([
+            'name'=>"家庭のデジタル環境",
+            'code'=>"03",
+            'primary_id'=>1,
+            'order'=>1
+        ]);
+        CategorySecondary::factory()->create([
+            'name'=>"信頼関係の構築",
+            'code'=>"01",
+            'primary_id'=>1,
+            'order'=>1
+        ]);
+        CategorySecondary::factory()->create([
+            'name'=>"Planning Sheetの描画方法",
+            'code'=>"02",
+            'primary_id'=>1,
+            'order'=>1
+        ]);
+        CategorySecondary::factory()->create([
+            'name'=>"家庭のデジタル環境",
+            'code'=>"03",
+            'primary_id'=>1,
             'order'=>1
         ]);
         Category::factory()->create([

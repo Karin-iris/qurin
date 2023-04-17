@@ -57,33 +57,33 @@
 
         <div>
             <x-input-label for="correct_choice" :value="__('questions.correct_choice')"/>
-            <x-text-input id="correct_choice" name="correct_choice" type="text" class="mt-1 block w-full" required
+            <x-textarea cols="30" rows="2" id="correct_choice" name="correct_choice" type="text" class="mt-1 block w-full" required
                           autofocus
-                          autocomplete="correct_choice" :value="old('correct_choice',$user_question->correct_choice)"/>
+                          autocomplete="correct_choice">{{old('correct_choice',$user_question->correct_choice)}}</x-textarea>
             <x-input-error class="mt-2" :messages="$errors->get('correct_choice')"/>
         </div>
 
         <div>
             <x-input-label for="wrong_choice_1" :value="__('questions.wrong_choice',['num'=>1])"/>
-            <x-text-input id="wrong_choice_1" name="wrong_choice_1" type="text" class="mt-1 block w-full" required
+            <x-textarea cols="30" rows="2" id="wrong_choice_1" name="wrong_choice_1" type="text" class="mt-1 block w-full" required
                           autofocus
-                          autocomplete="wrong_choice_1" :value="old('wrong_choice_1',$user_question->wrong_choice_1)"/>
+                          autocomplete="wrong_choice_1">{{old('wrong_choice_1',$user_question->wrong_choice_1)}}</x-textarea>
             <x-input-error class="mt-2" :messages="$errors->get('wrong_choice_1')"/>
         </div>
 
         <div>
             <x-input-label for="wrong_choice_2" :value="__('questions.wrong_choice',['num'=>2])"/>
-            <x-text-input id="wrong_choice_2" name="wrong_choice_2" type="text" class="mt-1 block w-full" required
+            <x-textarea cols="30" rows="2" id="wrong_choice_2" name="wrong_choice_2" type="text" class="mt-1 block w-full" required
                           autofocus
-                          autocomplete="wrong_choice_2" :value="old('wrong_choice_2',$user_question->wrong_choice_2)"/>
+                          autocomplete="wrong_choice_2">{{old('wrong_choice_2',$user_question->wrong_choice_2)}}</x-textarea>
             <x-input-error class="mt-2" :messages="$errors->get('wrong_choice_2')"/>
         </div>
 
         <div>
             <x-input-label for="wrong_choice_3" :value="__('questions.wrong_choice',['num'=>3])"/>
-            <x-text-input id="wrong_choice_3" name="wrong_choice_3" type="text" class="mt-1 block w-full" required
+            <x-textarea cols="30" rows="2" id="wrong_choice_3" name="wrong_choice_3" type="text" class="mt-1 block w-full" required
                           autofocus
-                          autocomplete="wrong_choice_3" :value="old('wrong_choice_3',$user_question->wrong_choice_3)"/>
+                          autocomplete="wrong_choice_3">{{old('wrong_choice_3',$user_question->wrong_choice_3)}}</x-textarea>
             <x-input-error class="mt-2" :messages="$errors->get('wrong_choice_3')"/>
         </div>
 

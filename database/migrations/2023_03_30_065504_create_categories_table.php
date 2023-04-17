@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('order');
             $table->timestamps();
+            $table->unique(['secondary_id', 'code']);
         });
     }
 

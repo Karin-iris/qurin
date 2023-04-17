@@ -31,17 +31,17 @@
                             <th>{{ __('categories.category_s')}}</th>
                             <th>{{ __('categories.category')}}</th>
                             <th>試験問題（要約）</th>
-                            <th>作成時間<br>更新時間</th>
-                            <th>編集</th>
-                            <th>削除</th>
+                            <th class="w-3/12">作成時間<br>更新時間</th>
+                            <th class="w-1/12">編集</th>
+                            <th class="w-1/12">削除</th>
                         </tr>
                         </thead>
                         <tbody class="text-md">
                         @foreach($user_questions as $user_question)
                             <tr class="border-b border-gray-500 @if($user_question->is_approve == 1) bg-red-50 @elseif($user_question->is_request == 1) bg-blue-50 @else bg-white @endif">
-                                <td>{{$user_question->p_c_name}}</td>
-                                <td>{{$user_question->s_c_name}}</td>
-                                <td>{{$user_question->c_name}}</td>
+                                <td>{{$user_question->p_c_code}}</td>
+                                <td>{{$user_question->s_c_code}}</td>
+                                <td>{{$user_question->c_code}}</td>
                                 <td>{{$user_question->topic}}</td>
                                 <td>{{$user_question->created_at}}<br>
                                     {{$user_question->updated_at}}</td>
@@ -93,21 +93,18 @@
                     <table class="border-gray-900 w-full text-lg text-left text-gray-500 dark:text-gray-400">
                         <thead class="p-10 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr class="border-b-2 border-gray-500">
-                            <th>ケース問題（要約）</th>
-                            <th>ケース問題</th>
-                            <th>作成時間</th>
-                            <th>更新時間</th>
-                            <th>編集</th>
-                            <th>削除</th>
+                            <th class="w-7/12">ケース問題（要約）</th>
+                            <th class="w-3/12">作成時間<br>更新時間</th>
+                            <th class="w-1/12">編集</th>
+                            <th class="w-1/12">削除</th>
                         </tr>
                         </thead>
                         <tbody class="text-md">
                         @foreach($user_question_cases as $user_question_case)
                             <tr class="border-b border-gray-500 @if($user_question_case->is_approve == 1) bg-red-50 @elseif($user_question_case->is_request == 1) bg-blue-50 @else bg-white @endif">
                                 <td>{{$user_question_case->topic}}</td>
-                                <td>{{$user_question_case->text}}</td>
-                                <td>{{$user_question_case->created_at}}</td>
-                                <td>{{$user_question_case->updated_at}}</td>
+                                <td>{{$user_question_case->created_at}}<br>
+                                    {{$user_question_case->updated_at}}</td>
                                 <td>
                                     @if(!empty($user_question_case->id) && $user_question_case->is_approve == 0 && $user_question_case->is_request == 0)
                                     <a href="{{ route('userquestion.edit_c', ['id'=> $user_question_case->id]) }}">

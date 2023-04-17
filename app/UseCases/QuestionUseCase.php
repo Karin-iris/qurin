@@ -29,6 +29,9 @@ class QuestionUseCase extends UseCase
             'p.name as p_c_name',
             's.name as s_c_name',
             'c.name as c_name',
+            'p.code as p_c_code',
+            's.code as s_c_code',
+            'c.code as c_code',
             'q.topic as topic',
             'q.id as id',
             'q.is_request as is_request',
@@ -103,7 +106,7 @@ class QuestionUseCase extends UseCase
             ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
             ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
             ->where('q.id', $id)->firstOrFail();
-        $question['images'] = $this->question_image->where('question_id', $id)->get();
+        $question['images'] = $this->question_image->where('question_id', $id)->paginate(30);
         return $question;
     }
 
