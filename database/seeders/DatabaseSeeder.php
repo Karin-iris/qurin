@@ -78,19 +78,19 @@ class DatabaseSeeder extends Seeder
         CategorySecondary::factory()->create([
             'name' => "信頼関係の構築",
             'code' => "01",
-            'primary_id' => 1,
+            'primary_id' => 2,
             'order' => 1
         ]);
         CategorySecondary::factory()->create([
             'name' => "Planning Sheetの描画方法",
             'code' => "02",
-            'primary_id' => 1,
+            'primary_id' => 2,
             'order' => 1
         ]);
         CategorySecondary::factory()->create([
             'name' => "家庭のデジタル環境",
             'code' => "03",
-            'primary_id' => 1,
+            'primary_id' => 2,
             'order' => 1
         ]);
         Category::factory()->create([
