@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuestionDraftController;
 use App\Http\Controllers\UserQuestionController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -69,10 +70,10 @@ Route::middleware('auth:admin')->group(function () {
         Route::get('/category', 'index')->name('category.index');
         Route::get('/category/edit/{id}', 'edit')->name('category.edit');
         Route::put('/category/update/{id}', 'update')->name('category.update');
-        Route::get('/category/p_edit/{id}', 'edit')->name('category.edit_p');
-        Route::put('/category/p_update/{id}', 'update')->name('category.update_p');
-        Route::get('/category/s_edit/{id}', 'edit')->name('category.edit_s');
-        Route::put('/category/s_update/{id}', 'update')->name('category.update_s');
+        Route::get('/category/p_edit/{id}', 'edit_p')->name('category.edit_p');
+        Route::put('/category/p_update/{id}', 'update_p')->name('category.update_p');
+        Route::get('/category/s_edit/{id}', 'edit_s')->name('category.edit_s');
+        Route::put('/category/s_update/{id}', 'update_s')->name('category.update_s');
         Route::get('/category/add', 'create')->name('category.create');
         Route::post('/category/add', 'store')->name('category.store');
         Route::get('/category/p_add', 'create_p')->name('category.create_p');
@@ -84,8 +85,12 @@ Route::middleware('auth:admin')->group(function () {
         Route::post('/category/s_del', 'destroy_s')->name('category.destroy_s');
         Route::delete('/category', [CategoryController::class, 'destroy'])->name('category.destroy');
     });
-
-});
+    Route::controller(UserController::class)->group(function () {
+        Route::get('/user', 'index')->name('user.index');
+        Route::get('/user/invite', 'invite')->name('user.invite');
+        Route::post('/user/send_invite', 'send_invite')->name('user.send_invite');
+    });
+    });
 
 
 require __DIR__ . '/auth.php';

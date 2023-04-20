@@ -12,8 +12,7 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/userSummaryPieChart.js', 'resources/js/categorySummaryBarChart.js'])
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="/js/category.js"></script>
         <script type="text/javascript" src="/js/question.js"></script>

@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\ApiController;
-use App\UseCases\CategoryUseCase;
+use App\UseCases\QuestionUseCase;
+use Illuminate\Support\Facades\Storage;
 use JetBrains\PhpStorm\Pure;
 
 class ApiQuestionController extends ApiController
@@ -15,20 +16,17 @@ class ApiQuestionController extends ApiController
         $this->questionUC = new QuestionUseCase();
     }
 
-    public function index(){
-        echo "aaaa";
-    }
-    public function get_secondaries(int $id){
+    public function get_user_summary(){
         return response()->json(
-            $this->categoryUC->getSecondaryCategories($id)
+            $this->questionUC->getUserSummary()
         );
     }
-    public function get_children(int $id){
-        return response()->json(
-            $this->categoryUC->getChildCategories($id)
-        );
-    }
-    public function upload(){
 
+    public function get_secondary_category_summary(){
+
+        return response()->json(
+            $this->questionUC->getSecondaryCategorySummary()
+        );
     }
+
 }

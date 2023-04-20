@@ -65,12 +65,32 @@ class QuestionUseCase extends UseCase
         $question = $this->question->select(
             $this->question_detail_column
         )->from('questions as q')
-        ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
-        ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
-        ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
-        ->where('q.id', $id)->firstOrFail();
+            ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
+            ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
+            ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
+            ->where('q.id', $id)->firstOrFail();
         $question['images'] = $this->question_image->where('question_id', $id)->get();
         return $question;
+    }
+
+    function getUserSummary()
+    {
+        return $this->question->select(
+            ['user_id']
+        )->selectRaw('COUNT(q.id) as count_questions')
+            ->from('questions as q')->
+            groupBy('user_id')->get();
+    }
+
+    function getSecondaryCategorySummary()
+    {
+        return $this->question->select(
+            ['s.name as s_c_name']
+        )->selectRaw('COUNT(q.id) as count_questions')
+            ->from('questions as q')
+            ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
+            ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
+            ->groupBy('s.id')->get();
     }
 
     function getQuestionCase(int $id)
@@ -84,16 +104,16 @@ class QuestionUseCase extends UseCase
         return $this->question->select(
             $this->question_summary_column
         )->from('questions as q')
-        ->rightJoin('categories as c', 'c.id', '=', 'q.category_id')
-        ->rightJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
-        ->rightJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
-        ->Where('is_request',  '1')->orWhere('is_approve',  '1')->get();
+            ->rightJoin('categories as c', 'c.id', '=', 'q.category_id')
+            ->rightJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
+            ->rightJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
+            ->Where('is_request', '1')->orWhere('is_approve', '1')->get();
     }
 
     function getQuestionCases()
     {
         $question_cases = $this->question_case
-            ->Where('is_request',  '1')->orWhere('is_approve',  '1')->get();
+            ->Where('is_request', '1')->orWhere('is_approve', '1')->get();
         return $question_cases;
     }
 

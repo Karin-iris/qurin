@@ -104,11 +104,11 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit_p(string $id)
+    public function edit_p(string $id):View
     {
         $p_category = $this->categoryUC->getPrimaryDetail($id);
 
-        return view('category.edit', compact('p_category'));//
+        return view('category.edit_p', compact('p_category'));//
     }
 
     /**
@@ -118,7 +118,7 @@ class CategoryController extends Controller
     {
         $s_category = $this->categoryUC->getSecondaryDetail($id);
         $p_categories = $this->categoryUC->getPrimaryCategories();
-        return view('category.edit', compact('s_category', 'p_categories'));//
+        return view('category.edit_s', compact('s_category', 'p_categories'));//
     }
     /**
      * Update the specified resource in storage.
@@ -127,19 +127,19 @@ class CategoryController extends Controller
     {
         //$this->categoryUC->updateCategoryOrder(100, $id);
         $this->categoryUC->updateCategory($request, $id);
-        return Redirect::route('category.edit', $id)->with('category', 'saved');//
+        return Redirect::route('category.edit', $id)->with('category', 'updated');//
     }
     public function update_p(CategoryPrimaryRequest $request, string $id)
     {
         //$this->categoryUC->updateCategoryOrder(100, $id);
         $this->categoryUC->updatePrimaryCategory($request, $id);
-        return Redirect::route('category.edit', $id)->with('category', 'saved');//
+        return Redirect::route('category.edit', $id)->with('category', 'updated');//
     }
     public function update_s(CategorySecondaryRequest $request, string $id)
     {
         //$this->categoryUC->updateCategoryOrder(100, $id);
         $this->categoryUC->updateSecondaryCategory($request, $id);
-        return Redirect::route('category.edit', $id)->with('category', 'saved');//
+        return Redirect::route('category.edit', $id)->with('category', 'updated');//
     }
     /**
      * Remove the specified resource from storage.

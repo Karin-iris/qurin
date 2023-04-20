@@ -12,6 +12,11 @@
         'create_p_explain'=>"大分類の新規作成をします",
         'create_s'=>"中分類新規作成",
         'create_s_explain'=>"中分類の新規作成をします",
+        'edit_p'=>"大分類編集",
+        'edit_p_explain'=>"大分類の編集をします・",
+        'edit_s'=>"中分類編集",
+        'edit_s_explain'=>"中分類の編集をします・",
+
         'parent_category'=>'親カテゴリ',
         'code'=>'カテゴリコード',
         'name'=>'カテゴリ名',

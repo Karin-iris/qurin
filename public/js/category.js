@@ -35,9 +35,12 @@ function sCategoryChange() {
     });
 }
 $(function(){
-    if($('#pCategorySelect').val()) {
-        pCategoryChange();
+    if($('#pCategorySelect').length && $('#sCategorySelect').length){
+        if($('#pCategorySelect').val()) {
+            pCategoryChange();
+        }
     }
+
 
 });
 

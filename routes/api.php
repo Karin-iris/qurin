@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ApiCategoryController;
+use App\Http\Controllers\Api\ApiQuestionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +19,14 @@ use App\Http\Controllers\Api\ApiCategoryController;
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
-Route::controller(ApiCategoryController::class)->group(function () {
+Route::controller(ApiCategoryController::class)->group(callback: function () {
     Route::get('/category/get_secondaries/{id}', 'get_secondaries');
     Route::get('/category/get_children/{id}', 'get_children');
     Route::post('/category/upload/', 'upload');
+
 });
+Route::controller(ApiQuestionController::class)->group(callback: function () {
+    Route::get('/question/get_user_summary', 'get_user_summary');
+    Route::get('/question/get_secondary_category_summary', 'get_secondary_category_summary');
+});
+

@@ -101,7 +101,8 @@ class CategoryUseCase extends UseCase
             ->get()->pluck('name', 'id');
     }
 
-    function getChildCategories(int $s_id){
+    function getChildCategories(int $s_id)
+    {
         return $this->category
             ->select([
                 'id',
@@ -111,6 +112,7 @@ class CategoryUseCase extends UseCase
             ->from('categories')
             ->get()->pluck('name', 'id');
     }
+
     function getDetail(int $id)
     {
         return $this->category->select([
@@ -136,12 +138,34 @@ class CategoryUseCase extends UseCase
 
     function getPrimaryDetail(int $id)
     {
-
+        return $this->category->select([
+            'p.name as name',
+            'p.id as p_id',
+            'p.code as code',
+            'updated_at',
+            'created_at',
+        ])->from('primary_categories as p')
+            ->where('p.id', $id)->firstOrFail();
     }
+
     function getSecondaryDetail(int $id)
     {
-
+        return $this->category->select([
+            'p.name as p_name',
+            's.name as name',
+            'p.id as p_id',
+            's.id as s_id',
+            'p.code as p_code',
+            's.code as code',
+            's.updated_at as updated_at',
+            's.created_at as created_at',
+        ])->from('secondary_categories as s')
+            ->rightJoin('primary_categories as p', function ($join) {
+                $join->on('s.primary_id', '=', 'p.id');
+            })
+        ->where('s.id', $id)->firstOrFail();
     }
+
     function saveCategory(CategoryRequest $request)
     {
         $this->category->fill($request->all())->save();
@@ -200,13 +224,19 @@ class CategoryUseCase extends UseCase
             'order' => $order
         ])->save();
     }
-    function delCategory(){
+
+    function delCategory()
+    {
 
     }
-    function delPrimaryCategory(){
+
+    function delPrimaryCategory()
+    {
 
     }
-    function delSecondaryCategory(){
+
+    function delSecondaryCategory()
+    {
 
     }
 

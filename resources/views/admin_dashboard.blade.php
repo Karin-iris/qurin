@@ -5,13 +5,33 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="p-4 mb-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ __("You're admin logged in!") }}
+                    問題別進捗率
+
+                    <div id="canvasDiv" class="mx-auto w-3/5 overflow-hidden">
+
+                        <canvas id="pie-chart">
+
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+                <div class="p-4 mb-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <div class="p-6 text-gray-900">
+                        中分類別問題数
+                        <div id="canvasDiv" class="mx-auto w-3/5 overflow-hidden">
+
+                            <canvas id="bar-chart-custom-options">
+
+                            </canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 </x-admin-layout>
