@@ -35,12 +35,13 @@ class DatabaseSeeder extends Seeder
                 'name' => "傾聴",
                 'code' => "LA",
                 'order' => 1
-            ],
-            [
-                'name' => "描く",
-                'code' => "DR",
-                'order' => 2
-            ]);
+            ]
+        );
+        CategoryPrimary::factory()->create([
+            'name' => "描く",
+            'code' => "DR",
+            'order' => 2
+        ]);
         CategoryPrimary::factory()->create([
             'name' => "提案",
             'code' => "SG",
