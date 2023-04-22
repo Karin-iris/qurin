@@ -76,35 +76,269 @@ class DatabaseSeeder extends Seeder
             'order' => 1
         ]);
         CategorySecondary::factory()->create([
-            'name' => "信頼関係の構築",
+            'name' => "Planning Sheetの描画方法",
             'code' => "01",
             'primary_id' => 2,
             'order' => 1
         ]);
         CategorySecondary::factory()->create([
-            'name' => "Planning Sheetの描画方法",
+            'name' => "Asset表の作成",
             'code' => "02",
             'primary_id' => 2,
             'order' => 1
         ]);
         CategorySecondary::factory()->create([
-            'name' => "家庭のデジタル環境",
+            'name' => "現状",
             'code' => "03",
             'primary_id' => 2,
             'order' => 1
         ]);
+        CategorySecondary::factory()->create([
+            'name' => "提案したい未来",
+            'code' => "04",
+            'primary_id' => 2,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "Planning Sheetに基づく提案",
+            'code' => "01",
+            'primary_id' => 3,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "ストーリー説明",
+            'code' => "02",
+            'primary_id' => 3,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "記録（相談内容・購入内容）",
+            'code' => "01",
+            'primary_id' => 4,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "次回の約束",
+            'code' => "02",
+            'primary_id' => 4,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "行動計画",
+            'code' => "01",
+            'primary_id' => 5,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "中期計画（VER2で構築予定）",
+            'code' => "02",
+            'primary_id' => 5,
+            'order' => 1
+        ]);
         Category::factory()->create([
-            'name' => "カテゴリ1",
-            'code' => "11",
+            'name' => "共感的でポジティブなコミュニケーション",
+            'code' => "01",
             'secondary_id' => 1,
             'order' => 1
         ]);
         Category::factory()->create([
-            'name' => "カテゴリ2",
-            'code' => "22",
+            'name' => "基本的なビジネスマナー",
+            'code' => "02",
+            'secondary_id' => 1,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "お客様の関心事に興味を持つ",
+            'code' => "03",
+            'secondary_id' => 1,
+            'order' => 3
+        ]);
+        Category::factory()->create([
+            'name' => "小さな約束を守る",
+            'code' => "04",
+            'secondary_id' => 1,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "顧客の家族構成の把握",
+            'code' => "01",
             'secondary_id' => 2,
             'order' => 2
         ]);
+        Category::factory()->create([
+            'name' => "同居人数・年齢",
+            'code' => "02",
+            'secondary_id' => 2,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "世代ごとの状況",
+            'code' => "03",
+            'secondary_id' => 2,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "就学状況",
+            'code' => "04",
+            'secondary_id' => 2,
+            'order' => 3
+        ]);
+        Category::factory()->create([
+            'name' => "就労状況（会社・仕事内容・休日）",
+            'code' => "05",
+            'secondary_id' => 2,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "所属しているコミュニティ",
+            'code' => "06",
+            'secondary_id' => 2,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "趣味",
+            'code' => "07",
+            'secondary_id' => 2,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "ペット",
+            'code' => "08",
+            'secondary_id' => 2,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "スマートフォン利用状況",
+            'code' => "01",
+            'secondary_id' => 3,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "キャリアの契約状況",
+            'code' => "02",
+            'secondary_id' => 3,
+            'order' => 4
+        ]);
 
+        Category::factory()->create([
+            'name' => "パソコンの利用状況",
+            'code' => "03",
+            'secondary_id' => 3,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "デジタルガジェットの利用状況",
+            'code' => "04",
+            'secondary_id' => 3,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "お困りごとやデジタル利用の課題",
+            'code' => "05",
+            'secondary_id' => 3,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "記入すべき基本情報（DLPの名前・日付・曜日）",
+            'code' => "01",
+            'secondary_id' => 4,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "書き方の基本（イラスト化・大きな紙（A3）普通紙・太めのボールペン・フェルトペン・蛍光ペン（やさしい色））",
+            'code' => "02",
+            'secondary_id' => 4,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "時系列（左上→右下）",
+            'code' => "03",
+            'secondary_id' => 4,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "Assetとは、お客様の情報資産を指す（デジタルガジェット、過去利用していたデジタルガジェット、契約しているキャリア、情報リテラシー全般等）Asset表とは、Assetをお客様にわかりやすく時系列にイラスト化した表である。",
+            'code' => "01",
+            'secondary_id' => 5,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "家族構成（年齢、続柄、趣味、習い事）",
+            'code' => "01",
+            'secondary_id' => 6,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "利用しているデジタルガジェット・ネット回線",
+            'code' => "02",
+            'secondary_id' => 6,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "利用上の悩み",
+            'code' => "03",
+            'secondary_id' => 6,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "家族構成（年齢、続柄、趣味、習い事）",
+            'code' => "01",
+            'secondary_id' => 7,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "デジタルガジェット・ネット回線",
+            'code' => "02",
+            'secondary_id' => 7,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "実現するコト",
+            'code' => "03",
+            'secondary_id' => 7,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "PlanningSheetの共有→お困り事の把握⇨優先順位に合わせた提案",
+            'code' => "01",
+            'secondary_id' => 8,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "お客様の利用状況の把握⇨PlannningSheetを描く⇨お客様の将来の生活を想像⇨活用シーンを例として用いながら提案する",
+            'code' => "01",
+            'secondary_id' => 9,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "家族構成・利用状況・Aseet・お客様情報・活動内容を記録し、次回以降の活動に役立てる。",
+            'code' => "01",
+            'secondary_id' => 10,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "PlanningSheetと活動記録を基に次回の提案をする",
+            'code' => "01",
+            'secondary_id' => 11,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "アポイントメントをとる",
+            'code' => "01",
+            'secondary_id' => 12,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "コミュニティ活動",
+            'code' => "02",
+            'secondary_id' => 12,
+            'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "イベント活動",
+            'code' => "03",
+            'secondary_id' => 12,
+            'order' => 4
+        ]);
     }
 }
