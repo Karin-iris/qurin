@@ -41,7 +41,7 @@
                             <tr class="border-b border-gray-500 @if($user_question->is_approve == 1) bg-red-50 @elseif($user_question->is_request == 1) bg-blue-50 @else bg-white @endif">
                                 <td>{{$user_question->p_c_code}}</td>
                                 <td>{{$user_question->s_c_code}}</td>
-                                <td>{{$user_question->c_code}}</td>
+                                <td>{{$user_question->c_code}}{{ mb_substr($user_question->c_name,0,5)}}</td>
                                 <td>{{$user_question->topic}}</td>
                                 <td>{{$user_question->created_at}}<br>
                                     {{$user_question->updated_at}}</td>

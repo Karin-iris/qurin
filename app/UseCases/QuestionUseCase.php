@@ -12,6 +12,10 @@ use Illuminate\Http\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Mail\QuestionRequestMail;
+use App\Mail\QuestionApproveMail;
+use App\Mail\QuestionRemandMail;
+use Illuminate\Support\Facades\Mail;
 
 class QuestionUseCase extends UseCase
 {
@@ -174,6 +178,10 @@ class QuestionUseCase extends UseCase
             'is_request' => $request->input('is_request'),
             'user_id' => Auth::user()->id
         ])->save();
+        if($request->input('is_request') === "1"){
+            $this->sendRequestMail($request);
+        }
+
     }
 
     function saveUserQuestionCase(QuestionCaseRequest $request)
@@ -200,6 +208,12 @@ class QuestionUseCase extends UseCase
             'is_request' => $request->input('is_request'),
             'is_approve' => $request->input('is_approve'),
         ])->save();
+        if($request->input('is_approve') === "1"){
+            $this->sendApprovalMail($request);
+        }
+        if($request->input('is_approve') === "0" && $request->input('is_request')=== "0" ){
+            $this->sendRemandMail($request);
+        }
     }
 
     function updateUserQuestion(QuestionRequest $request, int $id): void
@@ -287,5 +301,24 @@ class QuestionUseCase extends UseCase
     function delUserQuestionCase($id)
     {
         $this->question_case->find($id)->delete();
+    }
+
+    function sendRequestMail(QuestionRequest $request){
+        $name = 'テスト ユーザー';
+        $email = 'test@example.com';
+
+        Mail::send(new QuestionRequestMail($name, $email));
+    }
+    function sendApprovalMail(QuestionRequest $request){
+        $name = 'テスト ユーザー';
+        $email = 'test@example.com';
+
+        Mail::send(new QuestionApproveMail($name, $email));
+    }
+    function sendRemandMail(QuestionRequest $request){
+        $name = 'テスト ユーザー';
+        $email = 'test@example.com';
+
+        Mail::send(new QuestionRemandMail($name, $email));
     }
 }
