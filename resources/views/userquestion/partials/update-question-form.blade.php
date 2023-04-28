@@ -41,7 +41,7 @@
             <x-input-error class="mt-2" :messages="$errors->get('text')"/>
         </div>
 
-        <div>
+        {{--<div>
             <x-input-label for="image" :value="__('questions.image')"/>
             @if(!empty($user_question->images))
                 @foreach($user_question->images as $key => $image)
@@ -53,7 +53,7 @@
             <x-file-input name="image[new]" id="image_1"></x-file-input>
             <input type="hidden" name="image_id[new]" value=""></input-input>
             <x-input-error class="mt-2" :messages="$errors->get('image.0')"/>
-        </div>
+        </div>--}}
 
         <div>
             <x-input-label for="correct_choice" :value="__('questions.correct_choice')"/>
