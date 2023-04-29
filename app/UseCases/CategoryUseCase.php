@@ -108,11 +108,12 @@ class CategoryUseCase extends UseCase
         return $this->category
             ->select([
                 'id',
+                'code',
                 'name'
             ])
             ->where('secondary_id', $s_id)
             ->from('categories')
-            ->get()->pluck('name', 'id');
+            ->get();
     }
 
     function getDetail(int $id)
@@ -165,7 +166,7 @@ class CategoryUseCase extends UseCase
             ->rightJoin('primary_categories as p', function ($join) {
                 $join->on('s.primary_id', '=', 'p.id');
             })
-        ->where('s.id', $id)->firstOrFail();
+            ->where('s.id', $id)->firstOrFail();
     }
 
     function saveCategory(CategoryRequest $request)
