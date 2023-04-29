@@ -72,6 +72,7 @@ class CategoryUseCase extends UseCase
         return $this->category_primary
             ->select([
                 'id',
+                'code',
                 'name'
             ])
             ->from('primary_categories')
@@ -94,11 +95,12 @@ class CategoryUseCase extends UseCase
         return $this->category_secondary
             ->select([
                 'id',
-                'name'
+                'name',
+                'code'
             ])
             ->where('primary_id', $p_id)
             ->from('secondary_categories')
-            ->get()->pluck('name', 'id');
+            ->get();
     }
 
     function getChildCategories(int $s_id)
