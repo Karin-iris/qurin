@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
-    public function run(): void
+    public function run()
     {
         // \App\Models\User::factory(10)->create();
 
@@ -30,13 +30,11 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@example.com',
             'password' => Hash::make('password'),
         ]);
-        CategoryPrimary::factory()->create(
-            [
-                'name' => "傾聴",
-                'code' => "LA",
-                'order' => 1
-            ]
-        );
+        CategoryPrimary::factory()->create([
+            'name' => "傾聴",
+            'code' => "LA",
+            'order' => 1
+        ]);
         CategoryPrimary::factory()->create([
             'name' => "描く",
             'code' => "DR",
@@ -56,6 +54,47 @@ class DatabaseSeeder extends Seeder
             'name' => "計画",
             'code' => "PL",
             'order' => 5
+        ]);
+        CategoryPrimary::factory()->create([
+            'name' => "マナー・接遇",
+            'code' => "BM",
+            'order' => 6
+        ]);
+        CategoryPrimary::factory()->create([
+            'name' => "コンプライアンス",
+            'code' => "CP",
+            'order' => 7
+        ]);
+
+        CategoryPrimary::factory()->create([
+            'name' => "スマートフォン",
+            'code' => "SP",
+            'order' => 8
+        ]);
+        CategoryPrimary::factory()->create([
+            'name' => "パーソナルコンピューター",
+            'code' => "PC",
+            'order' => 9
+        ]);
+        CategoryPrimary::factory()->create([
+            'name' => "デジタルガジェット",
+            'code' => "DG",
+            'order' => 10
+        ]);
+        CategoryPrimary::factory()->create([
+            'name' => "デジタルライフ",
+            'code' => "DL",
+            'order' => 11
+        ]);
+        CategoryPrimary::factory()->create([
+            'name' => "デジタル資産と教養",
+            'code' => "DE",
+            'order' => 12
+        ]);
+        CategoryPrimary::factory()->create([
+            'name' => "デジタルシチズンシップ",
+            'code' => "DC",
+            'order' => 13
         ]);
         CategorySecondary::factory()->create([
             'name' => "信頼関係の構築",
@@ -135,6 +174,261 @@ class DatabaseSeeder extends Seeder
             'primary_id' => 5,
             'order' => 1
         ]);
+        CategorySecondary::factory()->create([
+            'name' => "基本的マナー",
+            'code' => "01",
+            'primary_id' => 6,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "顧客との関係構築",
+            'code' => "01",
+            'primary_id' => 6,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "デジタルライフプランナーの倫理行動基準",
+            'code' => "01",
+            'primary_id' => 7,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "安全確保",
+            'code' => "02",
+            'primary_id' => 7,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "法令遵守",
+            'code' => "03",
+            'primary_id' => 7,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "スマートフォンとはなにか",
+            'code' => "01",
+            'primary_id' => 8,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "スマートフォンの利用",
+            'code' => "02",
+            'primary_id' => 8,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "パーソナルコンピュータとはなにか",
+            'code' => "01",
+            'primary_id' => 9,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "パーソナルコンピュータの利用",
+            'code' => "02",
+            'primary_id' => 9,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "デジタルガジェットとはなにか",
+            'code' => "01",
+            'primary_id' => 10,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "キャリア変更",
+            'code' => "02",
+            'primary_id' => 11,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "データ移行",
+            'code' => "02",
+            'primary_id' => 11,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "セキュリティ設定",
+            'code' => "02",
+            'primary_id' => 11,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "パソコン、関連機器の不調",
+            'code' => "02",
+            'primary_id' => 11,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "料理とデジタル",
+            'code' => "02",
+            'primary_id' => 11,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "ショッピングとデジタル",
+            'code' => "02",
+            'primary_id' => 11,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "コミュニケーションとデジタル",
+            'code' => "02",
+            'primary_id' => 11,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "写真とデジタル",
+            'code' => "08",
+            'primary_id' => 11,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "旅行とデジタル",
+            'code' => "09",
+            'primary_id' => 11,
+            'order' => 1
+        ]);
+
+        CategorySecondary::factory()->create([
+            'name' => "ペットとデジタル",
+            'code' => "10",
+            'primary_id' => 11,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "仕事とデジタル",
+            'code' => "11",
+            'primary_id' => 11,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "交通機関とデジタル",
+            'code' => "12",
+            'primary_id' => 10,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "エンターテイメントとデジタル",
+            'code' => "13",
+            'primary_id' => 10,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "ホームエンターテイメントとデジタル",
+            'code' => "14",
+            'primary_id' => 10,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "ヘルスケアとデジタル",
+            'code' => "15",
+            'primary_id' => 10,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "運動とデジタル",
+            'code' => "16",
+            'primary_id' => 10,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "学びとデジタル",
+            'code' => "17",
+            'primary_id' => 10,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "ゲームとデジタル",
+            'code' => "18",
+            'primary_id' => 10,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "ホームとデジタル",
+            'code' => "19",
+            'primary_id' => 10,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "カーライフとデジタル",
+            'code' => "20",
+            'primary_id' => 10,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "地域サービスとデジタル",
+            'code' => "21",
+            'primary_id' => 10,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "コミュニティとデジタル",
+            'code' => "22",
+            'primary_id' => 10,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "デジタル資産と学び",
+            'code' => "01",
+            'primary_id' => 11,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "世代の特徴",
+            'code' => "02",
+            'primary_id' => 11,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "家族の対応",
+            'code' => "03",
+            'primary_id' => 11,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "デジタルシティズンシップ",
+            'code' => "03",
+            'primary_id' => 12,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "メディアバランスとウェルビーイング",
+            'code' => "03",
+            'primary_id' => 12,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "対人関係とコミュニケーション",
+            'code' => "03",
+            'primary_id' => 12,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "ニュースメディアリテラシー",
+            'code' => "03",
+            'primary_id' => 12,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "デジタル足跡とアイデンティティ",
+            'code' => "03",
+            'primary_id' => 12,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "セキュリティとプライバシー",
+            'code' => "03",
+            'primary_id' => 12,
+            'order' => 1
+        ]);
+        CategorySecondary::factory()->create([
+            'name' => "ネットいじめ、揉め事、ヘイトスピーチ",
+            'code' => "03",
+            'primary_id' => 12,
+            'order' => 1
+        ]);
+
+
         Category::factory()->create([
             'name' => "共感的でポジティブなコミュニケーション",
             'code' => "01",
