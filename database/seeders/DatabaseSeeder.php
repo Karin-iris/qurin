@@ -182,7 +182,7 @@ class DatabaseSeeder extends Seeder
         ]);
         CategorySecondary::factory()->create([
             'name' => "顧客との関係構築",
-            'code' => "01",
+            'code' => "02",
             'primary_id' => 6,
             'order' => 1
         ]);
