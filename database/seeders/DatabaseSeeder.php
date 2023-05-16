@@ -20,14 +20,14 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        Admin::factory()->create([
+            'name' => '澤田(管理者)',
+            'email' => 'sawada@primeforce.co.jp',
             'password' => Hash::make('password'),
         ]);
-        Admin::factory()->create([
-            'name' => 'Test Admin User',
-            'email' => 'admin@example.com',
+        User::factory()->create([
+            'name' => '澤田(問題登録者)',
+            'email' => 'tetsu707@outlook.com',
             'password' => Hash::make('password'),
         ]);
         CategoryPrimary::factory()->create([
@@ -174,6 +174,7 @@ class DatabaseSeeder extends Seeder
             'primary_id' => 5,
             'order' => 2
         ]);
+        // 13 基本的マナー
         CategorySecondary::factory()->create([
             'name' => "基本的マナー",
             'code' => "01",
@@ -557,12 +558,6 @@ class DatabaseSeeder extends Seeder
             'order' => 4
         ]);
         Category::factory()->create([
-            'name' => "家族構成（年齢、続柄、趣味、習い事）",
-            'code' => "01",
-            'secondary_id' => 6,
-            'order' => 4
-        ]);
-        Category::factory()->create([
             'name' => "利用しているデジタルガジェット・ネット回線",
             'code' => "02",
             'secondary_id' => 6,
@@ -633,6 +628,18 @@ class DatabaseSeeder extends Seeder
             'code' => "03",
             'secondary_id' => 12,
             'order' => 4
+        ]);
+        Category::factory()->create([
+            'name' => "挨拶",
+            'code' => "01",
+            'secondary_id' => 14,
+            'order' => 1
+        ]);
+        Category::factory()->create([
+            'name' => "基本的マナー",
+            'code' => "02",
+            'secondary_id' => 14,
+            'order' => 2
         ]);
     }
 }
