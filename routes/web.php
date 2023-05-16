@@ -60,6 +60,7 @@ Route::middleware('auth:admin')->group(function () {
         Route::put('/question/c_edit/{id}', 'update_c')->name('question.update_c');
         Route::get('/question/add', 'create')->name('question.create');
         Route::post('/question/add', 'store')->name('question.store');
+        Route::get('/question/csv', 'csv')->name('question.csv');
         Route::get('/question/c_add', 'create_c')->name('question.create_c');
         Route::post('/question/add', 'store')->name('question.store');
         Route::post('/question/c_add', 'store_c')->name('question.store_c');

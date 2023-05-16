@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use JetBrains\PhpStorm\Pure;
+use Illuminate\Http\Response;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Question;
 
 class QuestionController extends Controller
 {
@@ -112,9 +115,85 @@ class QuestionController extends Controller
         $this->questionUC->delQuestion($id);
         return Redirect::route('question.index')->with('question', 'deleted');//
     }
+
     public function destroy_c(int $id)
     {
         $this->questionUC->delQuestionCase($id);
         return Redirect::route('question.index')->with('question', 'deleted');//
+    }
+
+    public function csv(Response $response)
+    {
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename=試験問題リスト.csv',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0'
+        ];
+        $callback = function()
+        {
+            $createCsvFile = fopen('php://output', 'w');
+
+            $columns = [
+                'SectionID',
+                'Section Row Index',
+                'Quiz ID',
+                '形式',
+                '問題文',
+                'スコア',
+                '解説（任意）',
+                '追加の選択肢（任意）',
+                '選択肢の順番をランダムにする',
+                'Select Quiz Option Content',
+                'Select Quiz Option Correct',
+                'Select Quiz Option Content',
+                'Select Quiz Option Correct',
+                'Select Quiz Option Content',
+                'Select Quiz Option Correct',
+                'Select Quiz Option Content',
+                'Select Quiz Option Correct',
+            ];
+
+            mb_convert_variables('SJIS-win', 'UTF-8', $columns);
+
+            fputcsv($createCsvFile, $columns);
+
+            $questions = DB::table('questions');
+
+            $questionData = $questions
+                ->select(['id', 'text', 'correct_choice','wrong_choice_1','wrong_choice_2','wrong_choice_3'])
+                ->where('q.id', $id)->get();
+
+            foreach ($questionData as $question) {
+                $csv = [
+                    '',
+                    '',
+                    '',
+                    '',
+                    $question->text,
+                    '',
+                    '',
+                    '',
+                    'true',
+                    $question->correct_choice,
+                    'true',
+                    $question->wrong_choice_1,
+                    'false',
+                    $question->wrong_choice_2,
+                    'false',
+                    $question->wrong_choice_3,
+                    'false'
+                ];
+
+                mb_convert_variables('SJIS-win', 'UTF-8', $csv);
+
+                fputcsv($createCsvFile, $csv);
+            }
+            fclose($createCsvFile);
+        };
+        //return \Maatwebsite\Excel\Facades\Excel::download(\App\Models\Question::all(), 'users.xlsx');
+        return response()->stream($callback, 200, $headers);
+
     }
 }
