@@ -163,7 +163,7 @@ class QuestionController extends Controller
 
             $questionData = $questions
                 ->select(['id', 'text', 'correct_choice','wrong_choice_1','wrong_choice_2','wrong_choice_3'])
-                ->where('q.id', $id)->get();
+                ->where('is_approve', 1)->get();
 
             foreach ($questionData as $question) {
                 $csv = [
