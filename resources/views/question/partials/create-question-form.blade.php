@@ -25,11 +25,11 @@
                                                     :value="old('primary_id')" :options="$p_categories"/>
             <x-categories.select-secondary-categories name="secondary_id"
                                                       class="mt-1 block w-full" autofocus
-                                                      autocomplete="secondary_id"
+                                                      autocomplete="secondary_id" :options="$s_categories"/>
             />
             <x-categories.select-categories name="category_id"
                                             class="mt-1 block w-full" autofocus
-                                            autocomplete="category_id"
+                                            autocomplete="category_id" :options="$categories"
             />
             <x-input-error class="mt-2" :messages="$errors->get('primary_id')" />
             <x-input-error class="mt-2" :messages="$errors->get('secondary_id')" />

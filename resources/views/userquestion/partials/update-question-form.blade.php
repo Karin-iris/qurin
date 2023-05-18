@@ -4,6 +4,12 @@
             {{ __('questions.my_question_edit') }}
         </h2>
 
+        @if (session('status') === 'question-updated')
+        <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+            <span class="font-medium">問題の更新に成功しました。</span>
+        </div>
+        @endif
+
         <p class="mt-1 text-sm text-gray-600">
             {{ __("questions.my_question_edit_message") }}
         </p>

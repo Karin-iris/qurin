@@ -4,6 +4,12 @@
             {{ __('questions.my_question_add') }}
         </h2>
 
+        @if (session('status') === 'question-saved')
+            <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                <span class="font-medium">問題の登録に成功しました。</span>
+            </div>
+        @endif
+
         <p class="mt-1 text-sm text-gray-600">
             {{ __("questions.my_question_add_message") }}
         </p>
@@ -27,12 +33,12 @@
             <x-categories.select-secondary-categories name="secondary_id"
                                                       class="mt-1 block w-full" autofocus
                                                       autocomplete="secondary_id"
-                                                      :value="old('secondary_id')" :options="$s_categories"/>
+                                                      :value="old('secondary_id')" :options="$s_categories" />
             <x-input-label for="code" :value="__('categories.category')"/>
             <x-categories.select-categories name="category_id"
                                             class="mt-1 block w-full" autofocus
                                             autocomplete="category_id"
-                                            :value="old('category_id')" :options="$categories"/>
+                                            :value="old('category_id')" :options="$categories" />
             <x-input-error class="mt-2" :messages="$errors->get('primary_id')" />
             <x-input-error class="mt-2" :messages="$errors->get('secondary_id')" />
             <x-input-error class="mt-2" :messages="$errors->get('category_id')" />

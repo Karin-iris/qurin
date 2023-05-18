@@ -10,12 +10,15 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/userSummaryPieChart.js', 'resources/js/categorySummaryBarChart.js'])
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="/js/category.js"></script>
-        <script type="text/javascript" src="/js/question.js"></script>
+        @vite(['resources/css/app.css',
+        'resources/js/app.js',
+        'resources/js/category.js',
+        'resources/js/question.js',
+        'resources/js/userSummaryPieChart.js',
+        'resources/js/categorySummaryBarChart.js'])
 
     </head>
     <body class="font-sans antialiased">

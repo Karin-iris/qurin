@@ -16,6 +16,7 @@ class QuestionRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'category_id' => ['integer'],
             'topic' => ['string', 'max:255'],
             'text' => ['string'],
             'correct_choice' => ['string'],

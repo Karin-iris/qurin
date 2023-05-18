@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "dropzone": "^6.0.0-beta.2",
+        "jquery": "^3.7.0",
         "tw-elements": "^1.0.0-beta2",
         "vue": "^3.2.47",
         "vue-select": "^3.20.2"

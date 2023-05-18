@@ -97,13 +97,13 @@ class UserQuestionController extends Controller
     public function store(QuestionRequest $request)
     {
         $this->questionUC->saveUserQuestion($request);
-        return Redirect::route('userquestion.create')->with('question', 'saved');//
+        return Redirect::route('userquestion.create')->with('status', 'question-saved');//
     }
 
     public function store_c(QuestionCaseRequest $request)
     {
         $this->questionUC->saveUserQuestionCase($request);
-        return Redirect::route('userquestion.create_c')->with('question', 'saved');//
+        return Redirect::route('userquestion.create_c')->with('status', 'saved');//
     }
     /**
      * Remove the specified resource from storage.

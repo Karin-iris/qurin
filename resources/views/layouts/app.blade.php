@@ -16,8 +16,8 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script type="text/javascript" src="/js/category.js"></script>
-        <script type="text/javascript" src="/js/question.js"></script>
+        <script type="text/javascript" src="/js/category.js?q=202205190157"></script>
+        <script type="text/javascript" src="/js/question.js?q=202205190157"></script>
 
 
     </head>
