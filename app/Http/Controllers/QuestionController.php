@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\QuestionCaseRequest;
 use App\Http\Requests\QuestionRequest;
+use App\UseCases\CategoryUseCase;
+use App\UseCases\QuestionUseCase;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
