@@ -636,10 +636,829 @@ class DatabaseSeeder extends Seeder
             'order' => 1
         ]);
         Category::factory()->create([
-            'name' => "基本的マナー",
+            'name' => "身だしなみ",
             'code' => "02",
             'secondary_id' => 14,
             'order' => 2
         ]);
+        Category::factory()->create([
+            'name' => "表情",
+            'code' => "03",
+            'secondary_id' => 14,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "態度",
+            'code' => "04",
+            'secondary_id' => 14,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "行動",
+            'code' => "05",
+            'secondary_id' => 14,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "言葉づかい",
+            'code' => "06",
+            'secondary_id' => 14,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "エンゲージメント（ニーズに応え、信頼関係を構築する）",
+            'code' => "01",
+            'secondary_id' => 15,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "アクティブリスニング（話しをよく聞く）",
+            'code' => "02",
+            'secondary_id' => 15,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "洞察的姿勢（サービス内容から＋aの部分まで寄り添う。）",
+            'code' => "03",
+            'secondary_id' => 15,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "雰囲気作りとリラックスしたコミュニケーション",
+            'code' => "04",
+            'secondary_id' => 15,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "エンパシー（共感的かつ効果的な反応）",
+            'code' => "05",
+            'secondary_id' => 15,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "継続的なサポート姿勢",
+            'code' => "06",
+            'secondary_id' => 15,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "お客様を最優先とする",
+            'code' => "01",
+            'secondary_id' => 16,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "お客様のプライバシーの遵守",
+            'code' => "02",
+            'secondary_id' => 16,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "誠実な対応",
+            'code' => "03",
+            'secondary_id' => 16,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "適切な提案",
+            'code' => "04",
+            'secondary_id' => 16,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "重要事項の説明",
+            'code' => "05",
+            'secondary_id' => 16,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "法令遵守",
+            'code' => "06",
+            'secondary_id' => 16,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "職業倫理と専門性の向上",
+            'code' => "07",
+            'secondary_id' => 16,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "セキュリティ対策の徹底",
+            'code' => "01",
+            'secondary_id' => 17,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "緊急時の対応策の整備",
+            'code' => "02",
+            'secondary_id' => 17,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "トレーニング",
+            'code' => "03",
+            'secondary_id' => 17,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "事前のリサーチ",
+            'code' => "04",
+            'secondary_id' => 17,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "伴行者の同行",
+            'code' => "05",
+            'secondary_id' => 17,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "防犯グッズの携帯",
+            'code' => "06",
+            'secondary_id' => 17,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "個人情報の保護",
+            'code' => "01",
+            'secondary_id' => 18,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "情報セキュリティの確保",
+            'code' => "02",
+            'secondary_id' => 18,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "消費者保護法や特定商取引法の遵守",
+            'code' => "03",
+            'secondary_id' => 18,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "その他の法令",
+            'code' => "04",
+            'secondary_id' => 18,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "スマートフォンとは",
+            'code' => "01",
+            'secondary_id' => 19,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "スマートフォンのハードウェア構造",
+            'code' => "02",
+            'secondary_id' => 19,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "スマートフォンとキャリア",
+            'code' => "01",
+            'secondary_id' => 20,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "キャリアとの契約",
+            'code' => "02",
+            'secondary_id' => 20,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "キャリアとの契約者名義",
+            'code' => "03",
+            'secondary_id' => 20,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "複数のキャリアの活用",
+            'code' => "04",
+            'secondary_id' => 20,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "認証・パスワードの管理",
+            'code' => "05",
+            'secondary_id' => 20,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "基本操作",
+            'code' => "06",
+            'secondary_id' => 20,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "テザリング",
+            'code' => "07",
+            'secondary_id' => 20,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "アプリの課金の仕組み",
+            'code' => "08",
+            'secondary_id' => 20,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "スマートフォンの更新",
+            'code' => "09",
+            'secondary_id' => 20,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "安全な利用",
+            'code' => "10",
+            'secondary_id' => 20,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "クラウドサービス",
+            'code' => "11",
+            'secondary_id' => 20,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "利用モード",
+            'code' => "12",
+            'secondary_id' => 20,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "データの管理",
+            'code' => "13",
+            'secondary_id' => 20,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "パーソナルコンピューターとは",
+            'code' => "01",
+            'secondary_id' => 21,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "パーソナルコンピューターのハードウェア構造",
+            'code' => "02",
+            'secondary_id' => 21,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "周辺機器のハードウェア構造",
+            'code' => "03",
+            'secondary_id' => 21,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "PCのOS",
+            'code' => "01",
+            'secondary_id' => 22,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "PCの基本設定",
+            'code' => "02",
+            'secondary_id' => 22,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "ネットワーク接続",
+            'code' => "03",
+            'secondary_id' => 22,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "PCの基本操作",
+            'code' => "04",
+            'secondary_id' => 22,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "ソフトウェアの購入・設定",
+            'code' => "05",
+            'secondary_id' => 22,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "OSとソフトウェアの更新",
+            'code' => "06",
+            'secondary_id' => 22,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "安全な利用",
+            'code' => "07",
+            'secondary_id' => 22,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "クラウドサービス",
+            'code' => "08",
+            'secondary_id' => 22,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "データの管理",
+            'code' => "09",
+            'secondary_id' => 22,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "デジタルガジェットとは",
+            'code' => "01",
+            'secondary_id' => 23,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "デジタルガジェット（主要なもの）",
+            'code' => "02",
+            'secondary_id' => 23,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "主要キャリアの特徴",
+            'code' => "01",
+            'secondary_id' => 24,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "格安SIMの特徴",
+            'code' => "02",
+            'secondary_id' => 24,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "変更の手順",
+            'code' => "03",
+            'secondary_id' => 24,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "データ移行必要なケース",
+            'code' => "01",
+            'secondary_id' => 25,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "データ移行の手順",
+            'code' => "02",
+            'secondary_id' => 25,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "データ移行時の注意点",
+            'code' => "03",
+            'secondary_id' => 25,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "セキュリティトラブルの種類",
+            'code' => "01",
+            'secondary_id' => 26,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "セキュリティトラブル解決手順",
+            'code' => "02",
+            'secondary_id' => 26,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "セキュリティ設定の注意点",
+            'code' => "03",
+            'secondary_id' => 26,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "パソコン・関連機器ハードトラブルの種類",
+            'code' => "01",
+            'secondary_id' => 27,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "トラブルの解決手順",
+            'code' => "02",
+            'secondary_id' => 27,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "トラブル対応の注意点",
+            'code' => "03",
+            'secondary_id' => 27,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "料理をデジタルガジェットとともに行う",
+            'code' => "01",
+            'secondary_id' => 28,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "どんな機器を活用するか",
+            'code' => "02",
+            'secondary_id' => 28,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "利用上の注意",
+            'code' => "03",
+            'secondary_id' => 28,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "ショッピングをデジタルガジェットとともに行う",
+            'code' => "01",
+            'secondary_id' => 29,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "どんな機器を活用するか",
+            'code' => "02",
+            'secondary_id' => 29,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "利用上の注意",
+            'code' => "03",
+            'secondary_id' => 29,
+            'order' => 2
+        ]);
+
+        Category::factory()->create([
+            'name' => "コミュニケーションをデジタルガジェットとともに行う",
+            'code' => "01",
+            'secondary_id' => 30,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "どんな機器を活用するか",
+            'code' => "02",
+            'secondary_id' => 30,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "利用上の注意",
+            'code' => "03",
+            'secondary_id' => 30,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "写真をデジタルガジェットと共に行う",
+            'code' => "01",
+            'secondary_id' => 31,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "どんな機器を活用するのか",
+            'code' => "02",
+            'secondary_id' => 31,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "利用上の注意点",
+            'code' => "03",
+            'secondary_id' => 31,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "旅行やアウトドアエンターテイメントをデジタルガジェットと共に行う",
+            'code' => "01",
+            'secondary_id' => 32,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "どんな機器を利用するか",
+            'code' => "02",
+            'secondary_id' => 32,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "利用上の注意点",
+            'code' => "03",
+            'secondary_id' => 32,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "ペットとデジタルガジェットの活用",
+            'code' => "01",
+            'secondary_id' => 33,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "どんな機器を利用するか",
+            'code' => "02",
+            'secondary_id' => 33,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "利用上の注意点",
+            'code' => "03",
+            'secondary_id' => 33,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "仕事の効率化とデジタルガジェットの活用",
+            'code' => "01",
+            'secondary_id' => 34,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "どんな機器を利用するか",
+            'code' => "02",
+            'secondary_id' => 34,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "利用上の注意点",
+            'code' => "03",
+            'secondary_id' => 34,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "交通機関とデジタルガジェットの活用",
+            'code' => "01",
+            'secondary_id' => 35,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "どんな機器を利用するか",
+            'code' => "02",
+            'secondary_id' => 35,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "利用上の注意点",
+            'code' => "03",
+            'secondary_id' => 35,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "エンターテイメントとデジタルガジェットの活用",
+            'code' => "01",
+            'secondary_id' => 36,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "どんな機器を利用するか",
+            'code' => "02",
+            'secondary_id' => 36,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "利用上の注意点",
+            'code' => "03",
+            'secondary_id' => 36,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "ホームエンターテイメントとデジタルガジェットの活用",
+            'code' => "01",
+            'secondary_id' => 37,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "どんな機器を利用するか",
+            'code' => "02",
+            'secondary_id' => 37,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "利用上の注意",
+            'code' => "03",
+            'secondary_id' => 37,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "ヘルスケアとデジタルガジェットの活用",
+            'code' => "01",
+            'secondary_id' => 38,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "どんな機器を利用するか",
+            'code' => "02",
+            'secondary_id' => 38,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "利用上の注意点",
+            'code' => "03",
+            'secondary_id' => 38,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "運動とデジタルガジェットの活用",
+            'code' => "01",
+            'secondary_id' => 39,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "どんな機器を利用するか",
+            'code' => "02",
+            'secondary_id' => 39,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "利用上の注意点",
+            'code' => "03",
+            'secondary_id' => 39,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "学習とデジタルガジェットの活用",
+            'code' => "01",
+            'secondary_id' => 40,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "どんな機器・サービスを利用するか",
+            'code' => "02",
+            'secondary_id' => 40,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "利用上の注意点",
+            'code' => "03",
+            'secondary_id' => 40,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "ゲーム環境に応じたデジタルガジェットの活用",
+            'code' => "01",
+            'secondary_id' => 41,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "どんな機器・サービスを利用するか",
+            'code' => "02",
+            'secondary_id' => 41,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "利用上の注意点",
+            'code' => "03",
+            'secondary_id' => 41,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "ホームとデジタルガジェットの活用",
+            'code' => "01",
+            'secondary_id' => 42,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "どんな機器を利用するか",
+            'code' => "02",
+            'secondary_id' => 42,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "利用上の注意点",
+            'code' => "03",
+            'secondary_id' => 42,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "カーライフとデジタルガジェットの活用",
+            'code' => "01",
+            'secondary_id' => 43,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "どんな機器を利用するか",
+            'code' => "02",
+            'secondary_id' => 43,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "利用上の注意点",
+            'code' => "03",
+            'secondary_id' => 43,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "地域サービスとデジタルガジェットの活用",
+            'code' => "01",
+            'secondary_id' => 44,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "どんな機器を利用するか",
+            'code' => "02",
+            'secondary_id' => 44,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "利用上の注意点",
+            'code' => "03",
+            'secondary_id' => 44,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "コミュニティとデジタルガジェットの活用",
+            'code' => "01",
+            'secondary_id' => 45,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "どんな機器を利用するか",
+            'code' => "02",
+            'secondary_id' => 45,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "利用上の注意点",
+            'code' => "03",
+            'secondary_id' => 45,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "デジタル資産と学び",
+            'code' => "01",
+            'secondary_id' => 46,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "世代ごとに変化するデジタルデバイスやサービスの関わり",
+            'code' => "01",
+            'secondary_id' => 47,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "様々な世代が集う、家族間のデジタルとの付き合い方",
+            'code' => "01",
+            'secondary_id' => 48,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "デジタルシティズンシップとは",
+            'code' => "01",
+            'secondary_id' => 49,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "メディアバランス",
+            'code' => "01",
+            'secondary_id' => 50,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "ウェルビーイング",
+            'code' => "02",
+            'secondary_id' => 50,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "オンライン・コミュニケーションのタイプ",
+            'code' => "01",
+            'secondary_id' => 51,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "世代によるオンラインコミュニケーション",
+            'code' => "02",
+            'secondary_id' => 51,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "ニュースメディアリテラシー",
+            'code' => "01",
+            'secondary_id' => 52,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "デジタル足跡とアイデンティティ",
+            'code' => "01",
+            'secondary_id' => 53,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "セキュリティとプライバシー",
+            'code' => "01",
+            'secondary_id' => 54,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "ネットいじめ",
+            'code' => "01",
+            'secondary_id' => 55,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "揉め事",
+            'code' => "02",
+            'secondary_id' => 55,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'name' => "ヘイトスピーチ",
+            'code' => "03",
+            'secondary_id' => 55,
+            'order' => 2
+        ]);
     }
 }
+
+

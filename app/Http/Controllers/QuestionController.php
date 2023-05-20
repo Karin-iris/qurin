@@ -2,31 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\QuestionRequest;
 use App\Http\Requests\QuestionCaseRequest;
-use App\UseCases\CategoryUseCase;
-use App\UseCases\QuestionUseCase;
+use App\Http\Requests\QuestionRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use JetBrains\PhpStorm\Pure;
-use Illuminate\Http\Response;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Models\Question;
 
 class QuestionController extends Controller
 {
-    public CategoryUseCase $categoryUC;
-    public QuestionUseCase $questionUC;
+    public $categoryUC;
+    public $questionUC;
 
-    #[Pure] public function __construct()
+    public function __construct()
     {
         $this->categoryUC = new CategoryUseCase();
         $this->questionUC = new QuestionUseCase();
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -34,7 +30,7 @@ class QuestionController extends Controller
     {
         $questions = $this->questionUC->getQuestions();
         $question_cases = $this->questionUC->getQuestionCases();
-        return view('question.index', compact('questions','question_cases'));
+        return view('question.index', compact('questions', 'question_cases'));
     }
 
     /**
@@ -47,6 +43,7 @@ class QuestionController extends Controller
         $categories = $this->categoryUC->getSimpleCategories();
         return view('question.create', compact('p_categories', 's_categories', 'categories'));//
     }
+
     public function create_c()
     {
         $p_categories = $this->categoryUC->getPrimaryCategories();
@@ -55,6 +52,7 @@ class QuestionController extends Controller
 
         return view('question.create_c', compact('p_categories', 's_categories', 'categories'));//
     }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -92,6 +90,7 @@ class QuestionController extends Controller
             compact('question_case')
         );
     }
+
     /**
      * Update the specified resource in storage.
      */
@@ -99,7 +98,7 @@ class QuestionController extends Controller
     {
 
         $this->questionUC->updateQuestion($request, $id);
-        return Redirect::route('question.edit',$id)->with('question', 'saved');////
+        return Redirect::route('question.edit', $id)->with('question', 'saved');////
     }
 
     public function update_c(QuestionCaseRequest $request, int $id): RedirectResponse
@@ -107,6 +106,7 @@ class QuestionController extends Controller
         $this->questionUC->updateQuestionCase($request, $id);
         return Redirect::route('question.edit_c', $id)->with('status', 'question-updated');
     }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -131,8 +131,7 @@ class QuestionController extends Controller
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
             'Expires' => '0'
         ];
-        $callback = function()
-        {
+        $callback = function () {
             $createCsvFile = fopen('php://output', 'w');
 
             $columns = [
@@ -162,7 +161,7 @@ class QuestionController extends Controller
             $questions = DB::table('questions');
 
             $questionData = $questions
-                ->select(['id', 'text', 'correct_choice','wrong_choice_1','wrong_choice_2','wrong_choice_3'])
+                ->select(['id', 'text', 'correct_choice', 'wrong_choice_1', 'wrong_choice_2', 'wrong_choice_3'])
                 ->where('is_approve', 1)->get();
 
             foreach ($questionData as $question) {
