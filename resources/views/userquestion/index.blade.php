@@ -35,7 +35,7 @@
                             <th>試験問題（要約）</th>
                             <th class="w-3/12">作成時間<br>更新時間</th>
                             <th class="w-1/12">編集</th>
-                            
+                            <th class="w-1/12">削除</th>
                         </tr>
                         </thead>
                         <tbody class="text-md">
@@ -58,7 +58,24 @@
                                         </a>
                                     @endif
                                 </td>
-
+                                <td>
+                                    @if(!empty($user_question->id) && $user_question->is_approve == 0 && $user_question->is_request == 0)
+                                        <form action="{{ route('userquestion.destroy', ['id'=>$user_question->id]) }}"
+                                              method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" onClick="return confirm('削除しますか')"
+                                                    class="inline-flex items-center justify-center w-8 h-8 mr-2 text-pink-100 transition-colors duration-150 bg-pink-700 rounded-lg focus:shadow-outline hover:bg-pink-800">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                                     viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          stroke-width="2"
+                                                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
