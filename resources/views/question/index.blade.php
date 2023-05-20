@@ -44,11 +44,12 @@
                         </thead>
                         <tbody class="text-md">
                         @foreach($questions as $question)
-                            <tr class="border-b border-gray-500 @if($question->is_approve == 1) bg-red-50 @elseif($question->is_request == 1) bg-blue-50 @else bg-white @endif">
-                                <td>{{$question->p_c_code}}</td>
-                                <td class="text-sm">{{$question->s_c_code}}{{ mb_substr($question->s_c_name,0,20)}}</td>
-                                <td>{{$question->c_code}}</td>
-                                <td class="text-sm">{{mb_substr($question->topic,0,30)}}</td>
+                            <tr class="border-b border-gray-500 text-sm @if($question->is_approve == 1) bg-red-50 @elseif($question->is_request == 1) bg-blue-50 @else bg-white @endif">
+                                <td>[{{$question->p_c_code}}]{{ mb_substr($question->p_c_name,0,20)}}</td>
+                                <td>[{{$question->s_c_code}}]{{ mb_substr($question->s_c_name,0,20)}}</td>
+                                <td>[{{$question->c_code}}]{{ mb_substr($question->c_name,0,20)}}</td>
+                                <td>{{mb_substr($question->topic,0,30)}}</td>
+                                <td>{{$question->user_name}}</td>
                                 <td class="text-sm">{{$question->created_at}}<br>
                                     {{$question->updated_at}}</td>
                                 <td>

@@ -40,6 +40,21 @@ class QuestionUseCase extends UseCase
             'q.created_at as created_at',
             'q.updated_at as updated_at',
         ];
+        $this->question_admin_summary_column = [
+            'p.name as p_c_name',
+            's.name as s_c_name',
+            'c.name as c_name',
+            'p.code as p_c_code',
+            's.code as s_c_code',
+            'c.code as c_code',
+            'q.topic as topic',
+            'q.id as id',
+            'u.name as user_name',
+            'q.is_request as is_request',
+            'q.is_approve as is_approve',
+            'q.created_at as created_at',
+            'q.updated_at as updated_at',
+        ];
         $this->question_detail_column = [
             'p.name as p_c_name',
             's.name as s_c_name',
@@ -101,13 +116,13 @@ class QuestionUseCase extends UseCase
 
     function getQuestions()
     {
-
         return $this->question->select(
-            $this->question_summary_column
+            $this->question_admin_summary_column
         )->from('questions as q')
-            ->rightJoin('categories as c', 'c.id', '=', 'q.category_id')
-            ->rightJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
-            ->rightJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
+            ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
+            ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
+            ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
+            ->leftJoin('users as u', 'u.id', '=', 'q.user_id')
             ->Where('is_request', '1')->orWhere('is_approve', '1')->get();
     }
 
