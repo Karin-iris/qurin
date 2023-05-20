@@ -41,9 +41,9 @@
                         <tbody class="text-md">
                         @foreach($user_questions as $user_question)
                             <tr class="border-b border-gray-500 text-sm @if($user_question->is_approve == 1) bg-red-50 @elseif($user_question->is_request == 1) bg-blue-50 @else bg-white @endif">
-                                <td>[{{$question->p_c_code}}]{{ mb_substr($question->p_c_name,0,20)}}</td>
-                                <td>[{{$question->s_c_code}}]{{ mb_substr($question->s_c_name,0,20)}}</td>
-                                <td>[{{$question->c_code}}]{{ mb_substr($question->c_name,0,20)}}</td>
+                                <td>[{{$user_question->p_c_code}}]{{ mb_substr($user_question->p_c_name,0,20)}}</td>
+                                <td>[{{$user_question->s_c_code}}]{{ mb_substr($user_question->s_c_name,0,20)}}</td>
+                                <td>[{{$user_question->c_code}}]{{ mb_substr($user_question->c_name,0,20)}}</td>
                                 <td>{{mb_substr($user_question->topic,0,30)}}</td>
                                 <td>{{$user_question->created_at}}<br>
                                     {{$user_question->updated_at}}</td>
