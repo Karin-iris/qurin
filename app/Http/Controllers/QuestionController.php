@@ -99,7 +99,7 @@ class QuestionController extends Controller
     {
 
         $this->questionUC->updateQuestion($request, $id);
-        return Redirect::route('question.edit',$id)->with('question', 'saved');////
+        return Redirect::route('question.edit',$id)->with('question', 'question-approved');////
     }
 
     public function update_c(QuestionCaseRequest $request, int $id): RedirectResponse
@@ -119,6 +119,12 @@ class QuestionController extends Controller
     public function destroy_c(int $id)
     {
         $this->questionUC->delQuestionCase($id);
+        return Redirect::route('question.index')->with('question', 'deleted');//
+    }
+
+    public function hide(int $id)
+    {
+        $this->questionUC->hideQuestion($id);
         return Redirect::route('question.index')->with('question', 'deleted');//
     }
 

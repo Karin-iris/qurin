@@ -285,9 +285,15 @@ class QuestionUseCase extends UseCase
         $this->question->find($id)->delete();
     }
 
+
     function delQuestionCase($id)
     {
         $this->question_case->find($id)->delete();
+    }
+
+    function hideQuestion($id)
+    {
+        $this->question->find($id)->delete();
     }
 
     function delUserQuestion($id)
