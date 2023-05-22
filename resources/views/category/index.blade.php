@@ -42,12 +42,19 @@
                     </thead>
                     <tbody class="text-md>
                     @foreach($categories as $category)
-                        <tr class="bg-white border-t dark:bg-gray-900 dark:border-gray-700">
+                        <tr class=" bg-white border-t dark:bg-gray-900 dark:border-gray-700
+                    ">
                     <td>{{$category->order}}</td>
                     <td>{{$category->p_code}}</td>
-                    <td>@if(!empty($category->p_id))<a href="{{ route('category.edit_p', ['id'=> $category->p_id]) }}">{{$category->p_name}}[{{$category->p_code}}]</a>@endif</td>
-                    <td>@if(!empty($category->s_id))<a href="{{ route('category.edit_s', ['id'=> $category->s_id]) }}">{{$category->s_name}}[{{$category->s_code}}]</a>@endif</td>
-                    <td>@if(!empty($category->id))<a href="{{ route('category.edit', ['id'=> $category->id]) }}">{{$category->name}}[{{$category->code}}]</a>@endif</td>
+                    <td>@if(!empty($category->p_id))<a
+                            href="{{ route('category.edit_p', ['id'=> $category->p_id]) }}">[{{$category->p_code}}
+                            ]{{$category->p_name}}</a>@endif</td>
+                    <td>@if(!empty($category->s_id))<a
+                            href="{{ route('category.edit_s', ['id'=> $category->s_id]) }}">[{{$category->s_code}}
+                            ]{{$category->s_name}}</a>@endif</td>
+                    <td>@if(!empty($category->id))<a
+                            href="{{ route('category.edit', ['id'=> $category->id]) }}">[{{$category->code}}
+                            ]{{$category->name}}</a>@endif</td>
                     <td>
                         @if(!empty($category->id))
                             <a href="{{ route('category.destroy', ['id'=> $category->id]) }}">削除</a>
