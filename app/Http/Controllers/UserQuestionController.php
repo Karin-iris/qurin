@@ -62,9 +62,9 @@ class UserQuestionController extends Controller
      */
     public function update(QuestionRequest $request, int $id): RedirectResponse
     {
-        $this->questionUC->updateUserQuestion($request, $id);
+        $status = $this->questionUC->updateUserQuestion($request, $id);
         $this->questionUC->updateUserQuestionImage($request,$id);
-        return Redirect::route('userquestion.edit', $id)->with('status', 'question-updated');
+        return Redirect::route('userquestion.index')->with('status', $status);
     }
 
     /**
@@ -96,8 +96,8 @@ class UserQuestionController extends Controller
 
     public function store(QuestionRequest $request)
     {
-        $this->questionUC->saveUserQuestion($request);
-        return Redirect::route('userquestion.create')->with('status', 'question-saved');//
+        $status = $this->questionUC->saveUserQuestion($request);
+        return Redirect::route('userquestion.index')->with('status', $status);//
     }
 
     public function store_c(QuestionCaseRequest $request)

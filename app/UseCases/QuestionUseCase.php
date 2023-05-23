@@ -183,7 +183,7 @@ class QuestionUseCase extends UseCase
         $this->question->fill($request->all())->save();
     }
 
-    function saveUserQuestion(QuestionRequest $request)
+    function saveUserQuestion(QuestionRequest $request):string
     {
         $this->question->fill([
             'topic' => $request->input('topic'),
@@ -200,10 +200,13 @@ class QuestionUseCase extends UseCase
             'is_remand' => $request->input('is_remand'),
             'user_id' => Auth::user()->id
         ])->save();
-        /*if($request->input('is_request') === "1"){
-            $this->sendRequestMail($request);
-        }*/
-
+        if($request->input('is_request') === "1"){
+            $status = "request";
+            //$this->sendRequestMail($request);
+        }else{
+            $status = "saved";
+        }
+        return $status;
     }
 
     function saveUserQuestionCase(QuestionCaseRequest $request)
@@ -215,6 +218,7 @@ class QuestionUseCase extends UseCase
             'is_request' => $request->input('is_request'),
             'user_id' => Auth::user()->id
         ])->save();
+
     }
 
     function updateQuestion(QuestionRequest $request, int $id): string
@@ -243,7 +247,7 @@ class QuestionUseCase extends UseCase
         return $status;
     }
 
-    function updateUserQuestion(QuestionRequest $request, int $id): void
+    function updateUserQuestion(QuestionRequest $request, int $id): string
     {
         $this->question->find($id)->fill([
             'topic' => $request->input('topic'),
@@ -259,6 +263,13 @@ class QuestionUseCase extends UseCase
             'is_remand' => $request->input('is_remand'),
             'user_id' => Auth::user()->id
         ])->save();
+        if($request->input('is_request') === "1"){
+            $status = "request";
+            //$this->sendRequestMail($request);
+        }else{
+            $status = "saved";
+        }
+        return $status;
     }
 
     function updateQuestionCase(QuestionCaseRequest $request, int $id)

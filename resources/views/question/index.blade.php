@@ -21,15 +21,15 @@
                         </p>
                     </header>
                     @if (session('status') === 'approved')
-                        <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
-                            <span class="font-medium">問題を認証しました。</span>
+                        <div class="p-4 mb-4 text-sm text-gray-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                            <span class="font-medium">問題を承認しました。</span>
                         </div>
                     @elseif (session('status') === 'remand')
-                        <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                        <div class="p-4 mb-4 text-sm text-gray-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
                             <span class="font-medium">問題を差し戻しました。</span>
                         </div>
                     @elseif(session('status') === 'saved')
-                        <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                        <div class="p-4 mb-4 text-sm text-gray-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
                             <span class="font-medium">問題を一時保存しました。</span>
                         </div>
                     @endif
