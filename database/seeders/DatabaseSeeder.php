@@ -21,12 +21,12 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         Admin::factory()->create([
-            'name' => '澤田(管理者)',
+            'name' => '澤田 哲理(管理者)',
             'email' => 'sawada@primeforce.co.jp',
             'password' => Hash::make('password'),
         ]);
         Admin::factory()->create([
-            'name' => '藤木　健(管理者)',
+            'name' => '藤木 健(管理者)',
             'email' => 'fujiki@primeforce.co.jp',
             'password' => Hash::make('Pass_001'),
         ]);
@@ -51,7 +51,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('Pass_005'),
         ]);
         User::factory()->create([
-            'name' => '澤田(問題登録者)',
+            'name' => '澤田 哲理',
             'email' => 'tetsu707@outlook.com',
             'password' => Hash::make('password'),
         ]);
