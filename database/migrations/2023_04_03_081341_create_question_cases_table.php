@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('topic');
             $table->text('text');
             $table->boolean('is_request')->default('0');
+            $table->boolean('is_remand')->default('0');
             $table->boolean('is_approve')->default('0');
             $table->timestamps();
         });
