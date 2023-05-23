@@ -16,6 +16,8 @@ return new class extends Migration
             $table->integer('user_id')->nullable(true);
             $table->integer('category_id');
             $table->text('topic');
+            $table->integer('compitency');
+            $table->text('user_name');
             $table->text('text');
             $table->text('correct_choice');
             $table->text('wrong_choice_1');
@@ -23,6 +25,7 @@ return new class extends Migration
             $table->text('wrong_choice_3');
             $table->text('explanation');
             $table->boolean('is_request')->default('0');
+            $table->boolean('is_remand')->default('0');
             $table->boolean('is_approve')->default('0');
             $table->timestamps();
         });

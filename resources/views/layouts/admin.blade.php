@@ -17,8 +17,8 @@
     'resources/js/userSummaryPieChart.js',
     'resources/js/categorySummaryBarChart.js'])
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/category.js?q=202205190157"></script>
-    <script type="text/javascript" src="/js/question.js?q=202205190157"></script>
+    <script type="text/javascript" src="/js/category.js?q={{ time() }}"></script>
+    <script type="text/javascript" src="/js/question.js?q={{ time() }}"></script>
 
 </head>
 <body class="font-sans antialiased">

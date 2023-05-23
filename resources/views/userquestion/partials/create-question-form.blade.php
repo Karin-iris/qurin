@@ -24,17 +24,17 @@
         @method('post')
 
         <div>
-            <x-input-label for="code" :value="__('categories.category_p')"/>
+            <x-input-label for="primary_id" :value="__('categories.category_p')"/>
             <x-categories.select-primary-categories name="primary_id"
                                                     class="mt-1 block w-full" autofocus
                                                     autocomplete="primary_id"
                                                     :value="old('primary_id')" :options="$p_categories"/>
-            <x-input-label for="code" :value="__('categories.category_s')"/>
+            <x-input-label for="secondary_id" :value="__('categories.category_s')"/>
             <x-categories.select-secondary-categories name="secondary_id"
                                                       class="mt-1 block w-full" autofocus
                                                       autocomplete="secondary_id"
                                                       :value="old('secondary_id')" :options="$s_categories" />
-            <x-input-label for="code" :value="__('categories.category')"/>
+            <x-input-label for="category_id" :value="__('categories.category')"/>
             <x-categories.select-categories name="category_id"
                                             class="mt-1 block w-full" autofocus
                                             autocomplete="category_id"
@@ -42,6 +42,22 @@
             <x-input-error class="mt-2" :messages="$errors->get('primary_id')" />
             <x-input-error class="mt-2" :messages="$errors->get('secondary_id')" />
             <x-input-error class="mt-2" :messages="$errors->get('category_id')" />
+        </div>
+
+        <div>
+            <x-input-label for="compitency" :value="__('questions.compitency')"/>
+            <x-questions.select-compitencies name="compitency"
+                                            class="mt-1 block w-full" autofocus
+                                            autocomplete="compitency"
+                                            :value="old('compitency')" />
+            <x-input-error class="mt-2" :messages="$errors->get('compitency')" />
+        </div>
+
+        <div>
+            <x-input-label for="user_name" :value="__('questions.user_name')"/>
+            <x-questions.text-users id="user_name" name="user_name" type="text" class="mt-1 block w-full" autofocus
+                          autocomplete="user_name" :value="old('user_name', Auth::user()->name )" />
+            <x-input-error class="mt-2" :messages="$errors->get('user_name')" />
         </div>
 
         <div>
@@ -100,13 +116,14 @@
             <x-input-error class="mt-2" :messages="$errors->get('name')"/>
         </div>
         <input type="hidden" name="is_request" value="0">
+        <input type="hidden" name="is_remand" value="0">
         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
 
-        <x-primary-button class="ml-3" onClick="resetRequestValue();">
+        <x-primary-button class="ml-3" onClick="resetRequestValue();resetRemandValue();">
             {{ __('TemporarySave') }}
         </x-primary-button>
 
-        <x-danger-button class="ml-3" onClick="changeRequestValue();return confirm('レビュー依頼送信後は編集できません。よろしいでしょうか。')">
+        <x-danger-button class="ml-3" onClick="changeRequestValue();resetRemandValue();return confirm('レビュー依頼送信後は編集できません。よろしいでしょうか。')">
             {{ __('SubmitReview') }}
         </x-danger-button>
     </form>

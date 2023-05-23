@@ -33,10 +33,13 @@ class QuestionUseCase extends UseCase
             'p.code as p_c_code',
             's.code as s_c_code',
             'c.code as c_code',
+            'q.user_name as user_name',
+            'q.compitency as compitency',
             'q.topic as topic',
             'q.id as id',
             'q.is_request as is_request',
             'q.is_approve as is_approve',
+            'q.is_remand as is_remand',
             'q.created_at as created_at',
             'q.updated_at as updated_at',
         ];
@@ -49,9 +52,10 @@ class QuestionUseCase extends UseCase
             'c.code as c_code',
             'q.topic as topic',
             'q.id as id',
-            'u.name as user_name',
+            'q.user_name as user_name',
             'q.is_request as is_request',
             'q.is_approve as is_approve',
+            'q.is_remand as is_remand',
             'q.created_at as created_at',
             'q.updated_at as updated_at',
         ];
@@ -63,12 +67,15 @@ class QuestionUseCase extends UseCase
             's.id as s_c_id',
             'c.id as c_id',
             'q.topic as topic',
+            'q.user_name as user_name',
+            'q.compitency as compitency',
             'q.id as id',
             'q.text as text',
             'q.correct_choice as correct_choice',
             'q.wrong_choice_1 as wrong_choice_1',
             'q.wrong_choice_2 as wrong_choice_2',
             'q.wrong_choice_3 as wrong_choice_3',
+            'q.is_remand as is_remand',
             'q.created_at as created_at',
             'q.updated_at as updated_at',
             'q.explanation as explanation'
@@ -123,13 +130,13 @@ class QuestionUseCase extends UseCase
             ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
             ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
             ->leftJoin('users as u', 'u.id', '=', 'q.user_id')
-            ->Where('is_request', '1')->orWhere('is_approve', '1')->get();
+            ->Where('is_request', '1')->orWhere('is_approve', '1')->orWhere('is_remand', '1')->get();
     }
 
     function getQuestionCases()
     {
         $question_cases = $this->question_case
-            ->Where('is_request', '1')->orWhere('is_approve', '1')->get();
+            ->Where('is_request', '1')->orWhere('is_approve', '1')->orWhere('is_remand', '1')->get();
         return $question_cases;
     }
 
@@ -180,6 +187,8 @@ class QuestionUseCase extends UseCase
     {
         $this->question->fill([
             'topic' => $request->input('topic'),
+            'compitency' => $request->input('compitency'),
+            'user_name' => $request->input('user_name'),
             'text' => $request->input('text'),
             'category_id' => $request->input('category_id'),
             'correct_choice' => $request->input('correct_choice'),
@@ -188,6 +197,7 @@ class QuestionUseCase extends UseCase
             'wrong_choice_3' => $request->input('wrong_choice_3'),
             'explanation' => $request->input('explanation'),
             'is_request' => $request->input('is_request'),
+            'is_remand' => $request->input('is_remand'),
             'user_id' => Auth::user()->id
         ])->save();
         /*if($request->input('is_request') === "1"){
@@ -207,11 +217,13 @@ class QuestionUseCase extends UseCase
         ])->save();
     }
 
-    function updateQuestion(QuestionRequest $request, int $id): void
+    function updateQuestion(QuestionRequest $request, int $id): string
     {
         $this->question->find($id)->fill([
             'topic' => $request->input('topic'),
             'text' => $request->input('text'),
+            'compitency' => $request->input('compitency'),
+            'user_name' => $request->input('user_name'),
             'correct_choice' => $request->input('correct_choice'),
             'wrong_choice_1' => $request->input('wrong_choice_1'),
             'wrong_choice_2' => $request->input('wrong_choice_2'),
@@ -219,13 +231,16 @@ class QuestionUseCase extends UseCase
             'explanation' => $request->input('explanation'),
             'is_request' => $request->input('is_request'),
             'is_approve' => $request->input('is_approve'),
+            'is_remand' => $request->input('is_remand'),
         ])->save();
-        /*if ($request->input('is_approve') === "1") {
-            $this->sendApprovalMail($request);
+        $status = "saved";
+        if ($request->input('is_approve') === "1") {
+            $status = "approved";
         }
         if ($request->input('is_approve') === "0" && $request->input('is_request') === "0") {
-            $this->sendRemandMail($request);
-        }*/
+            $status = "remand";
+        }
+        return $status;
     }
 
     function updateUserQuestion(QuestionRequest $request, int $id): void
@@ -233,12 +248,15 @@ class QuestionUseCase extends UseCase
         $this->question->find($id)->fill([
             'topic' => $request->input('topic'),
             'text' => $request->input('text'),
+            'compitency' => $request->input('compitency'),
+            'user_name' => $request->input('user_name'),
             'correct_choice' => $request->input('correct_choice'),
             'wrong_choice_1' => $request->input('wrong_choice_1'),
             'wrong_choice_2' => $request->input('wrong_choice_2'),
             'wrong_choice_3' => $request->input('wrong_choice_3'),
             'explanation' => $request->input('explanation'),
             'is_request' => $request->input('is_request'),
+            'is_remand' => $request->input('is_remand'),
             'user_id' => Auth::user()->id
         ])->save();
     }

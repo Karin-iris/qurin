@@ -20,6 +20,8 @@ class Question extends Model
     protected $fillable = [
         'text',
         'topic',
+        'compitency',
+        'user_name',
         'category_id',
         'correct_choice',
         'wrong_choice_1',
@@ -28,6 +30,7 @@ class Question extends Model
         'explanation',
         'is_request',
         'is_approve',
+        'is_remand',
         'user_id',
     ];
 

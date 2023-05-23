@@ -10,3 +10,9 @@ function changeApproveValue(){
 function resetApproveValue(){
     $('input:hidden[name="is_approve"]').val(0);
 }
+function changeRemandValue(){
+    $('input:hidden[name="is_remand"]').val(1);
+}
+function resetRemandValue(){
+    $('input:hidden[name="is_remand"]').val(0);
+}

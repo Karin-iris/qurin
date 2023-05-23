@@ -26,6 +26,21 @@
             <p>{{$question->c_name}}</p>
 
         </div>
+        <div>
+            <x-input-label for="compitency" :value="__('questions.compitency')"/>
+            <x-questions.select-compitencies name="compitency"
+                                             class="mt-1 block w-full" autofocus
+                                             autocomplete="compitency"
+                                             :value="old('compitency',$question->compitency)" />
+            <x-input-error class="mt-2" :messages="$errors->get('compitency')" />
+        </div>
+
+        <div>
+            <x-input-label for="user_name" :value="__('questions.user_name')"/>
+            <x-questions.text-users id="user_name" name="user_name" type="text" class="mt-1 block w-full" autofocus
+                                    autocomplete="user_name" :value="old('user_name',$question->user_name)" />
+            <x-input-error class="mt-2" :messages="$errors->get('user_name')" />
+        </div>
 
         <div>
             <x-input-label for="name" :value="__('questions.topic')"/>
@@ -89,16 +104,18 @@
 
         <input type="hidden" name="is_request" value="1">
         <input type="hidden" name="is_approve" value="0">
+        <input type="hidden" name="is_remand" value="{{old('is_remand', $question->is_remand)}}">
+
 
         <x-primary-button class="ml-3">
             {{ __('TemporarySave') }}
         </x-primary-button>
 
-        <x-primary-button class="ml-3" onClick="resetRequestValue();resetApproveValue();">
+        <x-primary-button class="ml-3" onClick="resetRequestValue();resetApproveValue();changeRemandValue()">
             {{ __('SaveAndRemand') }}
         </x-primary-button>
 
-        <x-danger-button class="ml-3" onClick="resetRequestValue();changeApproveValue();">
+        <x-danger-button class="ml-3" onClick="resetRequestValue();changeApproveValue();resetRemandValue()">
             {{ __('Approve') }}
         </x-danger-button>
     </form>

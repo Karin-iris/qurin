@@ -34,6 +34,22 @@
         </div>
 
         <div>
+            <x-input-label for="compitency" :value="__('questions.compitency')"/>
+            <x-questions.select-compitencies name="compitency"
+                                             class="mt-1 block w-full" autofocus
+                                             autocomplete="compitency"
+                                             :value="old('compitency',$user_question->compitency)" />
+            <x-input-error class="mt-2" :messages="$errors->get('compitency')" />
+        </div>
+
+        <div>
+            <x-input-label for="user_name" :value="__('questions.user_name')"/>
+            <x-questions.text-users id="user_name" name="user_name" type="text" class="mt-1 block w-full" autofocus
+                                    autocomplete="user_name" :value="old('user_name',$user_question->user_name, Auth::user()->name )" />
+            <x-input-error class="mt-2" :messages="$errors->get('user_name')" />
+        </div>
+
+        <div>
             <x-input-label for="name" :value="__('questions.topic')"/>
             <x-text-input id="topic" name="topic" type="text" class="mt-1 block w-full" autofocus
                           autocomplete="topic" :value="old('topic',$user_question->topic)"/>
@@ -103,12 +119,13 @@
 
         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
         <input type="hidden" name="is_request" value="0">
+        <input type="hidden" name="is_remand" value="{{old('is_remand', $user_question->is_remand)}}">
 
-        <x-primary-button class="ml-3" onClick="resetRequestValue();">
+        <x-primary-button class="ml-3" onClick="resetRequestValue();resetRemandValue();">
             {{ __('TemporarySave') }}
         </x-primary-button>
 
-        <x-danger-button class="ml-3" onClick="changeRequestValue();return confirm('レビュー依頼送信後は編集できません。よろしいでしょうか。')">
+        <x-danger-button class="ml-3" onClick="changeRequestValue();resetRemandValue();return confirm('レビュー依頼送信後は編集できません。よろしいでしょうか。')">
             {{ __('SubmitReview') }}
         </x-danger-button>
     </form>

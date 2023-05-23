@@ -19,6 +19,8 @@ class QuestionRequest extends FormRequest
             'category_id' => ['integer'],
             'topic' => ['string', 'max:255'],
             'text' => ['string'],
+            'compitency' => ['string'],
+            'user_name' => ['string'],
             'correct_choice' => ['string'],
             'wrong_choice_1' => ['string'],
             'wrong_choice_2' => ['string'],

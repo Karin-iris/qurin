@@ -5,6 +5,8 @@
         </h2>
     </x-slot>
 
+
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
@@ -18,6 +20,19 @@
                             {{ __('questions.list_explain') }}
                         </p>
                     </header>
+                    @if (session('status') === 'approved')
+                        <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                            <span class="font-medium">問題を認証しました。</span>
+                        </div>
+                    @elseif (session('status') === 'remand')
+                        <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                            <span class="font-medium">問題を差し戻しました。</span>
+                        </div>
+                    @elseif(session('status') === 'saved')
+                        <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                            <span class="font-medium">問題を一時保存しました。</span>
+                        </div>
+                    @endif
                     {{--
                     <button type="button"
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
@@ -39,12 +54,12 @@
                             <th>作成者</th>
                             <th>作成時間<br>更新時間</th>
                             <th>編集</th>
-                            
+
                         </tr>
                         </thead>
                         <tbody class="text-md">
                         @foreach($questions as $question)
-                            <tr class="border-b border-gray-500 text-sm @if($question->is_approve == 1) bg-red-50 @elseif($question->is_request == 1) bg-blue-50 @else bg-white @endif">
+                            <tr class="border-b border-gray-500 text-sm @if($question->is_request == 1)bg-blue-50 @elseif($question->is_remand == 1)bg-yellow-50 @elseif($question->is_approve == 1)bg-red-50 @else bg-white @endif">
                                 <td>[{{$question->p_c_code}}]{{ mb_substr($question->p_c_name,0,20)}}</td>
                                 <td>[{{$question->s_c_code}}]{{ mb_substr($question->s_c_name,0,20)}}</td>
                                 <td>[{{$question->c_code}}]{{ mb_substr($question->c_name,0,20)}}</td>

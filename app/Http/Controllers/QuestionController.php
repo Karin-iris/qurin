@@ -99,14 +99,14 @@ class QuestionController extends Controller
     public function update(QuestionRequest $request, string $id)
     {
 
-        $this->questionUC->updateQuestion($request, $id);
-        return Redirect::route('question.edit', $id)->with('question', 'saved');////
+        $status = $this->questionUC->updateQuestion($request, $id);
+        return Redirect::route('question.index')->with('status', $status);////
     }
 
     public function update_c(QuestionCaseRequest $request, int $id): RedirectResponse
     {
         $this->questionUC->updateQuestionCase($request, $id);
-        return Redirect::route('question.edit_c', $id)->with('status', 'question-updated');
+        return Redirect::route('question.edit_c')->with('status', 'question-updated');
     }
 
     /**

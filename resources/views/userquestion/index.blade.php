@@ -40,7 +40,7 @@
                         </thead>
                         <tbody class="text-md">
                         @foreach($user_questions as $user_question)
-                            <tr class="border-b border-gray-500 text-sm @if($user_question->is_approve == 1) bg-red-50 @elseif($user_question->is_request == 1) bg-blue-50 @else bg-white @endif">
+                            <tr class="border-b border-gray-500 text-sm @if($user_question->is_request == 1) bg-blue-50 @elseif($user_question->is_remand == 1) bg-yellow-50 @elseif($user_question->is_approve == 1) bg-red-50 @else bg-white @endif">
                                 <td>[{{$user_question->p_c_code}}]{{ mb_substr($user_question->p_c_name,0,20)}}</td>
                                 <td>[{{$user_question->s_c_code}}]{{ mb_substr($user_question->s_c_name,0,20)}}</td>
                                 <td>[{{$user_question->c_code}}]{{ mb_substr($user_question->c_name,0,20)}}</td>
