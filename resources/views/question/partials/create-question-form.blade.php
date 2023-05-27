@@ -46,8 +46,8 @@
         <div>
             <x-input-label for="text" :value="__('questions.text')"/>
             <x-textarea cols="30" rows="4" id="text" name="text" class="mt-1 block w-full" required autofocus
-                        autocomplete="name">{{old('explanation')}}</x-textarea>
-            <x-input-error class="mt-2" :messages="$errors->get('name')"/>
+                        autocomplete="name">{{old('text')}}</x-textarea>
+            <x-input-error class="mt-2" :messages="$errors->get('text')"/>
         </div>
 
         <div>
