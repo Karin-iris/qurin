@@ -177,13 +177,13 @@ class QuestionController extends Controller
                     '',
                     '',
                     'true',
-                    str_replace(array("\r\n", "\r", "\n"), $question->correct_choice),
+                    str_replace(array("\r\n", "\r", "\n"),'', $question->correct_choice),
                     'true',
-                    str_replace(array("\r\n", "\r", "\n"),$question->wrong_choice_1),
+                    str_replace(array("\r\n", "\r", "\n"),'',$question->wrong_choice_1),
                     'false',
-                    str_replace(array("\r\n", "\r", "\n"),$question->wrong_choice_2),
+                    str_replace(array("\r\n", "\r", "\n"),'',$question->wrong_choice_2),
                     'false',
-                    str_replace(array("\r\n", "\r", "\n"),$question->wrong_choice_3),
+                    str_replace(array("\r\n", "\r", "\n"),'',$question->wrong_choice_3),
                     'false'
                 ];
 
