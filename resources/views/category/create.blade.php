@@ -14,29 +14,6 @@
             </div>
         </div>
     </div>
-    <script>
-        function pCategoryChange(){
-            var p_id = $('#pCategorySelect').val();
-            $("#sCategorySelect option").remove();
-            $.ajax({
-                type: "GET",
-                url: "/api/category/get_secondaries/" + p_id,
-                dataType : "json"
-            }).done(function(data){
-                str = "";
-
-                $.map(data,function(index, element) {
-                    $('#sCategorySelect').append("<option value=" + element + ">" + index + "</option>");
-                });
-
-
-
-            }).fail(function(XMLHttpRequest, textStatus, error){
-                alert("エラーが発生しました。");
-            });
-        }
-
-    </script>
-</x-admin-layout>
+    </x-admin-layout>
 
 
