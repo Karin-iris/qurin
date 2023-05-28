@@ -111,7 +111,7 @@
 
         <div>
             <x-input-label for="explanation" :value="__('questions.explanation')"/>
-            <x-textarea cols="30" rows="4" id="explanation" name="explanation" class="mt-1 block w-full" required
+            <x-textarea cols="30" rows="8" id="explanation" name="explanation" class="mt-1 block w-full" required
                         autofocus
                         autocomplete="explanation">{{old('explanation',$user_question->explanation)}}</x-textarea>
             <x-input-error class="mt-2" :messages="$errors->get('explanation')"/>
