@@ -8,6 +8,15 @@ use Illuminate\Validation\Rule;
 
 class QuestionRequest extends FormRequest
 {
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'correct_choice' => str_replace(array("\r\n", "\r", "\n"), '',$this['correct_choice']),
+            'wrong_choice_1' => str_replace(array("\r\n", "\r", "\n"), '', $this['wrong_choice_1']),
+            'wrong_choice_2' => str_replace(array("\r\n", "\r", "\n"), '', $this['wrong_choice_2']),
+            'wrong_choice_3' => str_replace(array("\r\n", "\r", "\n"), '', $this['wrong_choice_3']),
+        ]);
+    }
     /**
      * Get the validation rules that apply to the request.
      *
