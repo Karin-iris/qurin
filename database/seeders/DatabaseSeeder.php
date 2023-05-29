@@ -113,38 +113,44 @@ class DatabaseSeeder extends Seeder
         CategoryPrimary::factory()->create([
             'name' => "コンプライアンス",
             'code' => "CP",
-            'order' => 7
+            'order' => 8
         ]);
 
         CategoryPrimary::factory()->create([
             'name' => "スマートフォン",
             'code' => "SP",
-            'order' => 8
+            'order' => 9
         ]);
         CategoryPrimary::factory()->create([
             'name' => "パーソナルコンピューター",
             'code' => "PC",
-            'order' => 9
+            'order' => 10
         ]);
         CategoryPrimary::factory()->create([
             'name' => "デジタルガジェット",
             'code' => "DG",
-            'order' => 10
+            'order' => 11
         ]);
         CategoryPrimary::factory()->create([
             'name' => "デジタルライフ",
             'code' => "DL",
-            'order' => 11
+            'order' => 12
         ]);
         CategoryPrimary::factory()->create([
             'name' => "デジタル資産と教養",
             'code' => "DE",
-            'order' => 12
+            'order' => 13
         ]);
         CategoryPrimary::factory()->create([
             'name' => "デジタルシチズンシップ",
             'code' => "DC",
-            'order' => 13
+            'order' => 14
+        ]);
+        CategoryPrimary::factory()->create([
+            'id' => 15,
+            'name' => "DLPの職業観",
+            'code' => "DW",
+            'order' => 7
         ]);
         CategorySecondary::factory()->create([
             'name' => "信頼関係の構築",
@@ -477,6 +483,13 @@ class DatabaseSeeder extends Seeder
             'code' => "07",
             'primary_id' => 13,
             'order' => 7
+        ]);
+        CategorySecondary::factory()->create([
+            'id' => 56,
+            'name' => "デジタルライフプランナーとは",
+            'code' => "01",
+            'primary_id' => 15,
+            'order' => 1
         ]);
 
 
@@ -1518,6 +1531,27 @@ class DatabaseSeeder extends Seeder
             'name' => "ヘイトスピーチ",
             'code' => "03",
             'secondary_id' => 55,
+            'order' => 3
+        ]);
+        Category::factory()->create([
+            'id' => "174",
+            'name' => "職業と職域",
+            'code' => "01",
+            'secondary_id' => 56,
+            'order' => 1
+        ]);
+        Category::factory()->create([
+            'id' => "175",
+            'name' => "ビジネスモデル",
+            'code' => "02",
+            'secondary_id' => 56,
+            'order' => 2
+        ]);
+        Category::factory()->create([
+            'id' => "176",
+            'name' => "キャリアパス",
+            'code' => "03",
+            'secondary_id' => 56,
             'order' => 3
         ]);
     }

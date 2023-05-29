@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('category_id');
             $table->text('topic');
             $table->integer('compitency');
+            $table->string('quiz_id');
             $table->text('user_name');
             $table->text('text');
             $table->text('correct_choice');
