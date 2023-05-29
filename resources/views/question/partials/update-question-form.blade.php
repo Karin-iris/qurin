@@ -55,14 +55,21 @@
         </div>
 
         <div>
-            <x-input-label for="name" :value="__('questions.topic')"/>
-            <x-text-input id="name" name="topic" type="text" class="mt-1 block w-full" autofocus
+            <x-input-label for="topic" :value="__('questions.topic')"/>
+            <x-text-input id="topic" name="topic" type="text" class="mt-1 block w-full" autofocus
                           autocomplete="topic" :value="old('topic', $question->topic)" />
             <x-input-error class="mt-2" :messages="$errors->get('topic')"/>
         </div>
 
         <div>
-            <x-input-label for="name" :value="__('questions.text')"/>
+            <x-input-label for="quiz_id" :value="__('questions.quiz_id')"/>
+            <x-text-input id="quiz_id" name="quiz_id" type="text" class="mt-1 block w-full" autofocus
+                          autocomplete="topic" :value="old('quiz_id', $question->quiz_id)" />
+            <x-input-error class="mt-2" :messages="$errors->get('quiz_id')"/>
+        </div>
+
+        <div>
+            <x-input-label for="text" :value="__('questions.text')"/>
             <x-textarea cols="30" rows="4" id="text" name="text" class="mt-1 block w-full" required autofocus
                         autocomplete="text">{{old('text', $question->text)}}</x-textarea>
             <x-input-error class="mt-2" :messages="$errors->get('text')"/>
