@@ -81,10 +81,9 @@ Route::middleware('auth:admin')->group(function () {
         Route::post('/category/p_add', 'store_p')->name('category.store_p');
         Route::get('/category/s_add', 'create_s')->name('category.create_s');
         Route::post('/category/s_add', 'store_s')->name('category.store_s');
-        Route::post('/category/del', 'destroy')->name('category.destroy');
-        Route::post('/category/p_del', 'destroy_p')->name('category.destroy_p');
-        Route::post('/category/s_del', 'destroy_s')->name('category.destroy_s');
-        Route::delete('/category', [CategoryController::class, 'destroy'])->name('category.destroy');
+        Route::delete('/category/del/{id}', 'destroy')->name('category.destroy');
+        Route::delete('/category/p_del/{id}', 'destroy_p')->name('category.destroy_p');
+        Route::delete('/category/s_del/{id}', 'destroy_s')->name('category.destroy_s');
     });
     Route::controller(UserController::class)->group(function () {
         Route::get('/user', 'index')->name('user.index');

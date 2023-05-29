@@ -13,9 +13,9 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('category.store_p') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('category.update_p',$p_category->p_id) }}" class="mt-6 space-y-6">
         @csrf
-        @method('post')
+        @method('put')
         <div>
             <x-input-label for="code" :value="__('categories.code')"/>
             <p class="mt-1 text-sm text-gray-600">
@@ -37,6 +37,7 @@
         </div>
 
         <input type="hidden" name="order" value="1">
+        <input type="hidden" name="id" value="{{$p_category->p_id}}">
 
         @if (session('status') === 'updated')
             <p

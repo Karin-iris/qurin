@@ -18,12 +18,24 @@
         @method('put')
 
         <div>
-            <x-input-label for="code" :value="__('categories.category_p')"/>
-            <p>{{$question->p_c_name}}</p>
-            <x-input-label for="code" :value="__('categories.category_s')"/>
-            <p>{{$question->s_c_name}}</p>
-            <x-input-label for="code" :value="__('categories.category')"/>
-            <p>{{$question->c_name}}</p>
+            <x-input-label for="primary_id" :value="__('categories.category_p')"/>
+            <x-categories.select-primary-categories name="primary_id"
+                                                    class="mt-1 block w-full" autofocus
+                                                    autocomplete="primary_id"
+                                                    :value="old('primary_id',$question->p_c_id)" :options="$p_categories"/>
+            <x-input-label for="secondary_id" :value="__('categories.category_s')"/>
+            <x-categories.select-secondary-categories name="secondary_id"
+                                                      class="mt-1 block w-full" autofocus
+                                                      autocomplete="secondary_id"
+                                                      :value="old('secondary_id',$question->s_c_id)" :options="$s_categories" />
+            <x-input-label for="category_id" :value="__('categories.category')"/>
+            <x-categories.select-categories name="category_id"
+                                            class="mt-1 block w-full" autofocus
+                                            autocomplete="category_id"
+                                            :value="old('category_id',$question->c_id)" :options="$categories" />
+            <x-input-error class="mt-2" :messages="$errors->get('primary_id')" />
+            <x-input-error class="mt-2" :messages="$errors->get('secondary_id')" />
+            <x-input-error class="mt-2" :messages="$errors->get('category_id')" />
 
         </div>
         <div>

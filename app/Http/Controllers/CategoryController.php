@@ -147,16 +147,16 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         $this->categoryUC->delCategory($id);
-        //
+        return Redirect::route('category.index')->with('status', 'deleted');
     }
     public function destroy_p(string $id)
     {
         $this->categoryUC->delPrimaryCategory($id);
-        //
+        return Redirect::route('category.index')->with('status', 'deleted');
     }
     public function destroy_s(string $id)
     {
         $this->categoryUC->delSecondaryCategory($id);
-        //
+        return Redirect::route('category.index')->with('status', 'deleted');
     }
 }

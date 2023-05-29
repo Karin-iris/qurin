@@ -47,6 +47,7 @@
 
         <input type="hidden" name="secondary_id" value="1">
         <input type="hidden" name="order" value="1">
+        <input type="hidden" name="id" value="{{$category->id}}">
 
         <x-secondary-button x-on:click="$dispatch('close')">
             {{ __('Cancel') }}

@@ -17,7 +17,10 @@ class CategorySecondaryRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'code' => 'required|regex:/^[0-9]{2}$/',
+            'code' => ['required','regex:/^[0-9]{2}$/'
+                ,Rule::unique('secondary_categories')
+                    ->ignore($this->code)
+                    ->where('primary_id', $this->primary_id)],
             'order' => 'required|integer',
         ];
     }

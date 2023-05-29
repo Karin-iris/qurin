@@ -1,5 +1,7 @@
 function pCategoryChange() {
     var p_id = $('#pCategorySelect').val();
+    var s_id = $('#sCategorySelect').val();
+    alert(s_id);
     if(p_id) {
         $("#sCategorySelect option").remove();
         $.ajax({
@@ -11,10 +13,14 @@ function pCategoryChange() {
 
             $.map(data, function (element, index) {
                 var selected = '';
-                if(index == 0){
+                if(s_id == element.id){
+                    selected = ' selected';
+                    selectValue = element.id;
+                }else if(!s_id &&index == 0){
                     selected = ' selected';
                     selectValue = element.id;
                 }
+
                 $('#sCategorySelect').append("<option value=" + element.id + "" + selected + ">" + "[" + element.code + "]" + element.name + "</option>");
             });
             sCategoryChange(selectValue);
@@ -28,6 +34,8 @@ function sCategoryChange(s_id = '') {
     if(s_id == ''){
         s_id = $('#sCategorySelect').val();
     }
+    var c_id = $('#categorySelect').val();
+    alert(c_id)
     if(s_id != ''){
         $("#categorySelect option").remove();
         $.ajax({
@@ -38,7 +46,13 @@ function sCategoryChange(s_id = '') {
             str = "";
 
             $.map(data, function (element, index) {
-                $('#categorySelect').append("<option value=" + element.id + ">" + "[" + element.code + "]" + element.name + "</option>");
+                var selected = '';
+                if(c_id == element.id){
+                    selected = ' selected';
+                }else if(!c_id && index == 0){
+                    selected = ' selected';
+                }
+                $('#categorySelect').append("<option value=" + element.id + "" + selected + ">" + "[" + element.code + "]" + element.name + "</option>");
             });
         }).fail(function (XMLHttpRequest, textStatus, error) {
             alert("エラーが発生しました。");

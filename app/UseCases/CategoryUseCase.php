@@ -84,7 +84,8 @@ class CategoryUseCase extends UseCase
         return $this->category_secondary
             ->select([
                 'id',
-                'name'
+                'name',
+                'code'
             ])
             ->from('secondary_categories')
             ->get();
@@ -211,9 +212,9 @@ class CategoryUseCase extends UseCase
         ])->save();
     }
 
-    function updateSecondaryCategory(CategoryRequest $request, int $id)
+    function updateSecondaryCategory(CategorySecondaryRequest $request, int $id)
     {
-        $this->category->find($id)->fill([
+        $this->category_secondary->find($id)->fill([
             'name' => $request->input('name'),
             'code' => $request->input('code'),
             'primary_id' => $request->input('primary_id')
@@ -228,19 +229,19 @@ class CategoryUseCase extends UseCase
         ])->save();
     }
 
-    function delCategory()
+    function delCategory($id)
     {
-
+        $this->category->find($id)->delete();
     }
 
-    function delPrimaryCategory()
+    function delPrimaryCategory($id)
     {
-
+        $this->category_primary->find($id)->delete();
     }
 
-    function delSecondaryCategory()
+    function delSecondaryCategory($id)
     {
-
+        $this->category_secondary->find($id)->delete();
     }
 
 }

@@ -13,9 +13,9 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('category.store_s') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('category.update_s',$s_category->s_id) }}" class="mt-6 space-y-6">
         @csrf
-        @method('post')
+        @method('put')
 
         <div>
             <x-input-label for="code" :value="__('categories.category_p')"/>
@@ -48,6 +48,7 @@
         </div>
 
         <input type="hidden" name="order" value="1">
+        <input type="hidden" name="id" value="{{$s_category->s_id}}">
 
         <x-secondary-button x-on:click="$dispatch('close')">
             {{ __('Cancel') }}
