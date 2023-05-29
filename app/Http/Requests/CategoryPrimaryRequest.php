@@ -16,9 +16,9 @@ class CategoryPrimaryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['string', 'max:255'],
-            'code' => ['regex:/^[A-Z]{2}$/'],
-            'order' => ['integer'],
+            'name' => 'required|string|max:255',
+            'code' => 'required|regex:/^[A-Z]{2}$/',
+            'order' => 'required|integer',
         ];
     }
 }
