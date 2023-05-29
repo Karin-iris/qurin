@@ -16,6 +16,8 @@ class QuestionRequest extends FormRequest
             'wrong_choice_2' => str_replace(array("\r\n", "\r", "\n"), '', $this['wrong_choice_2']),
             'wrong_choice_3' => str_replace(array("\r\n", "\r", "\n"), '', $this['wrong_choice_3']),
         ]);
+        if(empty($this['topic']))$this->merge(['topic' =>'']);
+        if(empty($this['explanation']))$this->merge(['explanation' =>'']);
     }
     /**
      * Get the validation rules that apply to the request.
@@ -25,17 +27,17 @@ class QuestionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category_id' => ['integer'],
-            'text' => ['string'],
-            'compitency' => ['string'],
-            'user_name' => ['string'],
-            'correct_choice' => ['string'],
-            'wrong_choice_1' => ['string'],
-            'wrong_choice_2' => ['string'],
-            'wrong_choice_3' => ['string'],
-            'is_request' => ['boolean'],
-            'is_approve' => ['boolean'],
-            'user_id' => ['integer'],
+            'category_id' => 'integer',
+            'text' => 'required|string',
+            'compitency' => 'string',
+            'user_name' => 'required|string',
+            'correct_choice' => 'required|string',
+            'wrong_choice_1' => 'required|string',
+            'wrong_choice_2' => 'required|string',
+            'wrong_choice_3' => 'required|string',
+            'is_request' => 'boolean',
+            'is_approve' => 'boolean',
+            'user_id' => 'integer',
         ];
     }
 }
