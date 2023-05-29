@@ -1,7 +1,6 @@
 function pCategoryChange() {
     var p_id = $('#pCategorySelect').val();
     var s_id = $('#sCategorySelect').val();
-    alert(s_id);
     if(p_id) {
         $("#sCategorySelect option").remove();
         $.ajax({
@@ -23,19 +22,16 @@ function pCategoryChange() {
 
                 $('#sCategorySelect').append("<option value=" + element.id + "" + selected + ">" + "[" + element.code + "]" + element.name + "</option>");
             });
-            sCategoryChange(selectValue);
+            sCategoryChange();
         }).fail(function (XMLHttpRequest, textStatus, error) {
             alert("エラーが発生しました。");
         });
     }
 }
 
-function sCategoryChange(s_id = '') {
-    if(s_id == ''){
-        s_id = $('#sCategorySelect').val();
-    }
+function sCategoryChange() {
+    var s_id = $('#sCategorySelect').val();
     var c_id = $('#categorySelect').val();
-    alert(c_id)
     if(s_id != ''){
         $("#categorySelect option").remove();
         $.ajax({

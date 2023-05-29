@@ -225,9 +225,10 @@ class QuestionUseCase extends UseCase
     {
         $this->question->find($id)->fill([
             'topic' => $request->input('topic'),
-            'text' => $request->input('text'),
             'compitency' => $request->input('compitency'),
             'user_name' => $request->input('user_name'),
+            'text' => $request->input('text'),
+            'category_id' => $request->input('category_id'),
             'correct_choice' => $request->input('correct_choice'),
             'wrong_choice_1' => $request->input('wrong_choice_1'),
             'wrong_choice_2' => $request->input('wrong_choice_2'),
@@ -251,9 +252,10 @@ class QuestionUseCase extends UseCase
     {
         $this->question->find($id)->fill([
             'topic' => $request->input('topic'),
-            'text' => $request->input('text'),
             'compitency' => $request->input('compitency'),
             'user_name' => $request->input('user_name'),
+            'text' => $request->input('text'),
+            'category_id' => $request->input('category_id'),
             'correct_choice' => $request->input('correct_choice'),
             'wrong_choice_1' => $request->input('wrong_choice_1'),
             'wrong_choice_2' => $request->input('wrong_choice_2'),
