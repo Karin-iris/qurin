@@ -58,7 +58,7 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         $this->categoryUC->saveCategory($request);
-        return Redirect::route('category.create')->with('category', 'saved');
+        return Redirect::route('category.index')->with('status', 'saved');
     }
 
     /**
@@ -67,7 +67,7 @@ class CategoryController extends Controller
     public function store_p(CategoryPrimaryRequest $request)
     {
         $this->categoryUC->savePrimaryCategory($request);
-        return Redirect::route('category.create_p')->with('category', 'saved');
+        return Redirect::route('category.index')->with('status', 'saved');
     }
 
 
@@ -77,7 +77,7 @@ class CategoryController extends Controller
     public function store_s(CategorySecondaryRequest $request)
     {
         $this->categoryUC->saveSecondaryCategory($request);
-        return Redirect::route('category.create_s')->with('category', 'saved');
+        return Redirect::route('category.index')->with('status', 'saved');
     }
 
     /**
@@ -127,19 +127,19 @@ class CategoryController extends Controller
     {
         //$this->categoryUC->updateCategoryOrder(100, $id);
         $this->categoryUC->updateCategory($request, $id);
-        return Redirect::route('category.edit', $id)->with('category', 'updated');//
+        return Redirect::route('category.index')->with('status', 'updated');//
     }
     public function update_p(CategoryPrimaryRequest $request, string $id)
     {
         //$this->categoryUC->updateCategoryOrder(100, $id);
         $this->categoryUC->updatePrimaryCategory($request, $id);
-        return Redirect::route('category.edit', $id)->with('category', 'updated');//
+        return Redirect::route('category.index')->with('status', 'updated');//
     }
     public function update_s(CategorySecondaryRequest $request, string $id)
     {
         //$this->categoryUC->updateCategoryOrder(100, $id);
         $this->categoryUC->updateSecondaryCategory($request, $id);
-        return Redirect::route('category.edit', $id)->with('category', 'updated');//
+        return Redirect::route('category.index')->with('status', 'updated');//
     }
     /**
      * Remove the specified resource from storage.

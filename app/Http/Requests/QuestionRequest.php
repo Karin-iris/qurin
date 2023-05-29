@@ -26,7 +26,6 @@ class QuestionRequest extends FormRequest
     {
         return [
             'category_id' => ['integer'],
-            'topic' => ['string', 'max:255'],
             'text' => ['string'],
             'compitency' => ['string'],
             'user_name' => ['string'],
