@@ -136,6 +136,28 @@ class QuestionUseCase extends UseCase
             ->Where('is_request', '1')->orWhere('is_approve', '1')->orWhere('is_remand', '1')->get();
     }
 
+    function getQuestionExports()
+    {
+        return $this->question->select(
+            [
+                'p.code as p_c_code',
+                's.code as s_c_code',
+                'c.code as c_code',
+                'q.id as id',
+                'q.quiz_id as quiz_id',
+                'q.text as text',
+                'q.correct_choice as correct_choice',
+                'q.wrong_choice_1 as wrong_choice_1',
+                'q.wrong_choice_2 as wrong_choice_2',
+                'q.wrong_choice_3 as wrong_choice_3'
+            ]
+        )->from('questions as q')
+            ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
+            ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
+            ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
+            ->Where('is_approve', '1')->get();
+    }
+
     function getQuestionCases()
     {
         $question_cases = $this->question_case

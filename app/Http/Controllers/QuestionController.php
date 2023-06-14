@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\QuestionCaseRequest;
 use App\Http\Requests\QuestionRequest;
+use App\Http\Requests\QuestionFileRequest;
 use App\UseCases\CategoryUseCase;
 use App\UseCases\QuestionUseCase;
 use Illuminate\Http\RedirectResponse;
@@ -196,5 +197,85 @@ class QuestionController extends Controller
         //return \Maatwebsite\Excel\Facades\Excel::download(\App\Models\Question::all(), 'users.xlsx');
         return response()->stream($callback, 200, $headers);
 
+    }
+    public function csv_learning(Response $response)
+    {
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename=試験問題分析用リスト.csv',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0'
+        ];
+        $callback = function () {
+            $createCsvFile = fopen('php://output', 'w');
+
+            $columns = [
+                'QurinID',
+                'QuizID',
+                '試験問題',
+                '正答選択肢',
+                '誤答選択肢１',
+                '誤答選択肢２',
+                '誤答選択肢３',
+                '大分類',
+                '中分類'
+            ];
+
+            mb_convert_variables('SJIS-win', 'UTF-8', $columns);
+
+            fputcsv($createCsvFile, $columns);
+
+            $questions = DB::table('questions');
+
+            $questionData = $this->questionUC->getQuestionExports();
+
+            foreach ($questionData as $question) {
+                $csv = [
+                    $question->id,
+                    $question->quiz_id,
+                    $question->text,
+                    str_replace(array("\r\n", "\r", "\n"),'', $question->correct_choice),
+                    str_replace(array("\r\n", "\r", "\n"),'',$question->wrong_choice_1),
+                    str_replace(array("\r\n", "\r", "\n"),'',$question->wrong_choice_2),
+                    str_replace(array("\r\n", "\r", "\n"),'',$question->wrong_choice_3),
+
+                    $question->p_c_code,
+                    $question->s_c_code
+                ];
+
+                mb_convert_variables('SJIS-win', 'UTF-8', $csv);
+
+                fputcsv($createCsvFile, $csv);
+            }
+            fclose($createCsvFile);
+        };
+        //return \Maatwebsite\Excel\Facades\Excel::download(\App\Models\Question::all(), 'users.xlsx');
+        return response()->stream($callback, 200, $headers);
+
+    }
+    function import(){
+        return view('question.import'
+        );
+    }
+    function import_csv(QuestionFileRequest $request){
+        $filepath = $request->file('import_file')->getRealPath();
+        if (($handle = fopen($filepath, "r")) !== FALSE) {
+            // ファイルポインタから行を取得
+            $num = 0;
+            while (($line = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                if($num !== 0) {
+                    $c = DB::table('questions')->select(['id'])
+                        ->where('text', $line[4])->first();
+                    if (!empty($c)) {
+                        DB::table('questions')->where('id', $c->id)->update(['quiz_id' => $line[2]]);
+                        echo "QurinID".$c->id."とQuizID".$line[2]."の紐付けに成功しました。<br>";
+                    }
+                }
+                $num++;
+            }
+            fclose($handle);
+        }
+        //var_dump($records);
     }
 }

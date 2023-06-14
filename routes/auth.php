@@ -42,6 +42,7 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+
     Route::get('verify-email', EmailVerificationPromptController::class)
                 ->name('verification.notice');
 
@@ -64,7 +65,8 @@ Route::middleware('auth')->group(function () {
                 ->name('logout');
 });
 
-Route::middleware('admin_auth')->group(function () {
+Route::middleware('auth:admin')->group(function () {
+
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
 

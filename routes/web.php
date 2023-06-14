@@ -61,6 +61,9 @@ Route::middleware('auth:admin')->group(function () {
         Route::get('/question/add', 'create')->name('question.create');
         Route::post('/question/add', 'store')->name('question.store');
         Route::get('/question/csv', 'csv')->name('question.csv');
+        Route::get('/question/csv_learning', 'csv_learning')->name('question.csv_learning');
+        Route::get('/question/import', 'import')->name('question.import');
+        Route::put('/question/import', 'import_csv')->name('question.import_csv');
         Route::get('/question/c_add', 'create_c')->name('question.create_c');
         Route::post('/question/add', 'store')->name('question.store');
         Route::post('/question/c_add', 'store_c')->name('question.store_c');
