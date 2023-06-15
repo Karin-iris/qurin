@@ -56,7 +56,7 @@
                         <thead
                             class="p-10 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr class="border-b-2 border-gray-500">
-                            <th>Qurin ID<br>Quiz ID</th>
+                            <th class="w-20">Qurin ID<br>Quiz ID</th>
                             <th>{{ __('categories.category_p')}}</th>
                             <th>{{ __('categories.category_s')}}</th>
                             <th>{{ __('categories.category')}}</th>
@@ -70,7 +70,7 @@
                         <tbody class="text-md">
                         @foreach($questions as $question)
                             <tr class="border-b border-gray-500 text-sm @if($question->is_request == 1)bg-blue-50 @elseif($question->is_remand == 1)bg-yellow-50 @elseif($question->is_approve == 1)bg-red-50 @else bg-white @endif">
-                                <td>{{$question->id}}<br>
+                                <td><strong>{{$question->id}}</strong><br>
                                 {{$question->quiz_id}}</td>
                                 <td>[{{$question->p_c_code}}]{{ mb_substr($question->p_c_name,0,20)}}</td>
                                 <td>[{{$question->s_c_code}}]{{ mb_substr($question->s_c_name,0,20)}}</td>
