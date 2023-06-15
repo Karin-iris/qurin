@@ -18,6 +18,18 @@
         @method('put')
 
         <div>
+            <x-input-label for="quiz_id" :value="__('questions.id')"/>
+            {{ $question->id }}
+        </div>
+
+        <div>
+            <x-input-label for="quiz_id" :value="__('questions.quiz_id')"/>
+            <x-text-input id="quiz_id" name="quiz_id" type="text" class="mt-1 block w-full" autofocus
+                          autocomplete="topic" :value="old('quiz_id', $question->quiz_id)" />
+            <x-input-error class="mt-2" :messages="$errors->get('quiz_id')"/>
+        </div>
+
+        <div>
             <x-input-label for="primary_id" :value="__('categories.category_p')"/>
             <x-categories.select-primary-categories name="primary_id"
                                                     class="mt-1 block w-full" autofocus
@@ -61,12 +73,7 @@
             <x-input-error class="mt-2" :messages="$errors->get('topic')"/>
         </div>
 
-        <div>
-            <x-input-label for="quiz_id" :value="__('questions.quiz_id')"/>
-            <x-text-input id="quiz_id" name="quiz_id" type="text" class="mt-1 block w-full" autofocus
-                          autocomplete="topic" :value="old('quiz_id', $question->quiz_id)" />
-            <x-input-error class="mt-2" :messages="$errors->get('quiz_id')"/>
-        </div>
+
 
         <div>
             <x-input-label for="text" :value="__('questions.text')"/>

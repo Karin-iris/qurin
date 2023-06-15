@@ -17,6 +17,8 @@
         'question_case_edit' => 'ケース問題文編集',
         'question_case_edit_message' => 'ケース問題文を編集してください。一旦レビュー依頼をすると、自分の作った問題は見られなくなります。',
         'user_name'=>'登録者名',
+        'id'=>'Qurin ID',
+        'quiz_id'=>'Quiz ID',
         'compitency'=>'コンピテンシーレベル',
         'topic'=>'問題文要約',
         'text'=>'問題文',
@@ -36,6 +38,7 @@
         'list_explain'=>'試験問題の一覧です。',
         'cases'=>'ケース問題一覧',
         'case_list_explain' => '問題文がケース問題（長文を読ませて、それに問題がいくつか紐づいている問題）の場合の、ケース問題文です。',
-        'csv'=>'CSVエクスポート'
+        'csv'=>'CSVエクスポート',
+        'csv_learning'=>'分析用CSVエクスポート'
     ];
 

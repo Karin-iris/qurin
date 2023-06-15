@@ -49,13 +49,15 @@
                     </button>
                     <button type="button"
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                            onClick="location.href='{{ route('question.import') }}'">{{ __('questions.import') }}
+                            onClick="location.href='{{ route('question.import') }}'">Qurin ID 紐付け
                     </button>
 
                     <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
                         <thead
                             class="p-10 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr class="border-b-2 border-gray-500">
+                            <th>Qurin ID</th>
+                            <th>Quiz ID</th>
                             <th>{{ __('categories.category_p')}}</th>
                             <th>{{ __('categories.category_s')}}</th>
                             <th>{{ __('categories.category')}}</th>
@@ -69,6 +71,8 @@
                         <tbody class="text-md">
                         @foreach($questions as $question)
                             <tr class="border-b border-gray-500 text-sm @if($question->is_request == 1)bg-blue-50 @elseif($question->is_remand == 1)bg-yellow-50 @elseif($question->is_approve == 1)bg-red-50 @else bg-white @endif">
+                                <td>{{$question->id}}</td>
+                                <td>{{$question->quiz_id}}</td>
                                 <td>[{{$question->p_c_code}}]{{ mb_substr($question->p_c_name,0,20)}}</td>
                                 <td>[{{$question->s_c_code}}]{{ mb_substr($question->s_c_name,0,20)}}</td>
                                 <td>[{{$question->c_code}}]{{ mb_substr($question->c_name,0,20)}}</td>
