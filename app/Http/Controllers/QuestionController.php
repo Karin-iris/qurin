@@ -278,4 +278,59 @@ class QuestionController extends Controller
         }
         //var_dump($records);
     }
+
+    function modify_import(){
+        return view('question.modify_import'
+        );
+    }
+
+    function modify_import_csv(QuestionFileRequest $request){
+        $filepath = $request->file('import_file')->getRealPath();
+        if (($handle = fopen($filepath, "r")) !== FALSE) {
+            // ファイルポインタから行を取得
+            $num = 0;
+            while (($line = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                if($num !== 0) {
+                    $c = DB::table('questions')->select(['id','text','correct_choice','wrong_choice_1','wrong_choice_2','wrong_choice_3'])
+                        ->where('quiz_id', $line[2])->first();
+                    if (!empty($c)) {
+                        //print_r($line);
+                        if($c->text !== $line[4]){
+                            echo "QurinID".$c->id."の問題文<br>".
+                                "旧".$c->text."<br>".
+                                "新".$line[4]."<br>";
+                            DB::table('questions')->where('id', $c->id)->update(['text' => $line[4]]);
+                        }
+                        if($c->correct_choice !== $line[9]){
+                            echo "QurinID".$c->id."の正解選択肢<br>".
+                                "旧".$c->correct_choice."<br>".
+                                "新".$line[9]."<br>";
+                            DB::table('questions')->where('id', $c->id)->update(['correct_choice' => $line[9]]);
+                        }
+                        if($c->wrong_choice_1 !== $line[11]){
+                            echo "QurinID".$c->id."の誤答選択肢１<br>".
+                            "旧".$c->wrong_choice_1."<br>".
+                            "新".$line[11]."<br>";
+                            DB::table('questions')->where('id', $c->id)->update(['wrong_choice_1' => $line[11]]);
+                        }
+                        if($c->wrong_choice_2 !== $line[13]){
+                            echo "QurinID".$c->id."の誤答選択肢２<br>".
+                                "旧".$c->wrong_choice_2."<br>".
+                                "新".$line[13]."<br>";
+                            DB::table('questions')->where('id', $c->id)->update(['wrong_choice_2' => $line[13]]);
+                        }
+                        if($c->wrong_choice_3 !== $line[15]){
+                            echo "QurinID".$c->id."の誤答選択肢３<br>".
+                                "旧".$c->wrong_choice_3."<br>".
+                                "新".$line[15]."<br>";
+                            DB::table('questions')->where('id', $c->id)->update(['wrong_choice_3' => $line[15]]);
+                        }
+                    }
+                }
+                $num++;
+            }
+            fclose($handle);
+        }
+        //var_dump($records);
+    }
 }
