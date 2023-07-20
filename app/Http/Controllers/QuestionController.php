@@ -175,7 +175,7 @@ class QuestionController extends Controller
                     '',
                     $question->text,
                     '',
-                    '',
+                    '#'.$question->id.'#',
                     '',
                     'true',
                     nl2br($question->correct_choice),
