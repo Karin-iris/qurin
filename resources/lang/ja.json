@@ -1,5 +1,7 @@
 {
     "Profile": "プロフィール",
+    "Import": "インポート",
+    "Export": "エクスポート",
     "Questions": "試験問題一覧",
     "QuestionAdd": "試験問題作成",
     "QuestionEdit": "試験問題編集",

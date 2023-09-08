@@ -6,6 +6,8 @@ use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuestionDraftController;
 use App\Http\Controllers\UserQuestionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ImportController;
+use App\Http\Controllers\ExportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -60,18 +62,35 @@ Route::middleware('auth:admin')->group(function () {
         Route::put('/question/c_edit/{id}', 'update_c')->name('question.update_c');
         Route::get('/question/add', 'create')->name('question.create');
         Route::post('/question/add', 'store')->name('question.store');
-        Route::get('/question/csv', 'csv')->name('question.csv');
-        Route::get('/question/csv_learning', 'csv_learning')->name('question.csv_learning');
-        Route::get('/question/modify_import', 'modify_import')->name('question.modify_import');
-        Route::put('/question/modify_import', 'modify_import_csv')->name('question.modify_import_csv');
-        Route::get('/question/import', 'import')->name('question.import');
-        Route::put('/question/import', 'import_csv')->name('question.import_csv');
         Route::get('/question/c_add', 'create_c')->name('question.create_c');
         Route::post('/question/add', 'store')->name('question.store');
         Route::post('/question/c_add', 'store_c')->name('question.store_c');
         Route::delete('/question/del/{id}', 'destroy')->name('question.destroy');
         Route::delete('/question/c_del/{id}', 'destroy_c')->name('question.destroy_c');
     });
+
+    Route::controller(ImportController::class)->group(function () {
+        Route::get('/import', 'index')->name('import.index');
+        Route::get('/import/all_import', 'all_import')->name('import.all_import');
+        Route::put('/import/all_import_csv', 'all_import_csv')->name('import.all_import_csv');
+        Route::get('/import/explain_import', 'explain_import')->name('import.explain_import');
+        Route::put('/import/explain_import_csv', 'explain_import_csv')->name('import.explain_import_csv');
+        Route::get('/import/topic_import', 'topic_import')->name('import.topic_import');
+        Route::put('/import/topic_import_csv', 'topic_import_csv')->name('import.topic_import_csv');
+        Route::get('/import/modify_import', 'modify_import')->name('import.modify_import');
+        Route::put('/import/modify_import', 'modify_import_csv')->name('import.modify_import_csv');
+        Route::get('/import/question_update_from_bk', 'question_update_from_bk')->name('import.question_update_from_bk');
+        Route::get('/import/import', 'import')->name('import.import');
+        Route::put('/import/import_csv', 'import_csv')->name('import.import_csv');
+    });
+    Route::controller(ExportController::class)->group(function () {
+        Route::get('/export', 'index')->name('export.index');
+        Route::get('/export/csv', 'csv')->name('export.csv');
+        Route::get('/export/csv_learning', 'csv_learning')->name('export.csv_learning');
+        Route::get('/export/csv_explanation', 'csv_explanation')->name('export.csv_explanation');
+        Route::get('/export/csv_topic', 'csv_topic')->name('export.csv_topic');
+    });
+
     Route::controller(CategoryController::class)->group(function () {
         Route::get('/category', 'index')->name('category.index');
         Route::get('/category/edit/{id}', 'edit')->name('category.edit');

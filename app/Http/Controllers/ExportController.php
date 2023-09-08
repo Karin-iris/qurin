@@ -17,7 +17,7 @@ use Illuminate\View\View;
 use JetBrains\PhpStorm\Pure;
 use Maatwebsite\Excel\Facades\Excel;
 
-class QuestionController extends Controller
+class ExportController extends Controller
 {
     public $categoryUC;
     public $questionUC;
@@ -33,98 +33,7 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $questions = $this->questionUC->getQuestions();
-        $question_cases = $this->questionUC->getQuestionCases();
-        return view('question.index', compact('questions', 'question_cases'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $p_categories = $this->categoryUC->getPrimaryCategories();
-        $s_categories = $this->categoryUC->getSecondaryAllCategories();
-        $categories = $this->categoryUC->getSimpleCategories();
-        return view('question.create', compact('p_categories', 's_categories', 'categories'));//
-    }
-
-    public function create_c()
-    {
-        $p_categories = $this->categoryUC->getPrimaryCategories();
-        $s_categories = $this->categoryUC->getSecondaryAllCategories();
-        $categories = $this->categoryUC->getSimpleCategories();
-
-        return view('question.create_c', compact('p_categories', 's_categories', 'categories'));//
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(QuestionRequest $request)
-    {
-        $this->questionUC->saveQuestion($request);
-        return Redirect::route('question.create')->with('question', 'saved');//
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $question = $this->questionUC->getQuestion($id);
-        $p_categories = $this->categoryUC->getPrimaryCategories();
-        $s_categories = $this->categoryUC->getSecondaryAllCategories();
-        $categories = $this->categoryUC->getSimpleCategories();
-
-        return view('question.edit', compact('question', 'p_categories', 's_categories', 'categories'));//
-    }
-
-    public function edit_c(int $id): View
-    {
-        $question_case = $this->questionUC->getQuestionCase($id);
-        return view('question.edit_c',
-            compact('question_case')
-        );
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(QuestionRequest $request, string $id)
-    {
-
-        $status = $this->questionUC->updateQuestion($request, $id);
-        return Redirect::route('question.index')->with('status', $status);////
-    }
-
-    public function update_c(QuestionCaseRequest $request, int $id): RedirectResponse
-    {
-        $this->questionUC->updateQuestionCase($request, $id);
-        return Redirect::route('question.edit_c')->with('status', 'question-updated');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(int $id)
-    {
-        $this->questionUC->delQuestion($id);
-        return Redirect::route('question.index')->with('question', 'deleted');//
-    }
-
-    public function destroy_c(int $id)
-    {
-        $this->questionUC->delQuestionCase($id);
-        return Redirect::route('question.index')->with('question', 'deleted');//
+        return view('export.index');
     }
 
     public function csv(Response $response)
@@ -571,18 +480,6 @@ class QuestionController extends Controller
         }
     }
     function question_update_from_bk(){
-        $c = DB::table('questions')->select(['id'])
-            ->get();
-        foreach($c as $d){
-
-            $o = DB::table('questions_BK')->select(['id','user_id','compitency','user_name'])
-                ->where('id', $d->id)->first();
-            DB::table('questions')->where('id', $d->id)->update([
-                'user_id' => $o->user_id,
-                'compitency'=> $o->compitency,
-                'user_name'=>$o->user_name
-            ]);
-        }
 
     }
 }

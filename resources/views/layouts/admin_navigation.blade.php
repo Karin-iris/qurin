@@ -18,8 +18,15 @@
                     <x-nav-link :href="route('question.index')" :active="request()->routeIs('question.index')">
                         {{ __('Questions') }}
                     </x-nav-link>
+
                     <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.index')">
                         {{ __('Categories') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('import.index')" :active="request()->routeIs('import.index')">
+                        {{ __('Import') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('export.index')" :active="request()->routeIs('export.index')">
+                        {{ __('Export') }}
                     </x-nav-link>
                 </div>
             </div>

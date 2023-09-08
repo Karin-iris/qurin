@@ -8,7 +8,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
-<form method="post" action="{{ route('question.import_csv') }}" enctype="multipart/form-data">
+<form method="post" action="{{ route('import.modify_import_csv') }}" enctype="multipart/form-data">
     @csrf
     @method('put')
     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload file</label>
