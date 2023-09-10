@@ -38,9 +38,9 @@ class ImportController extends Controller
 
 
     function import(){
-        return view('import.import'
-        );
+        return view('import.import');
     }
+
     function import_csv(QuestionFileRequest $request){
         $filepath = $request->file('import_file')->getRealPath();
         if (($handle = fopen($filepath, "r")) !== FALSE) {
