@@ -3,3 +3,20 @@ os: linux
 files:
   - source: /
     destination: /var/www/qurin_dev
+hooks:
+ApplicationStop:
+  - location: batch/Deploy/ApplicationStop.sh
+    timeout: 300
+    runas: root
+BeforeInstall:
+  - location: batch/Deploy/BeforeInstall.sh
+    timeout: 300
+    runas: root
+AfterInstall:
+  - location: batch/Deploy/AfterInstall.sh
+    timeout: 300
+    runas: root
+ApplicationStart:
+  - location: batch/Deploy/ApplicationStart.sh
+    timeout: 300
+    runas: root
