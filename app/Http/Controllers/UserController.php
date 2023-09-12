@@ -20,7 +20,8 @@ class UserController extends Controller
 
     public function index(): View
     {
-        return view('user.index');
+        $users = $this->userUC->getUsers();
+        return view('user.index', compact('users'));
     }
 
     public function invite(): View
@@ -31,5 +32,10 @@ class UserController extends Controller
         $this->userUC->sendRegistMail($request);
         return Redirect::route('user.invite')->with('question', 'saved');//
 
+    }
+
+    public function create()
+    {
+        return view('user.create');
     }
 }

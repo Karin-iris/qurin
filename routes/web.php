@@ -111,6 +111,7 @@ Route::middleware('auth:admin')->group(function () {
     });
     Route::controller(UserController::class)->group(function () {
         Route::get('/user', 'index')->name('user.index');
+        Route::get('/add', 'create')->name('user.create');
         Route::get('/user/invite', 'invite')->name('user.invite');
         Route::post('/user/send_invite', 'send_invite')->name('user.send_invite');
     });
