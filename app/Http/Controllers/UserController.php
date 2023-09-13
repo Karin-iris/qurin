@@ -36,6 +36,23 @@ class UserController extends Controller
 
     public function create()
     {
+
         return view('user.create');
+    }
+
+    public function store(UserRegistRequest $request){
+        $this->userUC->saveUser($request);
+        return Redirect::route('user.create')->with('user', 'saved');
+    }
+
+    public function edit(int $id): View
+    {
+        $user = $this->userUC->getUser($id);
+        return view('user.edit', compact('user'));
+    }
+
+    public function update(UserRegistRequest $request, string $id){
+        $this->userUC->updateUser($request,$id);
+        return Redirect::route('user.edit', $id)->with('user', 'saved');
     }
 }

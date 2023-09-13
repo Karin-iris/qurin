@@ -112,6 +112,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::controller(UserController::class)->group(function () {
         Route::get('/user', 'index')->name('user.index');
         Route::get('/add', 'create')->name('user.create');
+        Route::post('/add', 'store')->name('user.store');
+        Route::get('/user/edit/{id}', 'edit')->name('user.edit');
+        Route::put('/user/update/{id}', 'update')->name('user.update');
         Route::get('/user/invite', 'invite')->name('user.invite');
         Route::post('/user/send_invite', 'send_invite')->name('user.send_invite');
     });
