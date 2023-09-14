@@ -24,16 +24,30 @@ class UserController extends Controller
         return view('user.index', compact('users'));
     }
 
+    public function admin_index(): View
+    {
+        $admins = $this->userUC->getAdmins();
+        return view('user.admin_index', compact('admins'));
+    }
+
     public function invite(): View
     {
         return view('user.invite');
     }
     public function send_invite(UserRegistRequest $request){
-        $this->userUC->sendRegistMail($request);
+        $this->userUC->sendInviteMail($request);
         return Redirect::route('user.invite')->with('question', 'saved');//
 
     }
-
+    public function admin_invite(): View
+    {
+        return view('user.admin_invite');
+    }
+    public function send_admin_invite(UserRegistRequest $request)
+    {
+        $this->userUC->sendAdminInviteMail($request);
+        return Redirect::route('user.invite')->with('question', 'saved');//
+    }
     public function create()
     {
 
@@ -53,6 +67,16 @@ class UserController extends Controller
 
     public function update(UserRegistRequest $request, string $id){
         $this->userUC->updateUser($request,$id);
+        return Redirect::route('user.edit', $id)->with('user', 'saved');
+    }
+    public function admin_edit(int $id): View
+    {
+        $admin = $this->userUC->getAdmin($id);
+        return view('user.admin_edit', compact('admin'));
+    }
+
+    public function admin_update(UserRegistRequest $request, string $id){
+        $this->userUC->updateAdmin($request,$id);
         return Redirect::route('user.edit', $id)->with('user', 'saved');
     }
 }

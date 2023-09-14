@@ -23,23 +23,25 @@ class UserRegistRequest extends FormRequest
      */
     public function rules(Request $request): array
     {
-        if (isset($request->id)) {
+        if (isset($request->mode) && $request->mode == "update") {
             return [
                 'name' => [
                     'string',
                     'required',
                     'max:255',
-                    Rule::unique('users')->ignore($request->id, 'id')
+                    Rule::unique('users')->ignore($request->id, 'id'),
+                    'unique:admins',
                 ],
                 'email'     => [
                     'email',
                     'required', // 必須
                     // 重複チェック。Rule::unique('テーブル名')->ignore(主キー, '主キーのカラム名')
                     Rule::unique('users')->ignore($request->id, 'id'),
+                    'unique:admins',
                 ],
                 'password' => ['string', 'max:255'],
             ];
-        } else {
+        } elseif (isset($request->mode) && $request->mode == "create") {
             // 登録画面のバリデーション
             return [
                 // ユーザー名
@@ -52,6 +54,26 @@ class UserRegistRequest extends FormRequest
                 ],
                 'password' => ['string', 'max:255'],
             ];
+        } elseif (isset($request->mode) && $request->mode == "user_invite") {
+            return [
+                'email'     => [
+                    'email',
+                    'required',
+                    'unique:users',
+                    'unique:admins',
+                ],
+            ];
+        } elseif (isset($request->mode) && $request->mode == "admin_invite") {
+            return [
+                'email'     => [
+                    'email',
+                    'required',
+                    'unique:users',
+                    'unique:admins',
+                ],
+            ];
+        }else{
+            return [];
         }
     }
 }

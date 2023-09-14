@@ -11,17 +11,17 @@
                 <div class="w-full">
                     <header class="mb-5">
                         <h2 class="text-lg font-medium text-gray-900">
-                            {{ __('users.invite') }}
+                            {{ __('users.admin_invite') }}
                         </h2>
 
                         <p class="mt-1 text-sm text-gray-600">
-                            {{ __('users.invite_message') }}
+                            {{ __('users.admin_invite_message') }}
                         </p>
                     </header>
                     <!-- Session Status -->
                     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-                    <form method="POST" action="{{ route('user.send_invite') }}">
+                    <form method="POST" action="{{ route('user.send_admin_invite') }}">
                     @csrf
 
                     <!-- Email Address -->
@@ -30,8 +30,7 @@
                             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
                         </div>
-                        <input type="hidden" name="mode" value="user_invite">
-
+                        <input type="hidden" name="mode" value="admin_invite">
                         <div class="flex items-center justify-end mt-4">
                             <x-primary-button>
                                 {{ __('Email Password Reset Link') }}

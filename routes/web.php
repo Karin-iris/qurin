@@ -111,12 +111,17 @@ Route::middleware('auth:admin')->group(function () {
     });
     Route::controller(UserController::class)->group(function () {
         Route::get('/user', 'index')->name('user.index');
+        Route::get('/user/admin_index', 'admin_index')->name('user.admin_index');
         Route::get('/add', 'create')->name('user.create');
         Route::post('/add', 'store')->name('user.store');
         Route::get('/user/edit/{id}', 'edit')->name('user.edit');
         Route::put('/user/update/{id}', 'update')->name('user.update');
+        Route::get('/user/admin_edit/{id}', 'admin_edit')->name('user.admin_edit');
+        Route::put('/user/admin_update/{id}', 'update')->name('user.admin_update');
         Route::get('/user/invite', 'invite')->name('user.invite');
         Route::post('/user/send_invite', 'send_invite')->name('user.send_invite');
+        Route::get('/user/admin_invite', 'admin_invite')->name('user.admin_invite');
+        Route::post('/user/send_admin_invite', 'send_admin_invite')->name('user.send_admin_invite');
     });
     });
 

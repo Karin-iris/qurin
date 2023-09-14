@@ -1,7 +1,7 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('users.user_edit') }}
+            {{ __('admins.admin_edit') }}
         </h2>
 
         @if (session('status') === 'question-updated')
@@ -11,7 +11,7 @@
         @endif
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("users.my_question_edit_message") }}
+            {{ __("admins.my_question_edit_message") }}
         </p>
     </header>
 
@@ -19,7 +19,7 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('user.update',$user->id) }}" enctype="multipart/form-data"
+    <form method="post" action="{{ route('user.admin_update',$admin->id) }}" enctype="multipart/form-data"
           class="mt-6 space-y-6">
         @csrf
         @method('put')
@@ -27,23 +27,21 @@
 
 
         <div>
-            <x-input-label for="name" :value="__('users.name')"/>
+            <x-input-label for="name" :value="__('admins.name')"/>
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" autofocus
-                                    autocomplete="name" :value="old('name',$user->name)" />
+                                    autocomplete="name" :value="old('name',$admin->name)" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
+
         <div>
-            <input type="file" name="icon">
-        </div>
-        <div>
-            <x-input-label for="email" :value="__('users.email')"/>
+            <x-input-label for="email" :value="__('admins.email')"/>
             <x-text-input id="topic" name="email" type="text" class="mt-1 block w-full" autofocus
-                          autocomplete="email" :value="old('email',$user->email)"/>
+                          autocomplete="email" :value="old('email',$admin->email)"/>
             <x-input-error class="mt-2" :messages="$errors->get('email')"/>
         </div>
 
 
-        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+        <input type="hidden" name="admin_id" value="{{ Auth::user('admin')->id }}">
         <input type="hidden" name="mode" value="update">
         <x-danger-button class="ml-3" onClick="changeRequestValue();resetRemandValue();return confirm('レビュー依頼送信後は編集できません。よろしいでしょうか。')">
             {{ __('Submit') }}

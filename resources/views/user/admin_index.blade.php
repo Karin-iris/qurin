@@ -13,43 +13,18 @@
                 <div class="w-full">
                     <header class="mb-5">
                         <h2 class="text-lg font-medium text-gray-900">
-                            {{ __('users.users') }}
+                            {{ __('admins.admins') }}
                         </h2>
 
                         <p class="mt-1 text-sm text-gray-600">
-                            {{ __('users.list_users') }}
+                            {{ __('admins.admins_message') }}
                         </p>
                     </header>
-                    @if (session('status') === 'approved')
-                        <div class="p-4 mb-4 text-sm text-gray-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
-                            <span class="font-medium">問題を承認しました。</span>
-                        </div>
-                    @elseif (session('status') === 'remand')
-                        <div class="p-4 mb-4 text-sm text-gray-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
-                            <span class="font-medium">問題を差し戻しました。</span>
-                        </div>
-                    @elseif(session('status') === 'saved')
-                        <div class="p-4 mb-4 text-sm text-gray-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
-                            <span class="font-medium">問題を一時保存しました。</span>
-                        </div>
-                    @endif
-
-                    <button type="button"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                            onClick="location.href='{{ route('user.create') }}'">
-                        {{ __('users.add') }}
-                    </button>
-
-                    <button type="button"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                            onClick="location.href='{{ route('user.invite') }}'">
-                        {{ __('users.invite') }}
-                    </button>
 
                     <button type="button"
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                             onClick="location.href='{{ route('user.admin_invite') }}'">
-                        {{ __('users.admin_invite') }}
+                        {{ __('admins.admin_invite') }}
                     </button>
 
                     <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
@@ -57,20 +32,20 @@
                             class="p-10 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr class="border-b-2 border-gray-500">
                             <th class="w-20">User ID</th>
-                            <th>{{ __('users.name')}}</th>
-                            <th>{{ __('users.email')}}</th>
+                            <th>{{ __('admins.name')}}</th>
+                            <th>{{ __('admins.email')}}</th>
                             <th>編集</th>
                         </tr>
                         </thead>
                         <tbody class="text-md">
-                        @foreach($users as $user)
+                        @foreach($admins as $admin)
                             <tr class="border-b border-gray-500 text-sm">
-                                <td><strong>{{ $user->id }}</strong></td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
+                                <td><strong>{{ $admin->id }}</strong></td>
+                                <td>{{ $admin->name }}</td>
+                                <td>{{ $admin->email }}</td>
                                 <td>
-                                    @if(!empty($user->id))
-                                        <a href="{{ route('user.edit', ['id'=> $user->id]) }}">
+                                    @if(!empty($admin->id))
+                                        <a href="{{ route('user.admin_edit', ['id'=> $admin->id]) }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                                  viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
