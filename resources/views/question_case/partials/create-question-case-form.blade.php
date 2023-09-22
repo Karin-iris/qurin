@@ -31,6 +31,13 @@
             <x-input-error class="mt-2" :messages="$errors->get('name')"/>
         </div>
 
+        <div>
+            <x-input-label for="case_text" :value="__('questions.case_text')"/>
+            <x-textarea cols="30" rows="4" id="case_text" name="case_text" class="mt-1 block w-full" required autofocus
+                        autocomplete="case_text">{{old('case_text',$question_case->case_text)}}</x-textarea>
+            <x-input-error class="mt-2" :messages="$errors->get('case_text')"/>
+        </div>
+
         <x-secondary-button x-on:click="$dispatch('close')">
             {{ __('Cancel') }}
         </x-secondary-button>

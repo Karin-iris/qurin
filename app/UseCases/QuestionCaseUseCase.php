@@ -8,6 +8,8 @@ use App\Mail\QuestionApproveMail;
 use App\Mail\QuestionRemandMail;
 use App\Mail\QuestionRequestMail;
 use App\Models\Question;
+use App\Models\QuestionCase;
+use App\Models\QuestionCaseQuestion;
 use App\Models\QuestionImage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -18,14 +20,14 @@ class QuestionCaseUseCase extends UseCase
 
     public Question $question;
     public QuestionCase $question_case;
-    public QuestionCaseSection $question_case_section;
+    public QuestionCaseQuestion $question_case_question;
     public QuestionImage $question_image;
 
     function __construct()
     {
         $this->question = new Question();
         $this->question_case = new QuestionCase();
-        $this->question_case_section = new QuestionCaseSection();
+        $this->question_case_question = new QuestionCaseQuestion();
         $this->question_image = new QuestionImage();
         $this->question_summary_column = [
             'p.name as p_c_name',
@@ -87,16 +89,35 @@ class QuestionCaseUseCase extends UseCase
 
     }
 
-    function getQuestion(int $id)
+    function getCaseQuestion(int $id)
     {
         $question = $this->question->select(
-            $this->question_detail_column
-        )->from('questions as q')
+            ['p.name as p_c_name',
+            's.name as s_c_name',
+            'c.name as c_name',
+            'p.id as p_c_id',
+            's.id as s_c_id',
+            'c.id as c_id',
+            'q.topic as topic',
+            'q.user_name as user_name',
+            'q.compitency as compitency',
+            'q.id as id',
+            'q.quiz_id as quiz_id',
+            'q.text as text',
+            'q.correct_choice as correct_choice',
+            'q.wrong_choice_1 as wrong_choice_1',
+            'q.wrong_choice_2 as wrong_choice_2',
+            'q.wrong_choice_3 as wrong_choice_3',
+            'q.is_remand as is_remand',
+            'q.created_at as created_at',
+            'q.updated_at as updated_at',
+            'q.explanation as explanation'
+            ]
+        )->from('question_case_questions as q')
             ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
             ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
             ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
             ->where('q.id', $id)->firstOrFail();
-        $question['images'] = $this->question_image->where('question_id', $id)->get();
         return $question;
     }
 
@@ -125,38 +146,34 @@ class QuestionCaseUseCase extends UseCase
         return $this->question_case->where('id', $id)->firstOrFail();
     }
 
-    function getQuestions()
+    function getCaseQuestions(int $case_id)
     {
-        return $this->question->select(
-            $this->question_admin_summary_column
-        )->from('questions as q')
+        return $this->question_case_question->select(
+           [
+               'p.name as p_c_name',
+               's.name as s_c_name',
+               'c.name as c_name',
+               'p.code as p_c_code',
+               's.code as s_c_code',
+               'c.code as c_code',
+               'q.topic as topic',
+               'q.id as id',
+               'q.case_id as case_id',
+               'q.quiz_id as quiz_id',
+               'q.user_name as user_name',
+               'q.is_request as is_request',
+               'q.is_approve as is_approve',
+               'q.is_remand as is_remand',
+               'q.created_at as created_at',
+               'q.updated_at as updated_at',
+
+           ]
+        )->from('question_case_questions as q')
             ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
             ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
             ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
             ->leftJoin('users as u', 'u.id', '=', 'q.user_id')
-            ->Where('is_request', '1')->orWhere('is_approve', '1')->orWhere('is_remand', '1')->get();
-    }
-
-    function getQuestionExports()
-    {
-        return $this->question->select(
-            [
-                'p.code as p_c_code',
-                's.code as s_c_code',
-                'c.code as c_code',
-                'q.id as id',
-                'q.quiz_id as quiz_id',
-                'q.text as text',
-                'q.correct_choice as correct_choice',
-                'q.wrong_choice_1 as wrong_choice_1',
-                'q.wrong_choice_2 as wrong_choice_2',
-                'q.wrong_choice_3 as wrong_choice_3'
-            ]
-        )->from('questions as q')
-            ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
-            ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
-            ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
-            ->Where('is_approve', '1')->get();
+            ->Where('case_id', $case_id)->Where('is_request', '1')->orWhere('is_approve', '1')->orWhere('is_remand', '1')->get();
     }
 
     function getQuestionExportDetail()
@@ -185,6 +202,7 @@ class QuestionCaseUseCase extends UseCase
             ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
             ->Where('is_approve', '1')->get();
     }
+
 
     function getQuestionCases()
     {
