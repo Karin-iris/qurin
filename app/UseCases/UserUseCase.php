@@ -44,14 +44,14 @@ class UserUseCase extends UseCase
     function getUser(int $id)
     {
         $user = $this->user->select(
-            'id','name', 'password', 'email'
+            'id','name', 'password', 'email','icon_image_path'
         )->from('users') ->where('id', $id)->firstOrFail();
         return $user;
     }
 
     function getUsers()
     {
-        return $this->user->select('id','name', 'password', 'email')->from('users')->get();
+        return $this->user->select('id','name', 'password', 'email','icon_image_path')->from('users')->get();
     }
 
     function getAdmin(int $id)
@@ -71,12 +71,20 @@ class UserUseCase extends UseCase
     function saveUser(UserRegistRequest $request){
         $upload_file = $request->file('icon');
         if(!empty($upload_file)) {
+            $x = 100; // 300px
+            $y = 100; // 300px
+
+            $img = \Image::make(file_get_contents($upload_file->getRealPath()))->crop($x, $y);
+            /*$img->resize($x, $y, function($constraint) {
+                $constraint->aspectRatio(); // アスペクト比を保つ
+            });*/
+            $img->save($upload_file->getRealPath());
 
             // アップロード先S3フォルダ名
             $dir = 'icon';
 
             // バケット内の指定フォルダへアップロード ※putFileはLaravel側でファイル名の一意のIDを自動的に生成してくれます。
-            $s3_upload = Storage::disk('s3')->putFile('/'.$dir, $upload_file);
+            $s3_upload = Storage::disk('s3')->putFile('/'.$dir, $img);
 
             // ※オプション（ファイルダウンロード、削除時に使用するS3でのファイル保存名、アップロード先のパスを取得します。）
             // アップロードファイルurlを取得
@@ -102,6 +110,12 @@ class UserUseCase extends UseCase
     function updateUser(UserRegistRequest $request,int $id){
         $upload_file = $request->file('icon');
         if(!empty($upload_file)) {
+            $x = 100; // 300px
+            $y = 100; // 300px
+
+            $img = \Image::make($upload_file->getRealPath())->resize($x, $y, function($constraint) {
+                $constraint->aspectRatio(); // アスペクト比を保つ
+            })->crop($x, $y)->save($upload_file->getRealPath());
 
             // アップロード先S3フォルダ名
             $dir = 'icon';
@@ -109,8 +123,6 @@ class UserUseCase extends UseCase
             // バケット内の指定フォルダへアップロード ※putFileはLaravel側でファイル名の一意のIDを自動的に生成してくれます。
             $s3_upload = Storage::disk('s3')->putFile('/'.$dir, $upload_file);
 
-            // ※オプション（ファイルダウンロード、削除時に使用するS3でのファイル保存名、アップロード先のパスを取得します。）
-            // アップロードファイルurlを取得
             $s3_url = Storage::disk('s3')->url($s3_upload);
             // s3_urlからS3でのファイル保存名取得
             $s3_upload_file_name = explode("/", $s3_url)[4];

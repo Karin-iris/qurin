@@ -25,6 +25,11 @@
         </div>
 
         <div>
+            <x-input-label for="icon" :value="__('users.icon')"/>
+            <input type="file" name="icon">
+        </div>
+
+        <div>
             <x-input-label for="email" :value="__('users.email')"/>
             <x-text-input id="email" name="email" type="text" class="mt-1 block w-full" autofocus
                           autocomplete="email" />
