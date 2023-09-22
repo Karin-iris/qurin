@@ -32,9 +32,15 @@
                                     autocomplete="name" :value="old('name',$user->name)" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
+
         <div>
+            <x-input-label for="icon" :value="__('users.icon')"/>
+        @if(!empty($user->icon_image_path))
+            <img src="{{ Storage::disk('s3')->temporaryUrl($user->icon_image_path, now()->addDay()) }}" width="100" height="100">
+        @endif
             <input type="file" name="icon">
         </div>
+
         <div>
             <x-input-label for="email" :value="__('users.email')"/>
             <x-text-input id="topic" name="email" type="text" class="mt-1 block w-full" autofocus
