@@ -2,21 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Http\Requests\CategoryRequest;
 use App\Http\Requests\CategoryPrimaryRequest;
+use App\Http\Requests\CategoryRequest;
 use App\Http\Requests\CategorySecondaryRequest;
 use App\UseCases\CategoryUseCase;
-use JetBrains\PhpStorm\Pure;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
     public CategoryUseCase $categoryUC;
 
-    #[Pure] public function __construct()
+    public function __construct()
     {
         $this->categoryUC = new CategoryUseCase();
     }
@@ -104,7 +101,7 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit_p(string $id):View
+    public function edit_p(string $id): View
     {
         $p_category = $this->categoryUC->getPrimaryDetail($id);
 
@@ -120,6 +117,7 @@ class CategoryController extends Controller
         $p_categories = $this->categoryUC->getPrimaryCategories();
         return view('category.edit_s', compact('s_category', 'p_categories'));//
     }
+
     /**
      * Update the specified resource in storage.
      */
@@ -129,18 +127,21 @@ class CategoryController extends Controller
         $this->categoryUC->updateCategory($request, $id);
         return Redirect::route('category.index')->with('status', 'updated');//
     }
+
     public function update_p(CategoryPrimaryRequest $request, string $id)
     {
         //$this->categoryUC->updateCategoryOrder(100, $id);
         $this->categoryUC->updatePrimaryCategory($request, $id);
         return Redirect::route('category.index')->with('status', 'updated');//
     }
+
     public function update_s(CategorySecondaryRequest $request, string $id)
     {
         //$this->categoryUC->updateCategoryOrder(100, $id);
         $this->categoryUC->updateSecondaryCategory($request, $id);
         return Redirect::route('category.index')->with('status', 'updated');//
     }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -149,11 +150,13 @@ class CategoryController extends Controller
         $this->categoryUC->delCategory($id);
         return Redirect::route('category.index')->with('status', 'deleted');
     }
+
     public function destroy_p(string $id)
     {
         $this->categoryUC->delPrimaryCategory($id);
         return Redirect::route('category.index')->with('status', 'deleted');
     }
+
     public function destroy_s(string $id)
     {
         $this->categoryUC->delSecondaryCategory($id);

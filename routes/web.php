@@ -1,13 +1,13 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ExportController;
+use App\Http\Controllers\ImportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuestionDraftController;
-use App\Http\Controllers\UserQuestionController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ImportController;
-use App\Http\Controllers\ExportController;
+use App\Http\Controllers\UserQuestionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,7 +31,7 @@ Route::get('/dashboard', function () {
 
 Route::get('/admin_dashboard', function () {
     return view('admin_dashboard');
-})->middleware(['auth:admin','verified'])->name('admin_dashboard');
+})->middleware(['auth:admin', 'verified'])->name('admin_dashboard');
 
 
 Route::middleware('auth')->group(function () {
@@ -68,7 +68,20 @@ Route::middleware('auth:admin')->group(function () {
         Route::delete('/question/del/{id}', 'destroy')->name('question.destroy');
         Route::delete('/question/c_del/{id}', 'destroy_c')->name('question.destroy_c');
     });
-
+    Route::controller(QuestionCaseController::class)->group(function () {
+        Route::get('/question_case', 'index')->name('question.index');
+        Route::get('/question_case/edit/{id}', 'edit')->name('question.edit');
+        Route::get('/question_case/c_edit/{id}', 'edit_c')->name('question.edit_c');
+        Route::put('/question_case/edit/{id}', 'update')->name('question.update');
+        Route::put('/question_case/c_edit/{id}', 'update_c')->name('question.update_c');
+        Route::get('/question_case/add', 'create')->name('question.create');
+        Route::post('/question_case/add', 'store')->name('question.store');
+        Route::get('/question/c_add', 'create_c')->name('question.create_c');
+        Route::post('/question/add', 'store')->name('question.store');
+        Route::post('/question/c_add', 'store_c')->name('question.store_c');
+        Route::delete('/question/del/{id}', 'destroy')->name('question.destroy');
+        Route::delete('/question/c_del/{id}', 'destroy_c')->name('question.destroy_c');
+    });
     Route::controller(ImportController::class)->group(function () {
         Route::get('/import', 'index')->name('import.index');
         Route::get('/import/all_import', 'all_import')->name('import.all_import');
@@ -123,7 +136,7 @@ Route::middleware('auth:admin')->group(function () {
         Route::get('/user/admin_invite', 'admin_invite')->name('user.admin_invite');
         Route::post('/user/send_admin_invite', 'send_admin_invite')->name('user.send_admin_invite');
     });
-    });
+});
 
 
 require __DIR__ . '/auth.php';
