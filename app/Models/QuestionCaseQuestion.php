@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class QuestionCaseSection extends Model
+class QuestionCaseQuestion extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -21,6 +21,7 @@ class QuestionCaseSection extends Model
         'topic',
         'is_request',
         'is_approve',
+        'section_id',
         'user_id'
     ];
 }

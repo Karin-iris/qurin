@@ -31,6 +31,13 @@
             <x-input-error class="mt-2" :messages="$errors->get('text')"/>
         </div>
 
+        <div>
+            <x-input-label for="case_text" :value="__('questions.case_text')"/>
+            <x-textarea cols="30" rows="4" id="case_text" name="case_text" class="mt-1 block w-full" required autofocus
+                        autocomplete="case_text">{{old('text',$question_case->case_text)}}</x-textarea>
+            <x-input-error class="mt-2" :messages="$errors->get('case_text')"/>
+        </div>
+
         <input type="hidden" name="is_request" value="0">
         <input type="hidden" name="is_approve" value="0">
 

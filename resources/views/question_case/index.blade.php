@@ -1,7 +1,7 @@
 <x-admin-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Questions') }}
+            {{ __('QuestionsCase') }}
         </h2>
     </x-slot>
 
@@ -13,11 +13,11 @@
                 <div class="w-full">
                     <header class="mb-5">
                         <h2 class="text-lg font-medium text-gray-900">
-                            {{ __('questions.questions') }}
+                            {{ __('question_cases.cases') }}
                         </h2>
 
                         <p class="mt-1 text-sm text-gray-600">
-                            {{ __('questions.list_explain') }}
+                            {{ __('question_cases.list_explain') }}
                         </p>
                     </header>
                     @if (session('status') === 'approved')
@@ -44,10 +44,7 @@
                         <thead
                             class="p-10 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr class="border-b-2 border-gray-500">
-                            <th class="w-20">Qurin ID<br>Quiz ID</th>
-                            <th>{{ __('categories.category_p')}}</th>
-                            <th>{{ __('categories.category_s')}}</th>
-                            <th>{{ __('categories.category')}}</th>
+                            <th class="w-20">Qurin Section ID<br>Section ID</th>
                             <th>試験問題（要約）</th>
                             <th>作成者</th>
                             <th>作成時間<br>更新時間</th>
@@ -56,20 +53,17 @@
                         </tr>
                         </thead>
                         <tbody class="text-md">
-                        @foreach($questions as $question)
-                            <tr class="border-b border-gray-500 text-sm @if($question->is_request == 1)bg-blue-50 @elseif($question->is_remand == 1)bg-yellow-50 @elseif($question->is_approve == 1)bg-red-50 @else bg-white @endif">
-                                <td><strong>{{$question->id}}</strong><br>
-                                {{$question->quiz_id}}</td>
-                                <td>[{{$question->p_c_code}}]{{ mb_substr($question->p_c_name,0,20)}}</td>
-                                <td>[{{$question->s_c_code}}]{{ mb_substr($question->s_c_name,0,20)}}</td>
-                                <td>[{{$question->c_code}}]{{ mb_substr($question->c_name,0,20)}}</td>
-                                <td>{{mb_substr($question->topic,0,30)}}</td>
-                                <td>{{$question->user_name}}</td>
-                                <td class="text-sm">{{$question->created_at}}<br>
-                                    {{$question->updated_at}}</td>
+                        @foreach($question_cases as $question_case)
+                            <tr class="border-b border-gray-500 text-sm @if($question_case->is_request == 1)bg-blue-50 @elseif($question_case->is_remand == 1)bg-yellow-50 @elseif($question_case->is_approve == 1)bg-red-50 @else bg-white @endif">
+                                <td><strong>{{$question_case->id}}</strong><br>
+                                {{$question_case->quiz_id}}</td>
+                                <td>{{mb_substr($question_case->topic,0,30)}}</td>
+                                <td>{{$question_case->user_name}}</td>
+                                <td class="text-sm">{{$question_case->created_at}}<br>
+                                    {{$question_case->updated_at}}</td>
                                 <td>
-                                    @if(!empty($question->id))
-                                        <a href="{{ route('question.edit', ['id'=> $question->id]) }}">
+                                    @if(!empty($question_case->id))
+                                        <a href="{{ route('question_case.edit_c', ['id'=> $question_case->id]) }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                                  viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
