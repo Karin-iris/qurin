@@ -22,62 +22,62 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         Admin::factory()->create([
-            'name' => Crypt::encriptString('澤田 哲理(管理者)'),
+            'name' => Crypt::encryptString('澤田 哲理(管理者)'),
             'email' => 'sawada@primeforce.co.jp',
             'password' => Hash::make('password'),
         ]);
         Admin::factory()->create([
-            'name' => Crypt::encriptString('藤木 健(管理者)'),
+            'name' => Crypt::encryptString('藤木 健(管理者)'),
             'email' => 'fujiki@primeforce.co.jp',
             'password' => Hash::make('Pass_001'),
         ]);
         Admin::factory()->create([
-            'name' => Crypt::encriptString('中村 美月(管理者)'),
+            'name' => Crypt::encryptString('中村 美月(管理者)'),
             'email' => 'nakamura@primeforce.co.jp',
             'password' => Hash::make('Pass_002'),
         ]);
         Admin::factory()->create([
-            'name' => Crypt::encriptString('津嶋 一樹(管理者)'),
+            'name' => Crypt::encryptString('津嶋 一樹(管理者)'),
             'email' => 'tsushimak@pcdepot.co.jp',
             'password' => Hash::make('Pass_003'),
         ]);
         Admin::factory()->create([
-            'name' => Crypt::encriptString('田中 武彦(管理者)'),
+            'name' => Crypt::encryptString('田中 武彦(管理者)'),
             'email' => 'tanakatak@pcdepot.co.jp',
             'password' => Hash::make('Pass_004'),
         ]);
         Admin::factory()->create([
-            'name' => Crypt::encriptString('中村 友音(管理者)'),
+            'name' => Crypt::encryptString('中村 友音(管理者)'),
             'email' => 'nakamurato@pcdepot.co.jp',
             'password' => Hash::make('Pass_005'),
         ]);
         User::factory()->create([
-            'name' => Crypt::encriptString('澤田 哲理'),
+            'name' => Crypt::encryptString('澤田 哲理'),
             'email' => 'tetsu707@outlook.com',
             'password' => Hash::make('password'),
         ]);
         User::factory()->create([
-            'name' => Crypt::encriptString('藤木 健'),
+            'name' => Crypt::encryptString('藤木 健'),
             'email' => 'passionmissionary@gmail.com',
             'password' => Hash::make('Pass_001'),
         ]);
         User::factory()->create([
-            'name' => Crypt::encriptString('中村 美月'),
+            'name' => Crypt::encryptString('中村 美月'),
             'email' => 'info@primeforce.co.jp',
             'password' => Hash::make('Pass_002'),
         ]);
         User::factory()->create([
-            'name' => Crypt::encriptString('津嶋 一樹'),
+            'name' => Crypt::encryptString('津嶋 一樹'),
             'email' => 'campjourney24@gmail.com',
             'password' => Hash::make('Pass_003'),
         ]);
         User::factory()->create([
-            'name' => Crypt::encriptString('田中 武彦'),
+            'name' => Crypt::encryptString('田中 武彦'),
             'email' => 'takehiko.tanaka@gmail.com',
             'password' => Hash::make('Pass_004'),
         ]);
         User::factory()->create([
-            'name' => Crypt::encriptString('中村 友音'),
+            'name' => Crypt::encryptString('中村 友音'),
             'email' => 'shigotoyou.tomone@gmail.com',
             'password' => Hash::make('Pass_005'),
         ]);

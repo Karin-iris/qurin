@@ -5,14 +5,9 @@ use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
-<<<<<<< HEAD
-use App\Http\Controllers\QuestionDraftController;
-=======
 use App\Http\Controllers\QuestionCaseController;
 use App\Http\Controllers\UserQuestionController;
->>>>>>> 7ba7e30da4f92c0bfd97fe323745ccadf6f0aac3
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserQuestionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -74,20 +69,6 @@ Route::middleware('auth:admin')->group(function () {
         Route::delete('/question/c_del/{id}', 'destroy_c')->name('question.destroy_c');
     });
     Route::controller(QuestionCaseController::class)->group(function () {
-<<<<<<< HEAD
-        Route::get('/question_case', 'index')->name('question.index');
-        Route::get('/question_case/edit/{id}', 'edit')->name('question.edit');
-        Route::get('/question_case/c_edit/{id}', 'edit_c')->name('question.edit_c');
-        Route::put('/question_case/edit/{id}', 'update')->name('question.update');
-        Route::put('/question_case/c_edit/{id}', 'update_c')->name('question.update_c');
-        Route::get('/question_case/add', 'create')->name('question.create');
-        Route::post('/question_case/add', 'store')->name('question.store');
-        Route::get('/question/c_add', 'create_c')->name('question.create_c');
-        Route::post('/question/add', 'store')->name('question.store');
-        Route::post('/question/c_add', 'store_c')->name('question.store_c');
-        Route::delete('/question/del/{id}', 'destroy')->name('question.destroy');
-        Route::delete('/question/c_del/{id}', 'destroy_c')->name('question.destroy_c');
-=======
         Route::get('/question_case', 'index')->name('question_case.index');
         Route::get('/question_case/edit/{id}', 'edit')->name('question_case.edit');
         Route::get('/question_case/c_edit/{id}', 'edit_c')->name('question_case.edit_c');
@@ -95,12 +76,11 @@ Route::middleware('auth:admin')->group(function () {
         Route::put('/question_case/c_edit/{id}', 'update_c')->name('question_case.update_c');
         Route::get('/question_case/add', 'create')->name('question_case.create');
         Route::post('/question_case/add', 'store')->name('question_case.store');
-        Route::get('/question_case/c_add', 'create_c')->name('question_case.create_c');
-        Route::post('/question_case/add', 'store')->name('question_case.store');
-        Route::post('/question_case/c_add', 'store_c')->name('question_case.store_c');
-        Route::delete('/question_case/del/{id}', 'destroy')->name('question_case.destroy');
-        Route::delete('/question_case/c_del/{id}', 'destroy_c')->name('question_case.destroy_c');
->>>>>>> 7ba7e30da4f92c0bfd97fe323745ccadf6f0aac3
+        Route::get('/question/c_add', 'create_c')->name('question_case.create_c');
+        Route::post('/question/add', 'store')->name('question_case.store');
+        Route::post('/question/c_add', 'store_c')->name('question_case.store_c');
+        Route::delete('/question/del/{id}', 'destroy')->name('question_case.destroy');
+        Route::delete('/question/c_del/{id}', 'destroy_c')->name('question_case.destroy_c');
     });
     Route::controller(ImportController::class)->group(function () {
         Route::get('/import', 'index')->name('import.index');
