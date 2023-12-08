@@ -54,31 +54,37 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => Crypt::encryptString('澤田 哲理'),
             'email' => 'tetsu707@outlook.com',
+            'icon_image_path' => '',
             'password' => Hash::make('password'),
         ]);
         User::factory()->create([
             'name' => Crypt::encryptString('藤木 健'),
             'email' => 'passionmissionary@gmail.com',
+            'icon_image_path' => '',
             'password' => Hash::make('Pass_001'),
         ]);
         User::factory()->create([
             'name' => Crypt::encryptString('中村 美月'),
             'email' => 'info@primeforce.co.jp',
+            'icon_image_path' => '',
             'password' => Hash::make('Pass_002'),
         ]);
         User::factory()->create([
             'name' => Crypt::encryptString('津嶋 一樹'),
             'email' => 'campjourney24@gmail.com',
+            'icon_image_path' => '',
             'password' => Hash::make('Pass_003'),
         ]);
         User::factory()->create([
             'name' => Crypt::encryptString('田中 武彦'),
             'email' => 'takehiko.tanaka@gmail.com',
+            'icon_image_path' => '',
             'password' => Hash::make('Pass_004'),
         ]);
         User::factory()->create([
             'name' => Crypt::encryptString('中村 友音'),
             'email' => 'shigotoyou.tomone@gmail.com',
+            'icon_image_path' => '',
             'password' => Hash::make('Pass_005'),
         ]);
         CategoryPrimary::factory()->create([

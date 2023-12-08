@@ -52,7 +52,7 @@
                     </thead>
                     <tbody class="text-md>
                     @foreach($categories as $category)
-                        <tr class=" bg-white border-t dark:bg-gray-900 dark:border-gray-700
+                        <tr class=" bg-white border-t dark:border-gray-700
                     ">
                     <td>{{$category->order}}</td>
                     <td>{{$category->p_code}}</td>
