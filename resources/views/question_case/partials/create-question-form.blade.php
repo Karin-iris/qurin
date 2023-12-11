@@ -13,7 +13,7 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('question.store') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('question_case.store') }}" class="mt-6 space-y-6">
         @csrf
         @method('post')
 
@@ -25,11 +25,13 @@
                                                     :value="old('primary_id')" :options="$p_categories"/>
             <x-categories.select-secondary-categories name="secondary_id"
                                                       class="mt-1 block w-full" autofocus
-                                                      autocomplete="secondary_id" :options="$s_categories"/>
+                                                      autocomplete="secondary_id"
+                                                      :value="old('secondary_id')" :options="$s_categories"
             />
             <x-categories.select-categories name="category_id"
                                             class="mt-1 block w-full" autofocus
-                                            autocomplete="category_id" :options="$categories"
+                                            autocomplete="category_id"
+                                            :value="old('categories')" :options="$categories"
             />
             <x-input-error class="mt-2" :messages="$errors->get('primary_id')" />
             <x-input-error class="mt-2" :messages="$errors->get('secondary_id')" />

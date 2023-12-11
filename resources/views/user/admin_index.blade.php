@@ -41,7 +41,7 @@
                         @foreach($admins as $admin)
                             <tr class="border-b border-gray-500 text-sm">
                                 <td><strong>{{ $admin->id }}</strong></td>
-                                <td>{{ $admin->name }}</td>
+                                <td>{{ \Crypt::decryptString($admin->name) }}</td>
                                 <td>{{ $admin->email }}</td>
                                 <td>
                                     @if(!empty($admin->id))

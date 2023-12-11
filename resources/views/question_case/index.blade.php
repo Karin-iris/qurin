@@ -4,9 +4,6 @@
             {{ __('QuestionsCase') }}
         </h2>
     </x-slot>
-
-
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
@@ -33,12 +30,15 @@
                             <span class="font-medium">問題を一時保存しました。</span>
                         </div>
                     @endif
-                    {{--
                     <button type="button"
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                            onClick="location.href='{{ route('question.create') }}'">{{ __('questions.create') }}
+                            onClick="location.href='{{ route('question_case.create') }}'">{{ __('question_cases.create_case') }}
                     </button>
-                    --}}
+                    <button type="button"
+                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                            onClick="location.href='{{ route('question_case.create') }}'">{{ __('question_cases.create') }}
+                    </button>
+
 
                     <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
                         <thead
@@ -49,7 +49,6 @@
                             <th>作成者</th>
                             <th>作成時間<br>更新時間</th>
                             <th>編集</th>
-
                         </tr>
                         </thead>
                         <tbody class="text-md">

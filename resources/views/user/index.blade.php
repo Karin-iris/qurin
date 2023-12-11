@@ -66,7 +66,7 @@
                         @foreach($users as $user)
                             <tr class="border-b border-gray-500 text-sm">
                                 <td><strong>{{ $user->id }}</strong></td>
-                                <td>{{ $user->name }}</td>
+                                <td>{{ \Crypt::decryptString($user->name) }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>
                                     @if(!empty($user->id))

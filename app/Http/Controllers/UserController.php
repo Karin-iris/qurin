@@ -39,6 +39,9 @@ class UserController extends Controller
         return Redirect::route('user.invite')->with('question', 'saved');//
 
     }
+    public function user_regist($token){
+        return view('user.regist');
+    }
     public function admin_invite(): View
     {
         return view('user.admin_invite');
@@ -46,8 +49,12 @@ class UserController extends Controller
     public function send_admin_invite(UserRegistRequest $request)
     {
         $this->userUC->sendAdminInviteMail($request);
-        return Redirect::route('user.invite')->with('question', 'saved');//
+        return Redirect::route('user.admin_invite')->with('question', 'saved');//
     }
+    public function admin_regist($token){
+        return view('user.admin_regist');
+    }
+
     public function create()
     {
 

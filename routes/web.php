@@ -135,6 +135,8 @@ Route::middleware('auth:admin')->group(function () {
         Route::post('/user/send_invite', 'send_invite')->name('user.send_invite');
         Route::get('/user/admin_invite', 'admin_invite')->name('user.admin_invite');
         Route::post('/user/send_admin_invite', 'send_admin_invite')->name('user.send_admin_invite');
+        Route::get('/user/admin_regist/{token}', 'admin_regist')->name('user.admin_regist');
+        Route::get('/user/regist/{token}', 'user_regist')->name('user.regist');
     });
 });
 
