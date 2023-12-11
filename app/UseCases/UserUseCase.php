@@ -15,17 +15,20 @@ use Illuminate\Support\Facades\Storage;
 use App\Mail\UserInviteMail;
 use App\Mail\AdminInviteMail;
 use Illuminate\Support\Facades\Log;
+use App\Repositories\UserRepository;
 
 class UserUseCase extends UseCase
 {
 
     public User $user;
     public Admin $admin;
+    public UserRepository $UserRepository;
 
     public function __construct()
     {
         $this->user = new User();
         $this->admin = new Admin();
+        $this->UserRepository = new UserRepository();
     }
 
     public function sendInviteMail(UserRegistRequest $request): void
@@ -40,8 +43,14 @@ class UserUseCase extends UseCase
     {
         $name = '管理者の招待が届いています。';
         $email = $request->input('email');
-        $token = md5($email);
+        $token = $this->generateToken();
+        $this->UserRepository->saveToken($email, $token);
+
         Mail::send(new AdminInviteMail($name, $email, $token));
+    }
+    public function generateToken(): string
+    {
+        return md5("aaaabbbbaaaa");
     }
 
     public function getUser(int $id)

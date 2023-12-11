@@ -11,18 +11,18 @@ use App\UseCases\QuestionUseCase;
 use App\UseCases\QuestionCaseUseCase;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use JetBrains\PhpStorm\Pure;
-use Maatwebsite\Excel\Facades\Excel;
 
 class QuestionCaseController extends Controller
 {
-    public $categoryUC;
-    public $questionUC;
-    public $questionCaseUC;
+    public CategoryUseCase $categoryUC;
+    public QuestionUseCase $questionUC;
+    public QuestionCaseUseCase $questionCaseUC;
 
     public function __construct()
     {
@@ -34,7 +34,7 @@ class QuestionCaseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         $question_cases = $this->questionUC->getQuestionCases();
         return view('question_case.index', compact('question_cases'));
@@ -43,7 +43,7 @@ class QuestionCaseController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
         $p_categories = $this->categoryUC->getPrimaryCategories();
         $s_categories = $this->categoryUC->getSecondaryAllCategories();
@@ -51,7 +51,7 @@ class QuestionCaseController extends Controller
         return view('question_case.create', compact('p_categories', 's_categories', 'categories'));//
     }
 
-    public function create_c()
+    public function create_c(): View
     {
         $p_categories = $this->categoryUC->getPrimaryCategories();
         $s_categories = $this->categoryUC->getSecondaryAllCategories();
@@ -63,7 +63,7 @@ class QuestionCaseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(QuestionRequest $request)
+    public function store(QuestionRequest $request): RedirectResponse
     {
         $this->questionUC->saveQuestion($request);
         return Redirect::route('question_case.create')->with('question', 'saved');//
@@ -88,14 +88,14 @@ class QuestionCaseController extends Controller
 
         $question = $this->questionCaseUC->getCaseQuestion($id);
 
-        return view('question_case.edit',compact('p_categories', 's_categories', 'categories','question'));
+        return view('question_case.edit', compact('p_categories', 's_categories', 'categories', 'question'));
     }
 
     public function edit_c(int $id): View
     {
         $question_case = $this->questionCaseUC->getQuestionCase($id);
         $questions = $this->questionCaseUC->getCaseQuestions($question_case->id);
-        return view('question_case.edit_c',compact('question_case','questions'));
+        return view('question_case.edit_c', compact('question_case', 'questions'));
     }
 
     /**

@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public UserUseCase $userUC;
 
-    #[Pure] public function __construct()
+    public function __construct()
     {
         $this->userUC = new UserUseCase();
     }
@@ -39,19 +39,21 @@ class UserController extends Controller
         return Redirect::route('user.invite')->with('question', 'saved');//
 
     }
-    public function user_regist($token){
+    public function user_regist($token): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    {
         return view('user.regist');
     }
     public function admin_invite(): View
     {
         return view('user.admin_invite');
     }
-    public function send_admin_invite(UserRegistRequest $request)
+    public function send_admin_invite(UserRegistRequest $request): \Illuminate\Http\RedirectResponse
     {
         $this->userUC->sendAdminInviteMail($request);
         return Redirect::route('user.admin_invite')->with('question', 'saved');//
     }
-    public function admin_regist($token){
+    public function admin_regist($token): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    {
         return view('user.admin_regist');
     }
 
@@ -61,7 +63,8 @@ class UserController extends Controller
         return view('user.create');
     }
 
-    public function store(UserRegistRequest $request){
+    public function store(UserRegistRequest $request): \Illuminate\Http\RedirectResponse
+    {
         $this->userUC->saveUser($request);
         return Redirect::route('user.create')->with('user', 'saved');
     }
@@ -72,7 +75,8 @@ class UserController extends Controller
         return view('user.edit', compact('user'));
     }
 
-    public function update(UserRegistRequest $request, string $id){
+    public function update(UserRegistRequest $request, string $id): \Illuminate\Http\RedirectResponse
+    {
         $this->userUC->updateUser($request,$id);
         return Redirect::route('user.edit', $id)->with('user', 'saved');
     }
@@ -82,7 +86,8 @@ class UserController extends Controller
         return view('user.admin_edit', compact('admin'));
     }
 
-    public function admin_update(UserRegistRequest $request, string $id){
+    public function admin_update(UserRegistRequest $request, string $id): \Illuminate\Http\RedirectResponse
+    {
         $this->userUC->updateAdmin($request,$id);
         return Redirect::route('user.edit', $id)->with('user', 'saved');
     }
