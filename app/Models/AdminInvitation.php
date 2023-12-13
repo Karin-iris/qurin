@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class AdminInvitation extends Model
 {
     use HasFactory;
+
+    public $fillable = [
+        'email',
+        'token'
+    ];
 }

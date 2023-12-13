@@ -41,7 +41,8 @@ class UserController extends Controller
     }
     public function user_regist($token): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
-        return view('user.regist');
+        $email = $this->userUC->getEmailFromToken($token);
+        return view('user.regist', compact('email'));
     }
     public function admin_invite(): View
     {
@@ -54,7 +55,8 @@ class UserController extends Controller
     }
     public function admin_regist($token): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
-        return view('user.admin_regist');
+        $email = $this->userUC->getEmailFromAdminToken($token);
+        return view('user.admin_regist', compact('email'));
     }
 
     public function create()

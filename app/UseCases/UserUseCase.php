@@ -7,6 +7,7 @@ use App\Models\QuestionCase;
 use App\Models\QuestionImage;
 use App\Models\User;
 use App\Models\Admin;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
@@ -28,31 +29,40 @@ class UserUseCase extends UseCase
     {
         $this->user = new User();
         $this->admin = new Admin();
-        $this->UserRepository = new UserRepository();
+        $this->userR = new UserRepository();
     }
 
     public function sendInviteMail(UserRegistRequest $request): void
     {
         $name = 'ユーザーの招待が届いています。';
         $email = $request->input('email');
-        $token = md5($email);
+        $token = $this->generateToken($email);
+        $this->userR->saveToken($email, $token);
         Mail::send(new UserInviteMail($name, $email, $token));
     }
-
+    public function generateToken($email): string
+    {
+        return md5($email.Carbon::now());
+    }
+    public function getEmailFromToken($token){
+        return $this->userR->getEmailFromToken($token);
+    }
     public function sendAdminInviteMail(UserRegistRequest $request): void
     {
         $name = '管理者の招待が届いています。';
         $email = $request->input('email');
-        $token = $this->generateToken();
-        $this->UserRepository->saveToken($email, $token);
+        $token = $this->generateAdminToken($email);
+        $this->userR->saveAdminToken($email, $token);
 
         Mail::send(new AdminInviteMail($name, $email, $token));
     }
-    public function generateToken(): string
+    public function generateAdminToken($email): string
     {
-        return md5("aaaabbbbaaaa");
+        return md5($email.Carbon::now());
     }
-
+    public function getEmailFromAdminToken($token){
+        return $this->userR->getEmailFromAdminToken($token);
+    }
     public function getUser(int $id)
     {
         $user = $this->user->select(
@@ -89,13 +99,12 @@ class UserUseCase extends UseCase
             // 例: エラーメッセージをログに記録し、汎用的なエラーメッセージを返す
             Log::error("An error occurred: " . $e->getMessage());
             return ['error' => "An error occurred."];
-
         }
     }
 
     function getAdmins()
     {
-        return $this->admin->select('id', 'name', 'password', 'email')->from('admins')->get();
+        return $this->admin->select('id', 'name', 'password', 'email', 'mfa_enabled')->from('admins')->get();
     }
 
     function saveUser(UserRegistRequest $request)

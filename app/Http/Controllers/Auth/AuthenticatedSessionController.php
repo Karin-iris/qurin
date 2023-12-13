@@ -44,6 +44,9 @@ class AuthenticatedSessionController extends Controller
     {
         $request->admin_authenticate();
 
+        if (Auth::guard('admin')->user()->mfa_enabled) {
+            return redirect()->route('mfa.admin_login');
+        }
         $request->session()->regenerate();
 
         return redirect()->intended(RouteServiceProvider::ADMIN_HOME);
@@ -71,5 +74,14 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        if ($user->mfa_enabled) {
+            return redirect()->route('mfa.showVerifyForm');
+        }
+
+        return redirect()->intended($this->redirectPath());
     }
 }

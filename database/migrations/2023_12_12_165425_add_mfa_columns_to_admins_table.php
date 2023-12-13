@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('admin_invitations', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('admins', function (Blueprint $table) {
+                $table->string('mfa_secret')->nullable();
+                $table->boolean('mfa_enabled')->default(false);
         });
     }
 
@@ -22,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('admin_invitations');
+        Schema::table('admins', function (Blueprint $table) {
+            //
+        });
     }
 };
