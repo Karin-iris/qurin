@@ -39,6 +39,7 @@
                             onClick="location.href='{{ route('question.create') }}'">{{ __('questions.create') }}
                     </button>
                     --}}
+                    @include('question.partials.search-question-form')
 
                     <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
                         <thead

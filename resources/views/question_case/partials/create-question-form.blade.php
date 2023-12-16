@@ -22,11 +22,11 @@
             <x-categories.select-primary-categories name="primary_id"
                                                     class="mt-1 block w-full" autofocus
                                                     autocomplete="primary_id"
-                                                    :value="old('primary_id')" :options="$p_categories"/>
+                                                    :value="old('primary_id','')" :options="$p_categories"/>
             <x-categories.select-secondary-categories name="secondary_id"
                                                       class="mt-1 block w-full" autofocus
                                                       autocomplete="secondary_id"
-                                                      :value="old('secondary_id')" :options="$s_categories"
+                                                      :value="old('secondary_id','')" :options="$s_categories"
             />
             <x-categories.select-categories name="category_id"
                                             class="mt-1 block w-full" autofocus

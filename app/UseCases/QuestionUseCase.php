@@ -4,6 +4,7 @@ namespace App\UseCases;
 
 use App\Http\Requests\QuestionCaseRequest;
 use App\Http\Requests\QuestionRequest;
+use App\Http\Requests\Questions\SearchRequest;
 use App\Mail\QuestionApproveMail;
 use App\Mail\QuestionRemandMail;
 use App\Mail\QuestionRequestMail;
@@ -13,6 +14,7 @@ use App\Models\QuestionImage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class QuestionUseCase extends UseCase
 {
@@ -124,16 +126,49 @@ class QuestionUseCase extends UseCase
         return $this->question_case->where('id', $id)->firstOrFail();
     }
 
-    function getQuestions()
+    function getQuestions(SearchRequest $request)
     {
-        return $this->question->select(
+        Log::info('Request', $request->all());
+        $query = $this->question->select(
             $this->question_admin_summary_column
         )->from('questions as q')
             ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
             ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
             ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
             ->leftJoin('users as u', 'u.id', '=', 'q.user_id')
-            ->Where('is_request', '1')->orWhere('is_approve', '1')->orWhere('is_remand', '1')->get();
+            ->where(function ($query) {
+                $query->Where('is_request', '1')->orWhere('is_approve', '1')->orWhere('is_remand', '1');
+            });
+        // 検索パラメータがある場合、それを使ってフィルタリング
+        if ($request->has('string')) {
+            $query->where(function ($query) use ($request) {
+                $query->where('q.text', 'like', '%' . $request->input('string') . '%')
+                    ->orWhere('q.explanation', 'like', '%' . $request->input('string') . '%')
+                    ->orWhere('q.topic', 'like', '%' . $request->input('string') . '%');
+
+            });
+        }
+        if ($request->has('competency')) {
+            $query->where(function ($query) use ($request) {
+                $query->orWhere('q.compitency', $request->input('competency'));
+            });
+        }
+        if ($request->has('primary_id')) {
+            $query->where(function ($query) use ($request) {
+                $query->orWhere('s.primary_id', $request->input('primary_id'));
+            });
+        }
+        if ($request->has('secondary_id')) {
+            $query->where(function ($query) use ($request) {
+                $query->orWhere('c.secondary_id', $request->input('secondary_id'));
+            });
+        }
+        if ($request->has('category_id')) {
+            $query->where(function ($query) use ($request) {
+                $query->orWhere('q.category_id', $request->input('category_id'));
+            });
+        }
+        return $query->get();
     }
 
     function getQuestionExports()
@@ -235,7 +270,7 @@ class QuestionUseCase extends UseCase
         $this->question->fill($request->all())->save();
     }
 
-    function saveUserQuestion(QuestionRequest $request):string
+    function saveUserQuestion(QuestionRequest $request): string
     {
         $this->question->fill([
             'topic' => $request->input('topic'),
@@ -253,10 +288,10 @@ class QuestionUseCase extends UseCase
             'is_remand' => $request->input('is_remand'),
             'user_id' => Auth::user()->id
         ])->save();
-        if($request->input('is_request') === "1"){
+        if ($request->input('is_request') === "1") {
             $status = "request";
             //$this->sendRequestMail($request);
-        }else{
+        } else {
             $status = "saved";
         }
         return $status;
@@ -274,12 +309,14 @@ class QuestionUseCase extends UseCase
 
     }
 
-    function saveTmpQuestion($id,$text){
+    function saveTmpQuestion($id, $text)
+    {
         $this->question->insert([
             'id' => $id,
             'text' => $text
         ]);
     }
+
     function updateQuestion(QuestionRequest $request, int $id): string
     {
         $this->question->find($id)->fill([
@@ -326,10 +363,10 @@ class QuestionUseCase extends UseCase
             'is_remand' => $request->input('is_remand'),
             'user_id' => Auth::user()->id
         ])->save();
-        if($request->input('is_request') === "1"){
+        if ($request->input('is_request') === "1") {
             $status = "request";
             //$this->sendRequestMail($request);
-        }else{
+        } else {
             $status = "saved";
         }
         return $status;

@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use JetBrains\PhpStorm\Pure;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\Questions\SearchRequest;
 
 class QuestionController extends Controller
 {
@@ -31,11 +32,24 @@ class QuestionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(SearchRequest $request):View
     {
-        $questions = $this->questionUC->getQuestions();
-        $question_cases = $this->questionUC->getQuestionCases();
-        return view('question.index', compact('questions', 'question_cases'));
+        $string = null;
+        $competency = null;
+
+        if($request->has('mode') && $request->get('mode')=="search"){
+            $string = $request->get('string');
+            $competency = $request->get('competency');
+            $p_category = $request->get('p_category');
+            $s_category = $request->get('s_category');
+            $category = $request->get('category');
+        }
+        $questions = $this->questionUC->getQuestions($request);
+        //$question_cases = $this->questionUC->getQuestionCases();
+        $p_categories = $this->categoryUC->getPrimaryCategories();
+        $s_categories = $this->categoryUC->getSecondaryAllCategories();
+        $categories = $this->categoryUC->getSimpleCategories();
+        return view('question.index', compact('questions','string','competency','p_categories', 's_categories', 'categories'));
     }
 
     /**
