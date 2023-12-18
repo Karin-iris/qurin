@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ApiCategoryController;
 use App\Http\Controllers\Api\ApiQuestionController;
+use App\Http\Controllers\Api\ApiQuestionCaseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,7 @@ use App\Http\Controllers\Api\ApiQuestionController;
 //    return $request->user();
 //});
 Route::controller(ApiCategoryController::class)->group(callback: function () {
+    Route::get('/category/get_primaries/', 'get_primaries');
     Route::get('/category/get_secondaries/{id}', 'get_secondaries');
     Route::get('/category/get_children/{id}', 'get_children');
     Route::post('/category/upload/', 'upload');
@@ -28,5 +30,10 @@ Route::controller(ApiCategoryController::class)->group(callback: function () {
 Route::controller(ApiQuestionController::class)->group(callback: function () {
     Route::get('/question/get_user_summary', 'get_user_summary');
     Route::get('/question/get_secondary_category_summary', 'get_secondary_category_summary');
+});
+
+Route::controller(ApiQuestionCaseController::class)->group(callback: function () {
+    Route::get('/question_case/get_question_cases', 'get_question_cases');
+    Route::get('/question_case/get_question_case_questions/{id}', 'get_question_case_questions');
 });
 

@@ -13,15 +13,15 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('question.store_c') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('question_case.store') }}" class="mt-6 space-y-6">
         @csrf
         @method('post')
 
         <div>
             <x-input-label for="name" :value="__('questions.topic')"/>
             <x-text-input id="topic" name="topic" type="text" class="mt-1 block w-full" autofocus
-                          autocomplete="name" :value="old('topic')" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')"/>
+                          autocomplete="topic" :value="old('topic')" />
+            <x-input-error class="mt-2" :messages="$errors->get('topic')"/>
         </div>
 
         <div>
@@ -37,6 +37,9 @@
                         autocomplete="case_text">{{old('case_text')}}</x-textarea>
             <x-input-error class="mt-2" :messages="$errors->get('case_text')"/>
         </div>
+        <input type="hidden" name="is_request" value="1">
+        <input type="hidden" name="is_approve" value="0">
+        <input type="hidden" name="is_remand" value="{{old('is_remand')}}">
 
         <x-secondary-button x-on:click="$dispatch('close')">
             {{ __('Cancel') }}

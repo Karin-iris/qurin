@@ -63,14 +63,7 @@ class QuestionController extends Controller
         return view('question.create', compact('p_categories', 's_categories', 'categories'));//
     }
 
-    public function create_c()
-    {
-        $p_categories = $this->categoryUC->getPrimaryCategories();
-        $s_categories = $this->categoryUC->getSecondaryAllCategories();
-        $categories = $this->categoryUC->getSimpleCategories();
 
-        return view('question.create_c', compact('p_categories', 's_categories', 'categories'));//
-    }
 
     /**
      * Store a newly created resource in storage.

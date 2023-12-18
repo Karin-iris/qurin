@@ -63,15 +63,10 @@ Route::middleware(['auth:admin','mfa'])->group(function () {
         Route::get('/question', 'index')->name('question.index');
         Route::post('/question', 'index')->name('question.index');
         Route::get('/question/edit/{id}', 'edit')->name('question.edit');
-        Route::get('/question/c_edit/{id}', 'edit_c')->name('question.edit_c');
         Route::put('/question/edit/{id}', 'update')->name('question.update');
-        Route::put('/question/c_edit/{id}', 'update_c')->name('question.update_c');
         Route::get('/question/add', 'create')->name('question.create');
-        Route::get('/question/c_add', 'create_c')->name('question.create_c');
         Route::post('/question/add', 'store')->name('question.store');
-        Route::post('/question/c_add', 'store_c')->name('question.store_c');
         Route::delete('/question/del/{id}', 'destroy')->name('question.destroy');
-        Route::delete('/question/c_del/{id}', 'destroy_c')->name('question.destroy_c');
     });
     Route::controller(QuestionCaseController::class)->group(function () {
         Route::get('/question_case', 'index')->name('question_case.index');
@@ -81,8 +76,8 @@ Route::middleware(['auth:admin','mfa'])->group(function () {
         Route::put('/question_case/c_edit/{id}', 'update_c')->name('question_case.update_c');
         Route::get('/question_case/add', 'create')->name('question_case.create');
         Route::post('/question_case/add', 'store')->name('question_case.store');
-        Route::get('/question_case/c_add', 'create_c')->name('question_case.create_c');
-        Route::post('/question_case/c_add', 'store_c')->name('question_case.store_c');
+        Route::get('/question_case/c_add/{id}', 'create_c')->name('question_case.create_c');
+        Route::post('/question_case/c_add/{id}', 'store_c')->name('question_case.store_c');
         Route::delete('/question/del/{id}', 'destroy')->name('question_case.destroy');
         Route::delete('/question/c_del/{id}', 'destroy_c')->name('question_case.destroy_c');
     });

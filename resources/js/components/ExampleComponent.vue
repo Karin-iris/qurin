@@ -1,39 +1,37 @@
 <template>
-    <draggable v-model="items" @end="onDragEnd">
-        <div v-for="item in items" :key="item.id">
-            {{ item.name }}
-        </div>
+    <draggable  v-model="items" @end="onDragEnd">
+        <template v-slot:item="{ element }">
+            <div :key="element.id">
+                {{ element.name }}
+            </div>
+        </template>
     </draggable>
 </template>
 
 <script>
+import { ref } from 'vue';
 import draggable from 'vuedraggable';
 
 export default {
+    name: 'ExampleComponent',
     components: {
         draggable
     },
-    data() {
-        return {
-            items: [
-                { id: 1, name: 'Banana' },
-                { id: 2, name: 'Apple' },
-                { id: 3, name: 'Orange' },
-            ]
+    setup() {
+        const items = ref([
+            { id: 1, name: 'Banana' },
+            { id: 2, name: 'Apple' },
+            { id: 3, name: 'Orange' },
+        ]);
+
+        const onDragEnd = () => {
+            // Drag end logic
         };
-    },
-    methods: {
-        onDragEnd() {
-            axios.post('/api/items/order', {
-                items: this.items
-            })
-                .then(response => {
-                    // 成功時の処理
-                })
-                .catch(error => {
-                    // エラー時の処理
-                });
-        }
+
+        return {
+            items,
+            onDragEnd
+        };
     }
 };
 </script>

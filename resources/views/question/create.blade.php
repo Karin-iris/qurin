@@ -1,3 +1,7 @@
+@section('page-scripts')
+    <script type="text/javascript" src="/js/category.js?q={{ time() }}"></script>
+    <script type="text/javascript" src="/js/question.js?q={{ time() }}"></script>
+@endsection
 <x-admin-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">

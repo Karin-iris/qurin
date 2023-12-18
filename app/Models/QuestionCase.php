@@ -18,6 +18,7 @@ class QuestionCase extends Model
      */
     protected $fillable = [
         'text',
+        'case_text',
         'topic',
         'section_id',
         'category_id',

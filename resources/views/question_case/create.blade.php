@@ -1,3 +1,7 @@
+@section('page-vite')
+    @vite(['resources/js/app.js']);
+@endsection
+
 <x-admin-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -15,6 +19,6 @@
         </div>
     </div>
     <div id="app">
-    <example-component></example-component>
+        <example-component></example-component>
     </div>
 </x-admin-layout>

@@ -6,6 +6,7 @@
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",
+        "@vitejs/plugin-vue": "^4.5.2",
         "alpinejs": "^3.4.2",
         "autoprefixer": "^10.4.2",
         "axios": "^1.1.2",
@@ -20,6 +21,6 @@
         "jquery": "^3.7.0",
         "tw-elements": "^1.0.0-beta2",
         "vue": "^3.2.36",
-        "vuedraggable": "^2.24.3"
+        "vuedraggable": "^4.1.0"
     }
 }

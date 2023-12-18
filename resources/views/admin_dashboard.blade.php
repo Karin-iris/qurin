@@ -1,5 +1,5 @@
 @section('page-vite')
-    @vite(['resources/js/userSummaryPieChart.js',
+    @vite(['resources/js/app.js','resources/js/userSummaryPieChart.js',
     'resources/js/categorySummaryBarChart.js']);
 @endsection
 
@@ -37,6 +37,8 @@
             </div>
         </div>
     </div>
+    <div id="app">
+        <example-component></example-component>
     </div>
 
 </x-admin-layout>

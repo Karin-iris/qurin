@@ -140,7 +140,6 @@ class QuestionCaseUseCase extends UseCase
             ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
             ->groupBy('s.id')->get();
     }
-
     function getQuestionCase(int $id)
     {
         return $this->question_case->where('id', $id)->firstOrFail();
@@ -211,7 +210,7 @@ class QuestionCaseUseCase extends UseCase
         return $question_cases;
     }
 
-    function getUserQuestion(int $id)
+    function getUserQuestionCases(int $id)
     {
         $question = $this->question->select(
             $this->question_detail_column
@@ -229,6 +228,7 @@ class QuestionCaseUseCase extends UseCase
         return $this->question_case->where('id', $id)->firstOrFail();
     }
 
+
     function getUserQuestions(int $user_id)
     {
         $model = $this->question->select(
@@ -241,20 +241,21 @@ class QuestionCaseUseCase extends UseCase
         return $model->get();
     }
 
-    function getUserQuestionCases(int $user_id)
+    function saveQuestionCase(QuestionCaseRequest $request)
     {
-        $user_question_cases = $this->question_case
-            ->where('user_id', $user_id)
-            ->get();
-        return $user_question_cases;
+        $this->question_case->fill(
+            [
+                'text' => $request->input('text'),
+                'case_text' => $request->input('case_text'),
+                'topic' => $request->input('topic'),
+                'is_request' => $request->input('is_request'),
+                'is_remand' => $request->input('is_remand'),
+                'user_id' => Auth::user()->id
+            ]
+        )->save();
     }
 
-    function saveQuestion(QuestionRequest $request)
-    {
-        $this->question->fill($request->all())->save();
-    }
-
-    function saveUserQuestion(QuestionRequest $request): string
+    function saveQuestionCaseQuestion(QuestionCaseRequest $request): string
     {
         $this->question->fill([
             'topic' => $request->input('topic'),

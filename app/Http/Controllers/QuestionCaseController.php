@@ -36,7 +36,7 @@ class QuestionCaseController extends Controller
      */
     public function index(): View
     {
-        $question_cases = $this->questionUC->getQuestionCases();
+        $question_cases = $this->questionCaseUC->getQuestionCases();
         return view('question_case.index', compact('question_cases'));
     }
 
@@ -45,13 +45,10 @@ class QuestionCaseController extends Controller
      */
     public function create(): View
     {
-        $p_categories = $this->categoryUC->getPrimaryCategories();
-        $s_categories = $this->categoryUC->getSecondaryAllCategories();
-        $categories = $this->categoryUC->getSimpleCategories();
-        return view('question_case.create', compact('p_categories', 's_categories', 'categories'));//
+        return view('question_case.create');//
     }
 
-    public function create_c(): View
+    public function create_c()
     {
         $p_categories = $this->categoryUC->getPrimaryCategories();
         $s_categories = $this->categoryUC->getSecondaryAllCategories();
@@ -59,13 +56,12 @@ class QuestionCaseController extends Controller
 
         return view('question_case.create_c', compact('p_categories', 's_categories', 'categories'));//
     }
-
     /**
      * Store a newly created resource in storage.
      */
-    public function store(QuestionRequest $request): RedirectResponse
+    public function store(QuestionCaseRequest $request): RedirectResponse
     {
-        $this->questionUC->saveQuestion($request);
+        $this->questionCaseUC->saveQuestionCase($request);
         return Redirect::route('question_case.create')->with('question', 'saved');//
     }
 
@@ -91,13 +87,6 @@ class QuestionCaseController extends Controller
         return view('question_case.edit', compact('p_categories', 's_categories', 'categories', 'question'));
     }
 
-    public function edit_c(int $id): View
-    {
-        $question_case = $this->questionCaseUC->getQuestionCase($id);
-        $questions = $this->questionCaseUC->getCaseQuestions($question_case->id);
-        return view('question_case.edit_c', compact('question_case', 'questions'));
-    }
-
     /**
      * Update the specified resource in storage.
      */
@@ -108,24 +97,12 @@ class QuestionCaseController extends Controller
         return Redirect::route('question_case.index')->with('status', $status);////
     }
 
-    public function update_c(QuestionCaseRequest $request, int $id): RedirectResponse
-    {
-        $this->questionUC->updateQuestionCase($request, $id);
-        return Redirect::route('question_case.edit_c')->with('status', 'question-updated');
-    }
-
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(int $id)
     {
         $this->questionUC->delQuestion($id);
-        return Redirect::route('question_case.index')->with('question', 'deleted');//
-    }
-
-    public function destroy_c(int $id)
-    {
-        $this->questionUC->delQuestionCase($id);
         return Redirect::route('question_case.index')->with('question', 'deleted');//
     }
 }

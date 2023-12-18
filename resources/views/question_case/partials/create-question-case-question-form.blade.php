@@ -16,7 +16,10 @@
     <form method="post" action="{{ route('question_case.store') }}" class="mt-6 space-y-6">
         @csrf
         @method('post')
+        <div>
+            <x-input-label for="code" :value="__('question_cases.case_text')"/>
 
+        </div>
         <div>
             <x-input-label for="code" :value="__('categories.parent_category')"/>
             <x-categories.select-primary-categories name="primary_id"
