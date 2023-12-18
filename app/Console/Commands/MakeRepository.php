@@ -5,20 +5,20 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
-class GenerateRepository extends Command
+class MakeRepository extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'generate:repository {name}';
+    protected $signature = 'make:repository {name}';
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Generate an Onion Architecture repository';
+    protected $description = 'make an Onion Architecture repository';
 
 
     /**
@@ -27,15 +27,21 @@ class GenerateRepository extends Command
     public function handle(): void
     {
         $name = $this->argument('name');
-        $repositoryPath = app_path("Repositories/{$name}Repository.php");
+        $filePath = app_path("Repositories/{$name}Repository.php");
+
+        if (File::exists($filePath)) {
+            $this->error('Repository already exists!');
+            return;
+        }
+
 
         // リポジトリのコードを生成
         $repositoryCode = $this->generateRepositoryCode($name);
 
         // ファイルにコードを書き込み
-        File::put($repositoryPath, $repositoryCode);
+        File::put($filePath, $repositoryCode);
 
-        $this->info("Repository created successfully: {$repositoryPath}");
+        $this->info("Repository created successfully: {$filePath}");
     }
 
     protected function generateRepositoryCode($name)
@@ -50,7 +56,7 @@ namespace App\Repositories;
 
 use Illuminate\Support\Facades\DB;
 
-class {$name}Repository
+class {$name}Repository extends Repository
 {
     // ここにリポジトリのコードを追加
 }

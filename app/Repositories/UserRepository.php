@@ -12,7 +12,7 @@ use App\Exceptions\TokenException;
 class UserRepository extends Repository
 {
     protected Invitation $invitation;
-    public AdminInvitation $admin_invitation;
+    protected AdminInvitation $admin_invitation;
 
     public function __construct()
     {

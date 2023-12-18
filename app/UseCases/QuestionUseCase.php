@@ -22,6 +22,11 @@ class QuestionUseCase extends UseCase
     public Question $question;
     public QuestionCase $question_case;
     public QuestionImage $question_image;
+    public QuestionRepository $questionR;
+    public QuestionQueryService $questionQC;
+    public array $question_summary_column;
+    public array $question_admin_summary_column;
+    public array $question_detail_column;
 
     function __construct()
     {
@@ -88,7 +93,7 @@ class QuestionUseCase extends UseCase
 
     }
 
-    function getQuestion(int $id)
+    function getQuestion(int $id): Question
     {
         $question = $this->question->select(
             $this->question_detail_column
@@ -129,46 +134,8 @@ class QuestionUseCase extends UseCase
     function getQuestions(SearchRequest $request)
     {
         Log::info('Request', $request->all());
-        $query = $this->question->select(
-            $this->question_admin_summary_column
-        )->from('questions as q')
-            ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
-            ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
-            ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
-            ->leftJoin('users as u', 'u.id', '=', 'q.user_id')
-            ->where(function ($query) {
-                $query->Where('is_request', '1')->orWhere('is_approve', '1')->orWhere('is_remand', '1');
-            });
-        // 検索パラメータがある場合、それを使ってフィルタリング
-        if ($request->has('string')) {
-            $query->where(function ($query) use ($request) {
-                $query->where('q.text', 'like', '%' . $request->input('string') . '%')
-                    ->orWhere('q.explanation', 'like', '%' . $request->input('string') . '%')
-                    ->orWhere('q.topic', 'like', '%' . $request->input('string') . '%');
 
-            });
-        }
-        if ($request->has('competency')) {
-            $query->where(function ($query) use ($request) {
-                $query->orWhere('q.compitency', $request->input('competency'));
-            });
-        }
-        if ($request->has('primary_id')) {
-            $query->where(function ($query) use ($request) {
-                $query->orWhere('s.primary_id', $request->input('primary_id'));
-            });
-        }
-        if ($request->has('secondary_id')) {
-            $query->where(function ($query) use ($request) {
-                $query->orWhere('c.secondary_id', $request->input('secondary_id'));
-            });
-        }
-        if ($request->has('category_id')) {
-            $query->where(function ($query) use ($request) {
-                $query->orWhere('q.category_id', $request->input('category_id'));
-            });
-        }
-        return $query->get();
+        return $this->questionR->getQuestions($request);
     }
 
     function getQuestionExports()
