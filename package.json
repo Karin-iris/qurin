@@ -19,6 +19,7 @@
         "dropzone": "^6.0.0-beta.2",
         "jquery": "^3.7.0",
         "tw-elements": "^1.0.0-beta2",
-        "vue": "^3.2.36"
+        "vue": "^3.2.36",
+        "vuedraggable": "^2.24.3"
     }
 }

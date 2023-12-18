@@ -11,6 +11,8 @@ use App\Mail\QuestionRequestMail;
 use App\Models\Question;
 use App\Models\QuestionCase;
 use App\Models\QuestionImage;
+use App\QueryServices\QuestionQueryService;
+use App\Repositories\QuestionRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -23,7 +25,7 @@ class QuestionUseCase extends UseCase
     public QuestionCase $question_case;
     public QuestionImage $question_image;
     public QuestionRepository $questionR;
-    public QuestionQueryService $questionQC;
+    public QuestionQueryService $questionQS;
     public array $question_summary_column;
     public array $question_admin_summary_column;
     public array $question_detail_column;
@@ -33,6 +35,8 @@ class QuestionUseCase extends UseCase
         $this->question = new Question();
         $this->question_case = new QuestionCase();
         $this->question_image = new QuestionImage();
+        $this->questionR = new QuestionRepository();
+        $this->questionQS = new QuestionQueryService();
         $this->question_summary_column = [
             'p.name as p_c_name',
             's.name as s_c_name',
@@ -135,7 +139,7 @@ class QuestionUseCase extends UseCase
     {
         Log::info('Request', $request->all());
 
-        return $this->questionR->getQuestions($request);
+        return $this->questionQS->getQuestions($request);
     }
 
     function getQuestionExports()
