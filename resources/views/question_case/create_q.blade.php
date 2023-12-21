@@ -1,6 +1,4 @@
-@section('page-vite')
-    @vite(['resources/js/category.js']);
-@endsection
+
 
 <x-admin-layout>
     <x-slot name="header">
@@ -17,8 +15,5 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div id="category-app">
-        <category-component></category-component>
     </div>
 </x-admin-layout>

@@ -9,6 +9,7 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
                 'resources/js/table.js',
+                'resources/js/category.js',
                 'resources/js/userSummaryPieChart.js',
                 'resources/js/categorySummaryBarChart.js'
             ],

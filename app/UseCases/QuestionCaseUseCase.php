@@ -14,6 +14,7 @@ use App\Models\QuestionImage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\QuestionCaseQuestionRequest;
 
 class QuestionCaseUseCase extends UseCase
 {
@@ -255,22 +256,24 @@ class QuestionCaseUseCase extends UseCase
         )->save();
     }
 
-    function saveQuestionCaseQuestion(QuestionCaseRequest $request): string
+    function saveQuestionCaseQuestion(QuestionCaseQuestionRequest $request): string
     {
-        $this->question->fill([
+        $this->question_case_question->fill([
             'topic' => $request->input('topic'),
-            'compitency' => $request->input('compitency'),
-            'user_name' => $request->input('user_name'),
+            'compitency' => 1,
+            'user_name' => 'aaa',
             'text' => $request->input('text'),
+            'section_id' => 1,
+            'case_id' => 1,
             'quiz_id' => $request->input('quiz_id'),
-            'category_id' => $request->input('category_id'),
+            'category_id' => 1,//$request->input('category_id'),
             'correct_choice' => $request->input('correct_choice'),
             'wrong_choice_1' => $request->input('wrong_choice_1'),
             'wrong_choice_2' => $request->input('wrong_choice_2'),
             'wrong_choice_3' => $request->input('wrong_choice_3'),
             'explanation' => $request->input('explanation'),
-            'is_request' => $request->input('is_request'),
-            'is_remand' => $request->input('is_remand'),
+            'is_request' => 1,//$request->input('is_request'),
+            'is_remand' => 0,$request->input('is_remand'),
             'user_id' => Auth::user()->id
         ])->save();
         if ($request->input('is_request') === "1") {

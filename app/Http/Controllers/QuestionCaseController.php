@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use JetBrains\PhpStorm\Pure;
+use App\Http\Requests\QuestionCaseQuestionRequest;
 
 class QuestionCaseController extends Controller
 {
@@ -48,13 +49,13 @@ class QuestionCaseController extends Controller
         return view('question_case.create');//
     }
 
-    public function create_c()
+    public function create_q(int $case_id)
     {
         $p_categories = $this->categoryUC->getPrimaryCategories();
         $s_categories = $this->categoryUC->getSecondaryAllCategories();
         $categories = $this->categoryUC->getSimpleCategories();
 
-        return view('question_case.create_c', compact('p_categories', 's_categories', 'categories'));//
+        return view('question_case.create_q', compact('p_categories', 's_categories', 'categories'));//
     }
     /**
      * Store a newly created resource in storage.
@@ -63,6 +64,15 @@ class QuestionCaseController extends Controller
     {
         $this->questionCaseUC->saveQuestionCase($request);
         return Redirect::route('question_case.create')->with('question', 'saved');//
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store_q(int $case_id,QuestionCaseQuestionRequest $request): RedirectResponse
+    {
+        $this->questionCaseUC->saveQuestionCaseQuestion($request);
+        return Redirect::route('question_case.create_q',['case_id'=>$case_id])->with('question', 'saved');//
     }
 
     /**

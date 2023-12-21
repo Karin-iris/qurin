@@ -13,7 +13,7 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('question.update_c',$question_case->id) }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('question.update_q',$question_case->id) }}" class="mt-6 space-y-6">
         @csrf
         @method('put')
 

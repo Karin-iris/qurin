@@ -71,15 +71,15 @@ Route::middleware(['auth:admin','mfa'])->group(function () {
     Route::controller(QuestionCaseController::class)->group(function () {
         Route::get('/question_case', 'index')->name('question_case.index');
         Route::get('/question_case/edit/{id}', 'edit')->name('question_case.edit');
-        Route::get('/question_case/c_edit/{id}', 'edit_c')->name('question_case.edit_c');
         Route::put('/question_case/edit/{id}', 'update')->name('question_case.update');
-        Route::put('/question_case/c_edit/{id}', 'update_c')->name('question_case.update_c');
+        Route::get('/question_case/q_edit/{id}', 'edit_q')->name('question_case.edit_q');
+        Route::put('/question_case/q_edit/{id}', 'update_q')->name('question_case.update_q');
         Route::get('/question_case/add', 'create')->name('question_case.create');
         Route::post('/question_case/add', 'store')->name('question_case.store');
-        Route::get('/question_case/c_add/{id}', 'create_c')->name('question_case.create_c');
-        Route::post('/question_case/c_add/{id}', 'store_c')->name('question_case.store_c');
+        Route::get('/question_case/q_add/{case_id}', 'create_q')->name('question_case.create_q');
+        Route::post('/question_case/q_add/{case_id}', 'store_q')->name('question_case.store_q');
         Route::delete('/question/del/{id}', 'destroy')->name('question_case.destroy');
-        Route::delete('/question/c_del/{id}', 'destroy_c')->name('question_case.destroy_c');
+        Route::delete('/question/q_del/{id}', 'destroy_q')->name('question_case.destroy_q');
     });
     Route::controller(ImportController::class)->group(function () {
         Route::get('/import', 'index')->name('import.index');

@@ -19,9 +19,20 @@ class QuestionCaseQuestion extends Model
     protected $fillable = [
         'text',
         'topic',
+        'section_id',
+        'compitency',
+        'user_name',
+        'category_id',
+        'quiz_id',
+        'case_id',
+        'correct_choice',
+        'wrong_choice_1',
+        'wrong_choice_2',
+        'wrong_choice_3',
+        'explanation',
         'is_request',
         'is_approve',
-        'section_id',
-        'user_id'
+        'is_remand',
+        'user_id',
     ];
 }

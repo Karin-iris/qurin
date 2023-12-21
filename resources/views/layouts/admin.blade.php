@@ -12,11 +12,10 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
 
     <!-- Scripts -->
-    @vite(['resources/css/app.css'])
     @yield('page-vite')
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     @yield('page-scripts')
-
+    @vite(['resources/css/app.css'])
 </head>
 <body class="font-sans antialiased">
 <div class="min-h-screen bg-gray-300">

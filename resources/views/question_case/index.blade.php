@@ -1,5 +1,5 @@
 @section('page-vite')
-    @vite(['resources/js/table.js']);
+    @vite(['resources/js/table.js'])
 @endsection
 
 <x-admin-layout>
@@ -65,7 +65,7 @@
                                     {{$question_case->updated_at}}</td>
                                 <td>
                                     @if(!empty($question_case->id))
-                                        <a href="{{ route('question_case.create_c', ['id'=> $question_case->id]) }}">
+                                        <a href="{{ route('question_case.create_q', ['case_id'=> $question_case->id]) }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                                  viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -76,7 +76,7 @@
                                 </td>
                                 <td>
                                     @if(!empty($question_case->id))
-                                        <a href="{{ route('question_case.edit_c', ['id'=> $question_case->id]) }}">
+                                        <a href="{{ route('question_case.edit_q', ['id'=> $question_case->id]) }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                                  viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

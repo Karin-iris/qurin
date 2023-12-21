@@ -1,20 +1,35 @@
 <template>
     <div>
-        <select v-model="selected_primary_id" @change="fetchSecondaryCategories">
+        <select id="categorySelect"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 {{$class}}"
+                v-model="selected_primary_id"
+                @change="fetchSecondaryCategories"
+        >
             <option disabled value="">親カテゴリを選択</option>
             <option v-for="primary_category in primary_categories" :key="primary_category.id" :value="primary_category.id">
                 {{ primary_category.name }}
             </option>
         </select>
 
-        <select v-model="selected_secondary_id" @change="fetchCategories" v-if="secondary_categories.length">
+        <select id="categorySelect"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 {{$class}}"
+                v-model="selected_secondary_id"
+                @change="fetchCategories"
+                v-if="secondary_categories.length"
+        >
             <option disabled value="">子カテゴリを選択</option>
             <option v-for="secondary_category in secondary_categories" :key="secondary_category.id" :value="secondary_category.id">
                 {{ secondary_category.name }}
             </option>
         </select>
 
-        <select v-model="selected_category_id" v-if="categories.length">
+        <select id="categorySelect"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 {{$class}}"
+                name="category_id"
+                v-model="selected_category_id"
+                v-if="categories.length"
+        >
+
             <option disabled value="">孫カテゴリを選択</option>
             <option v-for="category in categories" :key="category.id" :value="category.id">
                 {{ category.name }}
@@ -26,6 +41,7 @@
 <script>
 import axios from 'axios';
 import { ref, computed } from 'vue';
+import draggable from 'vuedraggable';
 
 export default {
     setup() {
