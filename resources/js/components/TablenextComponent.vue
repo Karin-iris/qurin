@@ -17,6 +17,14 @@ export default {
     components: {
         VueGoodTable,
     },
+    methods:{
+        idField(rowObj) {
+            return rowObj.id+ '<br>' + rowObj.user_id;
+        },
+        textField(rowObj) {
+            return rowObj.text;
+        },
+    },
     mounted() {
         axios.get('/api/question_case/get_question_cases')
             .then(response => {
@@ -26,20 +34,24 @@ export default {
                 console.error('Error fetching the items:', error);
             });
     },
+
     data() {
         return {
             columns: [
+                {
+                    label: 'Quiz id',
+                    field: this.idField,
+                },
                 {
                     label: 'Topic',
                     field: 'topic',
                 },
                 {
-                    label: 'Age',
-                    field: 'age',
-                    type: 'number',
+                    label: 'Text',
+                    field: this.textField,
                 },
                 {
-                    label: 'Created On',
+                    label: 'Created On ',
                     field: 'createdAt',
                     type: 'date',
                     dateInputFormat: 'yyyy-MM-dd',
@@ -51,6 +63,7 @@ export default {
                     type: 'percentage',
                 },
             ],
+
             rows: [
             ],
         };

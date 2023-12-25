@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
+use App\Models\QuestionCaseQuestion;
 class QuestionCase extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -26,4 +26,12 @@ class QuestionCase extends Model
         'is_approve',
         'user_id'
     ];
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i', // 例としてのフォーマット
+        'updated_at' => 'datetime:Y-m-d H:i', // 例としてのフォーマット
+    ];
+    public function questions()
+    {
+        return $this->hasMany(QuestionCaseQuestion::class, 'case_id');
+    }
 }

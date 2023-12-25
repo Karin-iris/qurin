@@ -20,7 +20,7 @@ class ApiQuestionCaseController extends ApiController
     public function get_question_cases() : JsonResponse
     {
         return response()->json(
-            $this->questionCaseUC->getQuestionCases()
+            $this->questionCaseUC->getQuestionCasesWithChild()
         );
     }
     public function get_question_case_questions(int $id) : JsonResponse
@@ -28,6 +28,13 @@ class ApiQuestionCaseController extends ApiController
         return response()->json(
             $this->questionCaseUC->getCaseQuestions($id)
         );
+    }
+    public function get_question_case_with_questions(): JsonResponse
+    {
+        return response()->json(
+            $this->questionCaseUC->getQuestionCasesWithQuestions()
+        );
+
     }
 
 }

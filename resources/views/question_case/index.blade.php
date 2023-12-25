@@ -1,5 +1,5 @@
 @section('page-vite')
-    @vite(['resources/js/tableNext.js'])
+    @vite(['resources/js/table.js'])
 @endsection
 
 <x-admin-layout>
@@ -90,8 +90,8 @@
                         @endforeach
                         </tbody>
                     </table>
-                    <div id="table-next-app">
-                        <table-next-component></table-next-component>
+                    <div id="table-app">
+                        <table-component></table-component>
                     </div>
                 </div>
             </div>

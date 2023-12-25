@@ -11,11 +11,11 @@ use App\Models\Question;
 use App\Models\QuestionCase;
 use App\Models\QuestionCaseQuestion;
 use App\Models\QuestionImage;
+use App\QueryServices\QuestionCaseQueryService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\QuestionCaseQuestionRequest;
-
 class QuestionCaseUseCase extends UseCase
 {
 
@@ -24,11 +24,13 @@ class QuestionCaseUseCase extends UseCase
     public QuestionCaseQuestion $question_case_question;
     public QuestionImage $question_image;
 
+    public QuestionCaseQueryService $questionCaseQS;
     function __construct()
     {
         $this->question = new Question();
         $this->question_case = new QuestionCase();
         $this->question_case_question = new QuestionCaseQuestion();
+        $this->questionCaseQS = new QuestionCaseQueryService();
         $this->question_image = new QuestionImage();
         $this->question_summary_column = [
             'p.name as p_c_name',
@@ -175,7 +177,9 @@ class QuestionCaseUseCase extends UseCase
             ->leftJoin('users as u', 'u.id', '=', 'q.user_id')
             ->Where('case_id', $case_id)->Where('is_request', '1')->orWhere('is_approve', '1')->orWhere('is_remand', '1')->get();
     }
-
+    function getQuestionCasesWithQuestions(){
+        return $question_cases = $this->questionCaseQS->getQuestionCasesWithQuestions();
+    }
     function getQuestionExportDetail()
     {
         return $this->question->select(
