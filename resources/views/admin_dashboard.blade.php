@@ -1,6 +1,6 @@
 @section('page-vite')
     @vite(['resources/js/app.js','resources/js/userSummaryPieChart.js',
-    'resources/js/categorySummaryBarChart.js']);
+    'resources/js/categorySummaryBarChart.js'])
 @endsection
 
 <x-admin-layout>

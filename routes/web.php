@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ExaminationController;
+use App\Http\Controllers\SectionController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\ProfileController;
@@ -59,6 +61,24 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth:admin','mfa'])->group(function () {
+    Route::controller(ExaminationController::class)->group(function () {
+        Route::get('/examination', 'index')->name('examination.index');
+        Route::post('/examination', 'index')->name('examination.index');
+        Route::get('/examination/edit/{id}', 'edit')->name('examination.edit');
+        Route::put('/examination/edit/{id}', 'update')->name('examination.update');
+        Route::get('/examination/add', 'create')->name('examination.create');
+        Route::post('/examination/add', 'store')->name('examination.store');
+        Route::delete('/examination/del/{id}', 'destroy')->name('examination.destroy');
+    });
+    Route::controller(SectionController::class)->group(function () {
+        Route::get('/section', 'index')->name('section.index');
+        Route::post('/section', 'index')->name('section.index');
+        Route::get('/section/edit/{id}', 'edit')->name('section.edit');
+        Route::put('/section/edit/{id}', 'update')->name('section.update');
+        Route::get('/section/add', 'create')->name('section.create');
+        Route::post('/section/add', 'store')->name('section.store');
+        Route::delete('/section/del/{id}', 'destroy')->name('section.destroy');
+    });
     Route::controller(QuestionController::class)->group(function () {
         Route::get('/question', 'index')->name('question.index');
         Route::post('/question', 'index')->name('question.index');

@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ApiCategoryController;
 use App\Http\Controllers\Api\ApiQuestionController;
 use App\Http\Controllers\Api\ApiQuestionCaseController;
-
+use App\Http\Controllers\Api\ApiExaminationController;
+use App\Http\Controllers\Api\ApiSectionController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -36,5 +37,12 @@ Route::controller(ApiQuestionCaseController::class)->group(callback: function ()
     Route::get('/question_case/get_question_cases', 'get_question_cases');
     Route::get('/question_case/get_question_case_questions/{id}', 'get_question_case_questions');
     Route::get('/question_case/get_question_case_with_questions/', 'get_question_case_with_questions');
+});
+
+Route::controller(ApiExaminationController::class)->group(callback: function () {
+    Route::get('/examinations/get', 'get_examinations');
+});
+Route::controller(ApiSectionController::class)->group(callback: function () {
+    Route::get('/sections/get','get_sections');
 });
 

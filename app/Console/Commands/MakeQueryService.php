@@ -13,11 +13,10 @@ class MakeQueryService extends Command
     {
 
         $name = $this->argument('name');
-
         $filePath = app_path("QueryServices/{$name}QueryService.php");
 
         if (File::exists($filePath)) {
-            $this->error('QueryService already exists!');
+            $this->error("QueryService already exists!");
             return;
         }
 
@@ -26,21 +25,27 @@ class MakeQueryService extends Command
 
         File::put($filePath, $queryServiceCode);
 
-        $this->info('QueryService created successfully!');
+        $this->info("QueryService created successfully!: {$filePath}");
     }
 
     protected function generateQueryServiceCode($name)
     {
+        $name_lower = strtolower($name);
         return <<<CODE
 <?php
 
 namespace App\QueryServices;
 
 use Illuminate\Support\Facades\DB;
+use App\Models\\{$name};
 
 class {$name}QueryService extends QueryService
 {
-    // ここにリポジトリのコードを追加
+    protected {$name} \${$name_lower};
+
+    function __construct(){
+        \$this->{$name_lower} = new {$name};
+    }
 }
 CODE;
     }

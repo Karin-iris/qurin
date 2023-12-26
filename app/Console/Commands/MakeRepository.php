@@ -46,19 +46,22 @@ class MakeRepository extends Command
 
     protected function generateRepositoryCode($name)
     {
-        // ここでリポジトリのコードを生成するロジックを記述
-        // 例えば、テンプレートを使用して動的に生成するなど
-
+        $name_lower = strtolower($name);
         $code = <<<CODE
 <?php
 
 namespace App\Repositories;
 
 use Illuminate\Support\Facades\DB;
+use App\Models\\{$name};
 
 class {$name}Repository extends Repository
 {
-    // ここにリポジトリのコードを追加
+    protected {$name} \${$name_lower};
+
+    function __construct(){
+        \$this->{$name_lower} = new {$name};
+    }
 }
 CODE;
 
