@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Sections\SectionRequest;
+use App\UseCases\SectionUseCase;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Redirect;
 class SectionController extends Controller
 {
+    public function __construct()
+    {
+        $this->sectionUC = new SectionUseCase();
+    }
     /**
      * Display a listing of the resource.
      */
@@ -19,15 +25,16 @@ class SectionController extends Controller
      */
     public function create()
     {
-        //
+        return view('section.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SectionRequest $request)
     {
-        //
+        $this->sectionUC->set($request);//
+        return Redirect::route('section.create')->with('examination', 'saved');////
     }
 
     /**
@@ -43,7 +50,7 @@ class SectionController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('section.edit');
     }
 
     /**

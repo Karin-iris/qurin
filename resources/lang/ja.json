@@ -1,8 +1,11 @@
 {
+    "Examinations": "試験一覧",
+    "Sections": "セクション一覧",
     "Profile": "プロフィール",
     "Import": "インポート",
     "Export": "エクスポート",
     "User": "ユーザー",
+    "Admin": "管理者",
     "Questions": "試験問題一覧",
     "QuestionsCase": "ケース問題一覧",
     "QuestionAdd": "試験問題作成",

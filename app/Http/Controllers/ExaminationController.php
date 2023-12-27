@@ -2,10 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Examinations\ExaminationRequest;
+use App\UseCases\ExaminationUseCase;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class ExaminationController extends Controller
 {
+    protected ExaminationUseCase $examinationUC;
+
+    public function __construct()
+    {
+        $this->examinationUC = new ExaminationUseCase();
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -19,15 +29,16 @@ class ExaminationController extends Controller
      */
     public function create()
     {
-        //
+        return view('examination.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ExaminationRequest $request)
     {
-        //
+        $this->examinationUC->set($request);//
+        return Redirect::route('examination.create')->with('examination', 'saved');//
     }
 
     /**
@@ -43,7 +54,8 @@ class ExaminationController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $examination = $this->examinationUC->get($id);
+        return view('examination.edit',compact('examination'));
     }
 
     /**

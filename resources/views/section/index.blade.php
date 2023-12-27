@@ -5,7 +5,7 @@
 <x-admin-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Examinations') }}
+            {{ __('Sections') }}
         </h2>
     </x-slot>
     <div class="py-12">
@@ -14,11 +14,11 @@
                 <div class="w-full">
                     <header class="mb-5">
                         <h2 class="text-lg font-medium text-gray-900">
-                            {{ __('examinations.cases') }}
+                            {{ __('sections.list') }}
                         </h2>
 
                         <p class="mt-1 text-sm text-gray-600">
-                            {{ __('examinations.list_explain') }}
+                            {{ __('sections.list_explain') }}
                         </p>
                     </header>
                     @if (session('status') === 'approved')
@@ -36,7 +36,7 @@
                     @endif
                     <button type="button"
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                            onClick="location.href='{{ route('examination.create') }}'">{{ __('examinations.create_case') }}
+                            onClick="location.href='{{ route('section.create') }}'">{{ __('sections.create') }}
                     </button>
 
 
@@ -75,7 +75,7 @@
                 </tr>
                 </thead>
                 <tbody class="text-md">
-                @foreach($examinations as $examination)
+                @foreach($sections as $examination)
                     <tr class="border-b border-gray-500 @if($examination->is_approve == 1) bg-red-50 @elseif($examination->is_request == 1) bg-blue-50 @else bg-white @endif">
                         <td>{{$examination->topic}}</td>
                         <td>{{$examination->text}}</td>
