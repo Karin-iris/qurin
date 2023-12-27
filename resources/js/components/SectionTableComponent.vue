@@ -88,15 +88,18 @@ export default {
         };
     },
     mounted() {
-        axios.get('/api/sections/get')
-            .then(response => {
-                this.items = response.data;
-            })
-            .catch(error => {
-                console.error('Error fetching the items:', error);
-            });
+        this.fetchData();
     },
     methods: {
+        fetchData() {
+            axios.get('/api/sections/get')
+                .then(response => {
+                    this.items = response.data;
+                })
+                .catch(error => {
+                    console.error('Error fetching the items:', error);
+                });
+        },
         changeSort(order) {
             router.push({ path: '/api/sections/get', query: { ...route.query, sort: order } });
         }

@@ -2,6 +2,7 @@
 
 namespace App\UseCases;
 
+use App\Http\Requests\Examinations\ExaminationRequest;
 use App\Models\Examination;
 use App\QueryServices\ExaminationQueryService;
 use App\Repositories\ExaminationRepository;
@@ -23,5 +24,12 @@ class ExaminationUseCase extends UseCase
         return $this->examinationQS->getExaminations();
     }
 
+    function get($id){
+        return $this->examinationQS->get($id);
+    }
+
+    function set(ExaminationRequest $request){
+        return $this->examinationR->set($request);
+    }
     // ここにリポジトリのコードを追加
 }

@@ -68,6 +68,7 @@ Route::middleware(['auth:admin','mfa'])->group(function () {
         Route::put('/examination/edit/{id}', 'update')->name('examination.update');
         Route::get('/examination/add', 'create')->name('examination.create');
         Route::post('/examination/add', 'store')->name('examination.store');
+        Route::get('/examination/show/{id}', 'show')->name('examination.show');
         Route::delete('/examination/del/{id}', 'destroy')->name('examination.destroy');
     });
     Route::controller(SectionController::class)->group(function () {
@@ -156,6 +157,7 @@ Route::middleware(['auth:admin','mfa'])->group(function () {
         Route::post('/user/send_admin_invite', 'send_admin_invite')->name('user.send_admin_invite');
         Route::get('/user/admin_regist/{token}', 'admin_regist')->name('user.admin_regist');
         Route::get('/user/regist/{token}', 'user_regist')->name('user.regist');
+        Route::get('/user/admin_config_edit/', 'admin_config_edit')->name('user.admin_config_edit');
     });
 });
 

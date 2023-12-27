@@ -2,11 +2,12 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Storage;
 use Google\Cloud\Storage\StorageClient;
 use League\Flysystem\Filesystem;
+use Illuminate\Filesystem\FilesystemAdapter;
 use League\Flysystem\GoogleCloudStorage\GoogleCloudStorageAdapter;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\ServiceProvider;
 
 class GoogleCloudStorageServiceProvider extends ServiceProvider
 {
@@ -21,16 +22,21 @@ class GoogleCloudStorageServiceProvider extends ServiceProvider
     /**
      * Bootstrap services.
      */
-    public function boot(): void
+    public function boot()
     {
         Storage::extend('gcs', function ($app, $config) {
-            $bucket = $config['bucket'];
             $storageClient = new StorageClient([
                 'projectId' => $config['project_id'],
                 'keyFilePath' => $config['key_file'],
             ]);
-            $adapter = new GoogleCloudStorageAdapter($storageClient, $bucket);
-            return new Filesystem($adapter);
+
+            $bucket = $storageClient->bucket($config['bucket']);
+            $adapter = new GoogleCloudStorageAdapter($bucket);
+
+            // FilesystemAdapter インスタンスを返す
+            return new FilesystemAdapter(
+                new Filesystem($adapter, $config), $adapter, $config
+            );
         });
     }
 }
