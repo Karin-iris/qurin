@@ -6,9 +6,8 @@
                 <th class="w-20">Qurin Examination ID<br>Examination ID</th>
                 <th>試験タイトル</th>
                 <th>作成者</th>
-                <th>紐付き問題数</th>
+                <th>関連問題数</th>
                 <th>作成時間<br>更新時間</th>
-                <th>問題の追加</th>
                 <th>編集</th>
             </tr>
         </thead>
@@ -19,7 +18,7 @@
                     <td class="w-20">
                         {{ element.id }}
                     </td>
-                    <td class="w-20">{{ element.topic }}
+                    <td>{{ element.topic }}
                         <!--<ul v-if="item.showChildren">
                             <li v-for="(child, childIndex) in item.children" :key="childIndex">
                                 {{ child.topic }}
@@ -43,16 +42,7 @@
                         <p>{{ element.updated_at }}</p>
                     </td>
                     <td>
-                        <a :href="`/question_case/q_add/${element.id}`">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/>
-                            </svg>
-                        </a>
-                    </td>
-                    <td>
-                        <a :href="`/question_case/edit/${element.id}`">
+                        <a :href="`/examination/edit/${element.id}`">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                  viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
