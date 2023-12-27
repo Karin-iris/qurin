@@ -65,7 +65,9 @@
                     </x-slot>
 
                     <x-slot name="content">
-
+                        <x-dropdown-link :href="route('user.admin_config_edit')">
+                            {{ __('Profile') }}
+                        </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('admin_logout') }}">
                             @csrf

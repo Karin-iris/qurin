@@ -93,4 +93,10 @@ class UserController extends Controller
         $this->userUC->updateAdmin($request,$id);
         return Redirect::route('user.edit', $id)->with('user', 'saved');
     }
+
+    public function admin_config_edit(): View
+    {
+        $admins = $this->userUC->getAdmins();
+        return view('user.admin_config_edit', compact('admins'));
+    }
 }
