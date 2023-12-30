@@ -7,7 +7,7 @@ use App\UseCases\ExaminationUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Http\File;
 class ExaminationController extends Controller
 {
     protected ExaminationUseCase $examinationUC;
@@ -30,13 +30,6 @@ class ExaminationController extends Controller
      */
     public function create()
     {
-        try {
-            echo Storage::disk('gcs')->put('test/example.txt', 'Contents');
-        } catch (Exception $e) {
-            echo 'Error uploading file: ' . $e->getMessage();
-            // ここでエラーを処理
-        }
-
         return view('examination.create');
     }
 

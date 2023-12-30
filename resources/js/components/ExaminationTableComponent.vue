@@ -36,6 +36,8 @@
                     </td>
                     <td>
                         {{ element.text }}
+                        <button v-if="!isEditing(item)" @click="editItem(item)">Edit</button>
+                        <button v-else @click="saveItem(item)">Save</button>
                     </td>
                     <td>
                         <p>{{ element.created_at }}</p>

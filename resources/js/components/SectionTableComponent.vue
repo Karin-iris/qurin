@@ -1,10 +1,20 @@
+
 <template>
+    <input type="text" v-model="searchQuery" @input="fetchData"/>
     <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
         <thead
             class="p-10 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr class="border-b-2 border-gray-500">
-            <th class="w-20">Qurin Section ID<br>Section ID</th>
-            <th>セクションタイトル（要約）</th>
+            <th class="w-20" @click="sort('id')">Qurin Section ID<br>Section ID
+                <span v-if="sortKey === 'id'">
+          <span v-if="sortOrder === 'asc'">▲</span>
+          <span v-else>▼</span>
+        </span></th>
+            <th @click="sort('topic')">セクションタイトル（要約）
+                <span v-if="sortKey === 'topic'">
+          <span v-if="sortOrder === 'asc'">▲</span>
+          <span v-else>▼</span>
+        </span></th>
             <th>作成者</th>
             <th>紐付き問題数</th>
             <th>作成時間<br>更新時間</th>
@@ -18,7 +28,9 @@
                     <td>
                         {{ element.id }}
                     </td>
-                    <td>{{ element.topic }}
+                    <td>
+                        <span v-if="!isEditing(element)">{{ element.topic }}</span>
+                        <input v-else type="text" v-model="editableData[element.id].topic" />
                         <!--<ul v-if="item.showChildren">
                             <li v-for="(child, childIndex) in item.children" :key="childIndex">
                                 {{ child.topic }}
@@ -30,6 +42,8 @@
                                 {{ child.name }}
                             </li>
                         </ul>-->
+                        <button v-if="!isEditing(element)" @click="editItem(element)">Edit</button>
+                        <button v-else @click="saveItem(element)">Save</button>
                     </td>
                     <td>
                         {{ element.topic }}
@@ -63,6 +77,9 @@
             </template>
         </draggable>
     </table>
+    <button @click="prevPage" :disabled="page <= 1">Prev</button>
+    <span>Page {{ page }}</span>
+    <button @click="nextPage">Next</button>
 </template>
 
 <script>
@@ -84,6 +101,12 @@ export default {
                 {name: 'Item 3', children: []},*/
                 // 他のアイテム
             ],
+            editableData: {},
+            searchQuery: '',
+            sortKey: '',
+            sortOrder: 'asc',
+            page: 1,
+            perPage: 10,
             activeChildIndex: null
         };
     },
@@ -92,7 +115,15 @@ export default {
     },
     methods: {
         fetchData() {
-            axios.get('/api/sections/get')
+            axios.get('/api/sections/get', {
+                params: {
+                    search: this.searchQuery,
+                    sort: this.sortKey,
+                    order: this.sortOrder,
+                    page: this.page,
+                    perPage: this.perPage
+                }
+            })
                 .then(response => {
                     this.items = response.data;
                 })
@@ -102,6 +133,35 @@ export default {
         },
         changeSort(order) {
             router.push({ path: '/api/sections/get', query: { ...route.query, sort: order } });
+        },
+        sort(key) {
+            this.sortKey = key;
+            this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+            this.fetchData();
+        },
+        isEditing(item) {
+            return this.editableData.hasOwnProperty(item.id);
+        },
+        editItem(item) {
+            //this.$set(this.editableData, item.id, { ...item });
+            this.editableData[item.id] = { ...item };
+            this.fetchData();
+        },
+        saveItem(item) {
+            // ここでLaravelのAPIに保存リクエストを送る
+            console.log('Saving', this.editableData[item.id]);
+            delete this.editableData[item.id];
+            this.fetchData();
+        },
+        prevPage() {
+            if (this.page > 1) {
+                this.page--;
+                this.fetchData();
+            }
+        },
+        nextPage() {
+            this.page++;
+            this.fetchData();
         }
     }
 };

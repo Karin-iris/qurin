@@ -12,6 +12,7 @@ export default defineConfig({
                 'resources/js/tableNext.js',
                 'resources/js/examinationTable.js',
                 'resources/js/sectionTable.js',
+                'resources/js/imageUpload.js',
                 'resources/js/category.js',
                 'resources/js/userSummaryPieChart.js',
                 'resources/js/categorySummaryBarChart.js'

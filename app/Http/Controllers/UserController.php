@@ -7,14 +7,17 @@ use Illuminate\View\View;
 use App\UseCases\UserUseCase;
 use JetBrains\PhpStorm\Pure;
 use App\Http\Requests\UserRegistRequest;
+use App\UseCases\UserConfigUseCase;
 
 class UserController extends Controller
 {
     public UserUseCase $userUC;
+    public UserConfigUseCase $userConfigUC;
 
     public function __construct()
     {
         $this->userUC = new UserUseCase();
+        $this->userConfigUC = new UserConfigUseCase();
     }
 
 
@@ -96,7 +99,7 @@ class UserController extends Controller
 
     public function admin_config_edit(): View
     {
-        $admins = $this->userUC->getAdmins();
+        $admins = $this->userConfigUC->setAdminConfig();
         return view('user.admin_config_edit', compact('admins'));
     }
 }

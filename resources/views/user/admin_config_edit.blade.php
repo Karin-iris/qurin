@@ -1,3 +1,7 @@
+@section('page-vite')
+    @vite(['resources/js/imageUpload.js'])
+@endsection
+
 <x-admin-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -13,5 +17,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div id="image-upload-app">
+        <image-upload-component></image-upload-component>
     </div>
 </x-admin-layout>
