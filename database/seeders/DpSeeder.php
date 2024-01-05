@@ -12,7 +12,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 
-class DatabaseSeeder extends Seeder
+class DpSeeder extends Seeder
 {
     /**
      * Seed the application's database.
