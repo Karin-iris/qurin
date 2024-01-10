@@ -75,7 +75,7 @@ export default {
         };
     },
     mounted() {
-        axios.get('/api/examination/get')
+        axios.get('/api/question/get')
             .then(response => {
                 this.items = response.data;
             })

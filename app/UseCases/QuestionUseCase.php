@@ -96,7 +96,9 @@ class QuestionUseCase extends UseCase
         ];
 
     }
-
+    function getData(){
+        return $this->question->get();
+    }
     function getQuestion(int $id): Question
     {
         $question = $this->question->select(

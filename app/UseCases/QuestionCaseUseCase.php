@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\QuestionCaseQuestionRequest;
+
 class QuestionCaseUseCase extends UseCase
 {
 
@@ -25,6 +26,7 @@ class QuestionCaseUseCase extends UseCase
     public QuestionImage $question_image;
 
     public QuestionCaseQueryService $questionCaseQS;
+
     function __construct()
     {
         $this->question = new Question();
@@ -32,89 +34,37 @@ class QuestionCaseUseCase extends UseCase
         $this->question_case_question = new QuestionCaseQuestion();
         $this->questionCaseQS = new QuestionCaseQueryService();
         $this->question_image = new QuestionImage();
-        $this->question_summary_column = [
-            'p.name as p_c_name',
-            's.name as s_c_name',
-            'c.name as c_name',
-            'p.code as p_c_code',
-            's.code as s_c_code',
-            'c.code as c_code',
-            'q.user_name as user_name',
-            'q.compitency as compitency',
-            'q.topic as topic',
-            'q.id as id',
-            'q.quiz_id as quiz_id',
-            'q.is_request as is_request',
-            'q.is_approve as is_approve',
-            'q.is_remand as is_remand',
-            'q.created_at as created_at',
-            'q.updated_at as updated_at',
-        ];
-        $this->question_admin_summary_column = [
-            'p.name as p_c_name',
-            's.name as s_c_name',
-            'c.name as c_name',
-            'p.code as p_c_code',
-            's.code as s_c_code',
-            'c.code as c_code',
-            'q.topic as topic',
-            'q.id as id',
-            'q.quiz_id as quiz_id',
-            'q.user_name as user_name',
-            'q.is_request as is_request',
-            'q.is_approve as is_approve',
-            'q.is_remand as is_remand',
-            'q.created_at as created_at',
-            'q.updated_at as updated_at',
-        ];
-        $this->question_detail_column = [
-            'p.name as p_c_name',
-            's.name as s_c_name',
-            'c.name as c_name',
-            'p.id as p_c_id',
-            's.id as s_c_id',
-            'c.id as c_id',
-            'q.topic as topic',
-            'q.user_name as user_name',
-            'q.compitency as compitency',
-            'q.id as id',
-            'q.quiz_id as quiz_id',
-            'q.text as text',
-            'q.correct_choice as correct_choice',
-            'q.wrong_choice_1 as wrong_choice_1',
-            'q.wrong_choice_2 as wrong_choice_2',
-            'q.wrong_choice_3 as wrong_choice_3',
-            'q.is_remand as is_remand',
-            'q.created_at as created_at',
-            'q.updated_at as updated_at',
-            'q.explanation as explanation'
-        ];
+    }
 
+    function getData()
+    {
+        return $this->question->get();
     }
 
     function getCaseQuestion(int $id)
     {
         $question = $this->question->select(
-            ['p.name as p_c_name',
-            's.name as s_c_name',
-            'c.name as c_name',
-            'p.id as p_c_id',
-            's.id as s_c_id',
-            'c.id as c_id',
-            'q.topic as topic',
-            'q.user_name as user_name',
-            'q.compitency as compitency',
-            'q.id as id',
-            'q.quiz_id as quiz_id',
-            'q.text as text',
-            'q.correct_choice as correct_choice',
-            'q.wrong_choice_1 as wrong_choice_1',
-            'q.wrong_choice_2 as wrong_choice_2',
-            'q.wrong_choice_3 as wrong_choice_3',
-            'q.is_remand as is_remand',
-            'q.created_at as created_at',
-            'q.updated_at as updated_at',
-            'q.explanation as explanation'
+            [
+                'p.name as p_c_name',
+                's.name as s_c_name',
+                'c.name as c_name',
+                'p.id as p_c_id',
+                's.id as s_c_id',
+                'c.id as c_id',
+                'q.topic as topic',
+                'q.user_name as user_name',
+                'q.compitency as compitency',
+                'q.id as id',
+                'q.quiz_id as quiz_id',
+                'q.text as text',
+                'q.correct_choice as correct_choice',
+                'q.wrong_choice_1 as wrong_choice_1',
+                'q.wrong_choice_2 as wrong_choice_2',
+                'q.wrong_choice_3 as wrong_choice_3',
+                'q.is_remand as is_remand',
+                'q.created_at as created_at',
+                'q.updated_at as updated_at',
+                'q.explanation as explanation'
             ]
         )->from('question_case_questions as q')
             ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
@@ -143,6 +93,7 @@ class QuestionCaseUseCase extends UseCase
             ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
             ->groupBy('s.id')->get();
     }
+
     function getQuestionCase(int $id)
     {
         return $this->question_case->where('id', $id)->firstOrFail();
@@ -151,35 +102,39 @@ class QuestionCaseUseCase extends UseCase
     function getCaseQuestions(int $case_id)
     {
         return $this->question_case_question->select(
-           [
-               'p.name as p_c_name',
-               's.name as s_c_name',
-               'c.name as c_name',
-               'p.code as p_c_code',
-               's.code as s_c_code',
-               'c.code as c_code',
-               'q.topic as topic',
-               'q.id as id',
-               'q.case_id as case_id',
-               'q.quiz_id as quiz_id',
-               'q.user_name as user_name',
-               'q.is_request as is_request',
-               'q.is_approve as is_approve',
-               'q.is_remand as is_remand',
-               'q.created_at as created_at',
-               'q.updated_at as updated_at',
+            [
+                'p.name as p_c_name',
+                's.name as s_c_name',
+                'c.name as c_name',
+                'p.code as p_c_code',
+                's.code as s_c_code',
+                'c.code as c_code',
+                'q.topic as topic',
+                'q.id as id',
+                'q.case_id as case_id',
+                'q.quiz_id as quiz_id',
+                'q.user_name as user_name',
+                'q.is_request as is_request',
+                'q.is_approve as is_approve',
+                'q.is_remand as is_remand',
+                'q.created_at as created_at',
+                'q.updated_at as updated_at',
 
-           ]
+            ]
         )->from('question_case_questions as q')
             ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
             ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
             ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
             ->leftJoin('users as u', 'u.id', '=', 'q.user_id')
-            ->Where('case_id', $case_id)->Where('is_request', '1')->orWhere('is_approve', '1')->orWhere('is_remand', '1')->get();
+            ->Where('case_id', $case_id)->Where('is_request', '1')->orWhere('is_approve', '1')->orWhere('is_remand',
+                '1')->get();
     }
-    function getQuestionCasesWithQuestions(){
+
+    function getQuestionCasesWithQuestions()
+    {
         return $question_cases = $this->questionCaseQS->getQuestionCasesWithQuestions();
     }
+
     function getQuestionExportDetail()
     {
         return $this->question->select(
@@ -218,7 +173,28 @@ class QuestionCaseUseCase extends UseCase
     function getUserQuestionCases(int $id)
     {
         $question = $this->question->select(
-            $this->question_detail_column
+            [
+                'p.name as p_c_name',
+                's.name as s_c_name',
+                'c.name as c_name',
+                'p.id as p_c_id',
+                's.id as s_c_id',
+                'c.id as c_id',
+                'q.topic as topic',
+                'q.user_name as user_name',
+                'q.compitency as compitency',
+                'q.id as id',
+                'q.quiz_id as quiz_id',
+                'q.text as text',
+                'q.correct_choice as correct_choice',
+                'q.wrong_choice_1 as wrong_choice_1',
+                'q.wrong_choice_2 as wrong_choice_2',
+                'q.wrong_choice_3 as wrong_choice_3',
+                'q.is_remand as is_remand',
+                'q.created_at as created_at',
+                'q.updated_at as updated_at',
+                'q.explanation as explanation'
+            ]
         )->from('questions as q')
             ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
             ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
@@ -237,7 +213,24 @@ class QuestionCaseUseCase extends UseCase
     function getUserQuestions(int $user_id)
     {
         $model = $this->question->select(
-            $this->question_summary_column
+            [
+                'p.name as p_c_name',
+                's.name as s_c_name',
+                'c.name as c_name',
+                'p.code as p_c_code',
+                's.code as s_c_code',
+                'c.code as c_code',
+                'q.user_name as user_name',
+                'q.compitency as compitency',
+                'q.topic as topic',
+                'q.id as id',
+                'q.quiz_id as quiz_id',
+                'q.is_request as is_request',
+                'q.is_approve as is_approve',
+                'q.is_remand as is_remand',
+                'q.created_at as created_at',
+                'q.updated_at as updated_at'
+            ]
         )->from('questions as q')
             ->rightJoin('categories as c', 'c.id', '=', 'q.category_id')
             ->rightJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
@@ -277,7 +270,8 @@ class QuestionCaseUseCase extends UseCase
             'wrong_choice_3' => $request->input('wrong_choice_3'),
             'explanation' => $request->input('explanation'),
             'is_request' => 1,//$request->input('is_request'),
-            'is_remand' => 0,$request->input('is_remand'),
+            'is_remand' => 0,
+            $request->input('is_remand'),
             'user_id' => Auth::user()->id
         ])->save();
         if ($request->input('is_request') === "1") {

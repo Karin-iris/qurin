@@ -13,7 +13,7 @@ class ApiExaminationController extends Controller
     public function __construct(){
         $this->examinationUC = new ExaminationUseCase();
     }
-    public function get_examinations() : JsonResponse
+    public function get() : JsonResponse
     {
         return response()->json(
             $this->examinationUC->getExaminations()

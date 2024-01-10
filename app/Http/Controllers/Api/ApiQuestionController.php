@@ -16,6 +16,12 @@ class ApiQuestionController extends ApiController
         $this->questionUC = new QuestionUseCase();
     }
 
+    public function get(){
+        return response()->json(
+            $this->questionUC->getData()
+        );
+    }
+
     public function get_user_summary(){
         return response()->json(
             $this->questionUC->getUserSummary()

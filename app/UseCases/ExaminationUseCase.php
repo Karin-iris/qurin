@@ -31,5 +31,9 @@ class ExaminationUseCase extends UseCase
     function set(ExaminationRequest $request){
         return $this->examinationR->set($request);
     }
+
+    function mod(ExaminationRequest $request, int $id){
+        return $this->examinationR->mod($request,$id);
+    }
     // ここにリポジトリのコードを追加
 }

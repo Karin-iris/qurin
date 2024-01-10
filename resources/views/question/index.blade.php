@@ -1,3 +1,7 @@
+@section('page-vite')
+    @vite(['resources/js/questionTable.js'])
+@endsection
+
 <x-admin-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -41,7 +45,11 @@
                     --}}
                     @include('question.partials.search-question-form')
 
-                    <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
+                    <div id="question-table">
+                        <table-component></table-component>
+                    </div>
+
+                    <!--<table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
                         <thead
                             class="p-10 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr class="border-b-2 border-gray-500">
@@ -83,7 +91,7 @@
                             </tr>
                         @endforeach
                         </tbody>
-                    </table>
+                    </table>-->
                 </div>
             </div>
 

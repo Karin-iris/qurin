@@ -68,9 +68,10 @@ class ExaminationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ExaminationRequest $request, string $id)
     {
-        //
+        $this->examinationUC->mod($request,$id);
+        return Redirect::route('examination.edit',['id'=>$id])->with('examination', 'saved');////
     }
 
     /**

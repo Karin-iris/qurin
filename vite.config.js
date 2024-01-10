@@ -11,6 +11,7 @@ export default defineConfig({
                 'resources/js/table.js',
                 'resources/js/tableNext.js',
                 'resources/js/examinationTable.js',
+                'resources/js/questionTable.js',
                 'resources/js/sectionTable.js',
                 'resources/js/imageUpload.js',
                 'resources/js/category.js',

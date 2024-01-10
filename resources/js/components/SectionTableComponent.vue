@@ -42,7 +42,7 @@
                                 {{ child.name }}
                             </li>
                         </ul>-->
-                        <button v-if="!isEditing(element)" @click="editItem(element)">Edit</button>
+                        <button class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300" v-if="!isEditing(element)" @click="editItem(element)">Edit</button>
                         <button v-else @click="saveItem(element)">Save</button>
                     </td>
                     <td>
@@ -115,7 +115,7 @@ export default {
     },
     methods: {
         fetchData() {
-            axios.get('/api/sections/get', {
+            axios.get('/api/section/get', {
                 params: {
                     search: this.searchQuery,
                     sort: this.sortKey,
@@ -132,7 +132,7 @@ export default {
                 });
         },
         changeSort(order) {
-            router.push({ path: '/api/sections/get', query: { ...route.query, sort: order } });
+            router.push({ path: '/api/section/get', query: { ...route.query, sort: order } });
         },
         sort(key) {
             this.sortKey = key;

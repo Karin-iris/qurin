@@ -23,4 +23,6 @@ class ExaminationQueryService extends QueryService
     function getExaminations(){
         return $this->examination->get();
     }
+
+
 }
