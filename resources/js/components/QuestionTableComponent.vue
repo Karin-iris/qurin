@@ -19,17 +19,6 @@
                         {{ element.id }}
                     </td>
                     <td>{{ element.topic }}
-                        <!--<ul v-if="item.showChildren">
-                            <li v-for="(child, childIndex) in item.children" :key="childIndex">
-                                {{ child.topic }}
-                            </li>
-                        </ul>-->
-                        <!--
-                        <ul v-if="activeChildIndex === index">
-                            <li v-for="(child, childIndex) in item.children" :key="childIndex">
-                                {{ child.name }}
-                            </li>
-                        </ul>-->
                     </td>
                     <td>
                         {{ element.user_id }}
@@ -42,7 +31,7 @@
                         <p>{{ element.updated_at }}</p>
                     </td>
                     <td>
-                        <a :href="`/examination/edit/${element.id}`">
+                        <a :href="`/question/edit/${element.id}`">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                  viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -51,6 +40,7 @@
                         </a>
                     </td>
                 </tr>
+
             </template>
         </draggable>
     </table>
@@ -83,5 +73,6 @@ export default {
                 console.error('Error fetching the items:', error);
             });
     },
+
 };
 </script>

@@ -39,6 +39,7 @@ class UserRegistRequest extends FormRequest
                     Rule::unique('users')->ignore($request->id, 'id'),
                     'unique:admins',
                 ],
+                'icon' => 'image|mimes:jpeg,jpg',
                 'password' => ['string', 'max:255'],
             ];
         } elseif (isset($request->mode) && $request->mode == "create") {
@@ -52,6 +53,7 @@ class UserRegistRequest extends FormRequest
                     'required', // 必須
                     'unique:users',
                 ],
+                'icon' => 'image|mimes:jpeg,jpg',
                 'password' => ['string', 'max:255'],
             ];
         } elseif (isset($request->mode) && $request->mode == "user_invite") {

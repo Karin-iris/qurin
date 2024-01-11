@@ -1,4 +1,14 @@
 <template>
+    <select id="categorySelect"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 {{$class}}"
+            v-model="selected_primary_id"
+    >
+        <option disabled value="">親カテゴリを選択</option>
+        <option v-for="primary_category in primary_categories" :key="primary_category.id" :value="primary_category.id">
+            {{ primary_category.name }}
+        </option>
+    </select>
+
     <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
         <thead
             class="p-10 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -62,6 +72,16 @@ import draggable from "vuedraggable";
 export default {
     components: {
         draggable
+    },
+    setup() {
+        const fetchPrimaryCategories = async () => {
+            try {
+                const response = await axios.get('/api/examination/get/');
+                primary_categories.value = response.data;
+            } catch (error) {
+                console.error(error);
+            }
+        };
     },
     data() {
         return {

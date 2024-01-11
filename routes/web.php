@@ -36,10 +36,7 @@ Route::get('/admin_dashboard', function () {
     return view('admin_dashboard');
 })->middleware(['auth:admin', 'verified'])->name('admin_dashboard');
 
-Route::get('/mfa/admin_login', [MFAController::class, 'admin_login'])->name('mfa.admin_login');
-Route::post('/mfa/admin_login', [MFAController::class, 'verify_admin_login'])->name('mfa.verify_admin_login');
-Route::get('/mfa/admin_regist', [MFAController::class, 'admin_regist'])->name('mfa.admin_regist');
-Route::post('/mfa/admin_regist', [MFAController::class, 'update_admin_regist'])->name('mfa.update_admin_regist');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -60,6 +57,12 @@ Route::middleware('auth')->group(function () {
     });
 });
 
+Route::middleware(['auth:admin'])->group(function () {
+Route::get('/mfa/admin_login', [MFAController::class, 'admin_login'])->name('mfa.admin_login');
+Route::post('/mfa/admin_login', [MFAController::class, 'verify_admin_login'])->name('mfa.verify_admin_login');
+Route::get('/mfa/admin_regist/{id}', [MFAController::class, 'admin_regist'])->name('mfa.admin_regist');
+Route::post('/mfa/admin_regist/{id}', [MFAController::class, 'update_admin_regist'])->name('mfa.update_admin_regist');
+});
 Route::middleware(['auth:admin','mfa'])->group(function () {
     Route::controller(ExaminationController::class)->group(function () {
         Route::get('/examination', 'index')->name('examination.index');

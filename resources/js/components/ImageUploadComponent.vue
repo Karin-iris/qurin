@@ -1,6 +1,6 @@
 <template>
     <div>
-        <input type="file" @change="onFileChange">
+        <input name="icon" type="file" @change="onFileChange">
         <div v-if="imageData">
             <vue-cropper
                 ref="cropper"
@@ -17,8 +17,8 @@
                 <label for="filename">File Name:</label>
                 <input type="text" id="filename" v-model="fileName">
             </div>
-            <button @click="cropAndUpload">Crop and Upload</button>
-            <button @click="shareImage">Share Image</button>
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" @click="cropAndUpload">Crop and Upload</button>
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" @click="shareImage">Share Image</button>
         </div>
     </div>
 </template>

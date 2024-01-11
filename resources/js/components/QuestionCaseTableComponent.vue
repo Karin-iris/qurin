@@ -83,5 +83,23 @@ export default {
                 console.error('Error fetching the items:', error);
             });
     },
+    methods: {
+        async toggleChildren(item) {
+            if (item.childrenLoaded) {
+                item.showChildren = !item.showChildren;
+                return;
+            }
+
+            try {
+                const response = await axios.get(`/api/question_case/get_question_case_questions/${item.id}`);
+                item.children = response.data;
+                item.childrenLoaded = true;
+                item.showChildren = true;
+            } catch (error) {
+                console.error('Error fetching children:', error);
+            }
+        }
+        //this.activeChildIndex = this.activeChildIndex === index ? null : index;
+    }
 };
 </script>

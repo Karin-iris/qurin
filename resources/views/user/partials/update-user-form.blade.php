@@ -1,3 +1,7 @@
+@section('page-vite')
+    @vite(['resources/js/imageUpload.js'])
+@endsection
+
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
@@ -43,7 +47,10 @@
             <img src="https://storage.cloud.google.com/qurin-bucket/icon/aaaaaa.jpg" width="100" height="100">
             @endif
         @endif
-            <input type="file" name="icon">
+
+            <div id="image-upload-app">
+                <image-upload-component></image-upload-component>
+            </div>
         </div>
 
         <div>

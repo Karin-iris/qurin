@@ -122,15 +122,17 @@ class UserUseCase extends UseCase
 
             // アップロード先S3フォルダ名
             $dir = 'icon';
-            $filename = "aaaaaa.jpg";
+            $filename = time().".jpg";
             // バケット内の指定フォルダへアップロード ※putFileはLaravel側でファイル名の一意のIDを自動的に生成してくれます。
-            //$s3_upload = Storage::disk('s3')->putFile('/' . $dir, $img);
 
-            $upload = Storage::disk('gcs')->put('/' . $dir ."/". $filename, $img);
+            if (env('FILE_STORAGE_METHOD')=="s3") {
+                // バケット内の指定フォルダへアップロード ※putFileはLaravel側でファイル名の一意のIDを自動的に生成してくれます。
+                //$s3_upload = Storage::disk('s3')->putFile('/' . $dir, $img);
+            }
 
-            // ※オプション（ファイルダウンロード、削除時に使用するS3でのファイル保存名、アップロード先のパスを取得します。）
-            // アップロードファイルurlを取得
-            $s3_url = Storage::disk('gcs')->url($upload);
+            if (env('FILE_STORAGE_METHOD')=="gcs") {
+                Storage::disk('gcs')->put('/' . $dir ."/". $filename, $img);
+            }
 
             // アップロード先パスを取得 ※ファイルダウンロード、削除で使用します。
             $s3_path = $dir . '/' . $filename;
@@ -149,6 +151,7 @@ class UserUseCase extends UseCase
     function updateUser(UserRegistRequest $request, int $id)
     {
         $upload_file = $request->file('icon');
+
         if (!empty($upload_file)) {
             $x = 100; // 300px
             $y = 100; // 300px
@@ -158,18 +161,17 @@ class UserUseCase extends UseCase
             })->crop($x, $y)->save($upload_file->getRealPath());
 
             // アップロード先S3フォルダ名
-            $dir = 'icon';
+            $dir = 'icon/user/'.$id."/";
+            $filename = time().".jpg";
 
-            // アップロード先S3フォルダ名
-            $dir = 'icon';
-            $filename = "aaaaaa.jpg";
-            // バケット内の指定フォルダへアップロード ※putFileはLaravel側でファイル名の一意のIDを自動的に生成してくれます。
-            //$s3_upload = Storage::disk('s3')->putFile('/' . $dir, $img);
+            if (env('FILE_STORAGE_METHOD')=="s3") {
+                // バケット内の指定フォルダへアップロード ※putFileはLaravel側でファイル名の一意のIDを自動的に生成してくれます。
+                //$s3_upload = Storage::disk('s3')->putFile('/' . $dir, $img);
+            }
 
-            $upload = Storage::disk('gcs')->put('/' . $dir ."/". $filename, $img);
-
-            // ※オプション（ファイルダウンロード、削除時に使用するS3でのファイル保存名、アップロード先のパスを取得します。）
-            // アップロードファイルurlを取得
+            if (env('FILE_STORAGE_METHOD')=="gcs") {
+                Storage::disk('gcs')->put('/' . $dir ."/". $filename, $img);
+            }
 
             // アップロード先パスを取得 ※ファイルダウンロード、削除で使用します。
             $s3_path = $dir . '/' . $filename;

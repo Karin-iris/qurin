@@ -1,4 +1,5 @@
 <template>
+
     <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
         <thead
             class="p-10 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -18,7 +19,7 @@
                     <td class="w-20">
                         {{ element.id }}
                     </td>
-                    <td>{{ element.topic }}
+                    <td @click="toggleChildren(item)">{{ element.topic }}
                         <!--<ul v-if="item.showChildren">
                             <li v-for="(child, childIndex) in item.children" :key="childIndex">
                                 {{ child.topic }}
@@ -51,6 +52,7 @@
                         </a>
                     </td>
                 </tr>
+
             </template>
         </draggable>
     </table>
@@ -83,5 +85,6 @@ export default {
                 console.error('Error fetching the items:', error);
             });
     },
+
 };
 </script>
