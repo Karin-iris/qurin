@@ -204,4 +204,11 @@ class UserUseCase extends UseCase
             'password' => Hash::make($request->input('password'))
         ])->save();
     }
+
+    function addMFA(String $mfa_secret,int $id){
+        $this->admin->find($id)->fill([
+            'mfa_secret' => $mfa_secret,
+            'mfa_enabled' => 1
+        ])->save();
+    }
 }

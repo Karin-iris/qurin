@@ -80,16 +80,14 @@ class MFAController extends Controller
 
         return view('mfa.admin_regist', compact('qr_image', 'secret','id'));
     }
-    public function update_admin_regist(Request $request){
+    public function update_admin_regist(Request $request,int $id){
                 // MFAコードが正しいか検証
         $google2fa = new Google2FA();
         try{
             $valid = $google2fa->verifyKey($request->input('mfa_secret'), $request->input('mfa_code'));
 
             if ($valid) {
-                // MFA検証に成功した場合
-                session(['mfa_verified' => true]);
-
+                $this->userUC->addMFA($request->input('mfa_secret'), $id);
                 return redirect()->intended('/admin_dashboard');
             } else {
                 // MFA検証に失敗した場合
