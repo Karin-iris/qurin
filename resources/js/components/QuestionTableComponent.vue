@@ -36,6 +36,7 @@
                     </td>
                     <td>
                         {{ element.text }}
+
                     </td>
                     <td>
                         <p>{{ element.created_at }}</p>

@@ -22,7 +22,6 @@ use App\Http\Controllers\Api\ApiSectionController;
 //    return $request->user();
 //});
 Route::controller(ApiCategoryController::class)->group(callback: function () {
-    Route::get('/category/get', 'get');
     Route::get('/category/get_primaries/', 'get_primaries');
     Route::get('/category/get_secondaries/{id}', 'get_secondaries');
     Route::get('/category/get_children/{id}', 'get_children');
@@ -30,22 +29,20 @@ Route::controller(ApiCategoryController::class)->group(callback: function () {
 
 });
 Route::controller(ApiQuestionController::class)->group(callback: function () {
-    Route::get('/question/get', 'get');
     Route::get('/question/get_user_summary', 'get_user_summary');
     Route::get('/question/get_secondary_category_summary', 'get_secondary_category_summary');
 });
 
 Route::controller(ApiQuestionCaseController::class)->group(callback: function () {
-    Route::get('/question_case/get', 'get');
-    Route::get('/question_case/get_questions/{id}', 'get_questions');
+    Route::get('/question_case/get_question_cases', 'get_question_cases');
     Route::get('/question_case/get_question_case_questions/{id}', 'get_question_case_questions');
     Route::get('/question_case/get_question_case_with_questions/', 'get_question_case_with_questions');
 });
 
 Route::controller(ApiExaminationController::class)->group(callback: function () {
-    Route::get('/examination/get', 'get');
+    Route::get('/examinations/get', 'get_examinations');
 });
 Route::controller(ApiSectionController::class)->group(callback: function () {
-    Route::get('/section/get','get_sections');
+    Route::get('/sections/get','get_sections');
 });
 
