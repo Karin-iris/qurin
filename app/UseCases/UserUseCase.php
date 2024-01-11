@@ -23,7 +23,7 @@ class UserUseCase extends UseCase
 
     public User $user;
     public Admin $admin;
-    public UserRepository $UserRepository;
+    public UserRepository $userR;
 
     public function __construct()
     {
@@ -122,19 +122,18 @@ class UserUseCase extends UseCase
 
             // アップロード先S3フォルダ名
             $dir = 'icon';
-
+            $filename = "aaaaaa.jpg";
             // バケット内の指定フォルダへアップロード ※putFileはLaravel側でファイル名の一意のIDを自動的に生成してくれます。
-            $s3_upload = Storage::disk('s3')->putFile('/' . $dir, $img);
+            //$s3_upload = Storage::disk('s3')->putFile('/' . $dir, $img);
+
+            $upload = Storage::disk('gcs')->put('/' . $dir ."/". $filename, $img);
 
             // ※オプション（ファイルダウンロード、削除時に使用するS3でのファイル保存名、アップロード先のパスを取得します。）
             // アップロードファイルurlを取得
-            $s3_url = Storage::disk('s3')->url($s3_upload);
-
-            // s3_urlからS3でのファイル保存名取得
-            $s3_upload_file_name = explode("/", $s3_url)[4];
+            $s3_url = Storage::disk('gcs')->url($upload);
 
             // アップロード先パスを取得 ※ファイルダウンロード、削除で使用します。
-            $s3_path = $dir . '/' . $s3_upload_file_name;
+            $s3_path = $dir . '/' . $filename;
             exit();
         } else {
             $s3_path = '';
@@ -161,21 +160,25 @@ class UserUseCase extends UseCase
             // アップロード先S3フォルダ名
             $dir = 'icon';
 
+            // アップロード先S3フォルダ名
+            $dir = 'icon';
+            $filename = "aaaaaa.jpg";
             // バケット内の指定フォルダへアップロード ※putFileはLaravel側でファイル名の一意のIDを自動的に生成してくれます。
-            $s3_upload = Storage::disk('s3')->putFile('/' . $dir, $upload_file);
+            //$s3_upload = Storage::disk('s3')->putFile('/' . $dir, $img);
 
-            $s3_url = Storage::disk('s3')->url($s3_upload);
-            // s3_urlからS3でのファイル保存名取得
-            $s3_upload_file_name = explode("/", $s3_url)[4];
+            $upload = Storage::disk('gcs')->put('/' . $dir ."/". $filename, $img);
+
+            // ※オプション（ファイルダウンロード、削除時に使用するS3でのファイル保存名、アップロード先のパスを取得します。）
+            // アップロードファイルurlを取得
 
             // アップロード先パスを取得 ※ファイルダウンロード、削除で使用します。
-            $s3_path = $dir . '/' . $s3_upload_file_name;
+            $s3_path = $dir . '/' . $filename;
         } else {
             $s3_path = '';
         }
 
         $this->user->find($id)->fill([
-            'name' => $request->input('name'),
+            'name' => Crypt::encryptString($request->input('name')),
             'email' => $request->input('email'),
             'icon_image_path' => $s3_path,
             'password' => Hash::make($request->input('password'))

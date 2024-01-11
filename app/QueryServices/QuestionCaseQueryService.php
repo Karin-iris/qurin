@@ -15,6 +15,14 @@ class QuestionCaseQueryService extends QueryService
         $this->QuestionCase = new QuestionCase;
     }
 
+    function getData(){
+        try{
+            return $this->QuestionCase::get();
+        }catch(NotFoundException $e){
+            return response()->json(['message' => 'User not found'], 404);
+        }
+    }
+
     public function getQuestionCasesWithQuestions(): Collection
     {
         $this->QuestionCase->questions();

@@ -24,22 +24,22 @@ class TrSeeder extends Seeder
         ]);
         Admin::factory()->create([
             'name' => Crypt::encryptString('栄福(管理者)'),
-            'email' => 'fujiki@primeforce.co.jp',
+            'email' => 'test001@primeforce.co.jp',
             'password' => Hash::make('Pass_001'),
         ]);
         Admin::factory()->create([
             'name' => Crypt::encryptString('野口(管理者)'),
-            'email' => 'nakamura@primeforce.co.jp',
+            'email' => 'test002@primeforce.co.jp',
             'password' => Hash::make('Pass_002'),
         ]);
         Admin::factory()->create([
             'name' => Crypt::encryptString('小川(管理者)'),
-            'email' => 'tsushimak@pcdepot.co.jp',
+            'email' => 'test003@primeforce.co.jp',
             'password' => Hash::make('Pass_003'),
         ]);
         Admin::factory()->create([
             'name' => Crypt::encryptString('鈴木(管理者)'),
-            'email' => 'tanakatak@pcdepot.co.jp',
+            'email' => 'test004@primeforce.co.jp',
             'password' => Hash::make('Pass_004'),
         ]);
         User::factory()->create([
@@ -50,25 +50,25 @@ class TrSeeder extends Seeder
         ]);
         User::factory()->create([
             'name' => Crypt::encryptString('栄福'),
-            'email' => 'passionmissionary@gmail.com',
+            'email' => 'test020@primeforce.co.jp',
             'icon_image_path' => '',
             'password' => Hash::make('Pass_001'),
         ]);
         User::factory()->create([
             'name' => Crypt::encryptString('野口'),
-            'email' => 'info@primeforce.co.jp',
+            'email' => 'test021@primeforce.co.jp',
             'icon_image_path' => '',
             'password' => Hash::make('Pass_002'),
         ]);
         User::factory()->create([
             'name' => Crypt::encryptString('小川'),
-            'email' => 'campjourney24@gmail.com',
+            'email' => 'test022@primeforce.co.jp',
             'icon_image_path' => '',
             'password' => Hash::make('Pass_003'),
         ]);
         User::factory()->create([
             'name' => Crypt::encryptString('鈴木'),
-            'email' => 'takehiko.tanaka@gmail.com',
+            'email' => 'test023@primeforce.co.jp',
             'icon_image_path' => '',
             'password' => Hash::make('Pass_004'),
         ]);

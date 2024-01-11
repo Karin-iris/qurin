@@ -36,9 +36,8 @@ class QuestionCaseUseCase extends UseCase
         $this->question_image = new QuestionImage();
     }
 
-    function getData()
-    {
-        return $this->question->get();
+    function getData(){
+        return $this->questionCaseQS->getData();
     }
 
     function getCaseQuestion(int $id)

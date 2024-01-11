@@ -17,6 +17,11 @@ class ApiQuestionCaseController extends ApiController
         $this->questionCaseUC = new QuestionCaseUseCase();
     }
 
+    public function get(){
+        return response()->json(
+            $this->questionCaseUC->getData()
+        );
+    }
     public function get_question_cases() : JsonResponse
     {
         return response()->json(

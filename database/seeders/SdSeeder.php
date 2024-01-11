@@ -22,7 +22,7 @@ class SdSeeder extends Seeder
         ]);
         Admin::factory()->create([
             'name' => Crypt::encryptString('向川 啓太(管理者)'),
-            'email' => 'fujiki@primeforce.co.jp',
+            'email' => 'test001@primeforce.co.jp',
             'password' => Hash::make('Pass_001'),
         ]);
         User::factory()->create([
@@ -33,7 +33,7 @@ class SdSeeder extends Seeder
         ]);
         User::factory()->create([
             'name' => Crypt::encryptString('向川 啓太'),
-            'email' => 'passionmissionary@gmail.com',
+            'email' => 'test010@gmail.com',
             'icon_image_path' => '',
             'password' => Hash::make('Pass_001'),
         ]);

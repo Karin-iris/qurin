@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\ApiSectionController;
 //    return $request->user();
 //});
 Route::controller(ApiCategoryController::class)->group(callback: function () {
+    Route::get('/category/get', 'get');
     Route::get('/category/get_primaries/', 'get_primaries');
     Route::get('/category/get_secondaries/{id}', 'get_secondaries');
     Route::get('/category/get_children/{id}', 'get_children');
@@ -35,7 +36,8 @@ Route::controller(ApiQuestionController::class)->group(callback: function () {
 });
 
 Route::controller(ApiQuestionCaseController::class)->group(callback: function () {
-    Route::get('/question_case/get_question_cases', 'get_question_cases');
+    Route::get('/question_case/get', 'get');
+    Route::get('/question_case/get_questions/{id}', 'get_questions');
     Route::get('/question_case/get_question_case_questions/{id}', 'get_question_case_questions');
     Route::get('/question_case/get_question_case_with_questions/', 'get_question_case_with_questions');
 });

@@ -16,8 +16,10 @@ class ApiCategoryController extends ApiController
         $this->categoryUC = new CategoryUseCase();
     }
 
-    public function index(){
-        echo "aaaa";
+    public function get(){
+        return response()->json(
+            $this->categoryUC->getAllCategories()
+        );
     }
     public function get_primaries()
     {

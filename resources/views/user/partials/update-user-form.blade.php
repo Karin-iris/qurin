@@ -35,8 +35,13 @@
 
         <div>
             <x-input-label for="icon" :value="__('users.icon')"/>
-        @if(!empty($user->icon_image_path))
+
+        @if (!empty($user->icon_image_path))
+            @if (env('FILE_STORAGE_METHOD') == 'aws')
             <img src="{{ Storage::disk('s3')->temporaryUrl($user->icon_image_path, now()->addDay()) }}" width="100" height="100">
+            @elseif (env('FILE_STORAGE_METHOD') == 'gcp')
+            <img src="https://storage.cloud.google.com/qurin-bucket/icon/aaaaaa.jpg" width="100" height="100">
+            @endif
         @endif
             <input type="file" name="icon">
         </div>
