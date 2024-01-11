@@ -12,7 +12,7 @@
 
                     <img src="data:image/png;base64, {{ $qr_image }}" alt="MFA QR Code">
 
-                    <form method="POST" action="{{ route('mfa.admin_regist',['id' => $id]) }}">
+                    <form method="POST" action="{{ route('mfa.admin_register',['id' => $id]) }}">
                         @csrf
                         @method('post')
 

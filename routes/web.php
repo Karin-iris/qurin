@@ -60,8 +60,8 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth:admin'])->group(function () {
 Route::get('/mfa/admin_login', [MFAController::class, 'admin_login'])->name('mfa.admin_login');
 Route::post('/mfa/admin_login', [MFAController::class, 'verify_admin_login'])->name('mfa.verify_admin_login');
-Route::get('/mfa/admin_regist/{id}', [MFAController::class, 'admin_regist'])->name('mfa.admin_regist');
-Route::post('/mfa/admin_regist/{id}', [MFAController::class, 'update_admin_regist'])->name('mfa.update_admin_regist');
+Route::get('/mfa/admin_register/{id}', [MFAController::class, 'admin_register'])->name('mfa.admin_register');
+Route::post('/mfa/admin_register/{id}', [MFAController::class, 'update_admin_register'])->name('mfa.update_admin_register');
 });
 Route::middleware(['auth:admin','mfa'])->group(function () {
     Route::controller(ExaminationController::class)->group(function () {

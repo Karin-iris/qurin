@@ -17,6 +17,15 @@ use App\Mail\UserInviteMail;
 use App\Mail\AdminInviteMail;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\UserRepository;
+use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
+use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
+use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
+use PragmaRX\Google2FA\Google2FA;
+use BaconQrCode\Writer;
+use BaconQrCode\Common\ErrorCorrectionLevel;
+use BaconQrCode\Renderer\ImageRenderer;
+use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
+use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 
 class UserUseCase extends UseCase
 {
@@ -107,7 +116,7 @@ class UserUseCase extends UseCase
         return $this->admin->select('id', 'name', 'password', 'email', 'mfa_enabled')->from('admins')->get();
     }
 
-    function saveUser(UserRegistRequest $request)
+    function saveUser(UserRegistRequest $request): void
     {
         $upload_file = $request->file('icon');
         if (!empty($upload_file)) {
@@ -127,7 +136,7 @@ class UserUseCase extends UseCase
 
             if (env('FILE_STORAGE_METHOD')=="s3") {
                 // バケット内の指定フォルダへアップロード ※putFileはLaravel側でファイル名の一意のIDを自動的に生成してくれます。
-                //$s3_upload = Storage::disk('s3')->putFile('/' . $dir, $img);
+                $s3_upload = Storage::disk('s3')->putFile('/' . $dir, $img);
             }
 
             if (env('FILE_STORAGE_METHOD')=="gcs") {
@@ -166,7 +175,7 @@ class UserUseCase extends UseCase
 
             if (env('FILE_STORAGE_METHOD')=="s3") {
                 // バケット内の指定フォルダへアップロード ※putFileはLaravel側でファイル名の一意のIDを自動的に生成してくれます。
-                //$s3_upload = Storage::disk('s3')->putFile('/' . $dir, $img);
+                $s3_upload = Storage::disk('s3')->putFile('/' . $dir, $img);
             }
 
             if (env('FILE_STORAGE_METHOD')=="gcs") {
@@ -210,5 +219,67 @@ class UserUseCase extends UseCase
             'mfa_secret' => $mfa_secret,
             'mfa_enabled' => 1
         ])->save();
+    }
+    function checkMFA(string $mfa_secret,string $mfa_code){
+        // MFAコードが正しいか検証
+        try {
+            $google2fa = new Google2FA();
+            $valid = $google2fa->verifyKey($mfa_secret,$mfa_code);
+
+            if ($valid) {
+                // MFA検証に成功した場合
+                session(['mfa_verified' => true]);
+                return true;
+            } else {
+                // MFA検証に失敗した場合
+                return back()->withErrors(['mfa_code' => 'The MFA code is invalid.']);
+            }
+        } catch (IncompatibleWithGoogleAuthenticatorException|InvalidCharactersException|SecretKeyTooShortException $e) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+    }
+    /**
+     * @throws IncompatibleWithGoogleAuthenticatorException
+     * @throws SecretKeyTooShortException
+     * @throws InvalidCharactersException
+     */
+    function displayMFA(int $id): array
+    {
+        $admin = $this->getAdmin($id);
+        $google2fa = new Google2FA();
+        $secret = $google2fa->generateSecretKey();
+
+        // Google Authenticator用のQRコードURLを生成
+        $google2fa_url = $google2fa->getQRCodeUrl(
+            config('app.name'),
+            $admin->email,
+            $secret
+        );
+
+        $renderer = new ImageRenderer(
+            new RendererStyle(400),
+            new ImagickImageBackEnd()
+        );
+        $writer = new Writer($renderer);
+
+        $qr_image = base64_encode($writer->writeString($google2fa_url));//, ErrorCorrectionLevel::MEDIUM));
+        return [$qr_image,$secret];
+    }
+    function registerMFA(string $mfa_secret,string $mfa_code,int $id){
+        $google2fa = new Google2FA();
+        try{
+            $valid = $google2fa->verifyKey($mfa_secret, $mfa_code);
+
+            if ($valid) {
+                $this->addMFA($mfa_secret, $id);
+
+            } else {
+                // MFA検証に失敗した場合
+                return back()->withErrors(['mfa_code' => 'The MFA code is invalid.']);
+            }
+
+        } catch (IncompatibleWithGoogleAuthenticatorException|InvalidCharactersException|SecretKeyTooShortException $e) {
+            return false;
+        }
     }
 }

@@ -22,11 +22,6 @@ class ApiQuestionController extends ApiController
         );
     }
 
-    public function get(){
-        return response()->json(
-            $this->questionUC->getQuestions()
-        );
-    }
     public function get_user_summary(){
         return response()->json(
             $this->questionUC->getUserSummary()
@@ -34,7 +29,6 @@ class ApiQuestionController extends ApiController
     }
 
     public function get_secondary_category_summary(){
-
         return response()->json(
             $this->questionUC->getSecondaryCategorySummary()
         );
