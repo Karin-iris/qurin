@@ -2,20 +2,26 @@
 
 namespace App\Repositories;
 
-use App\Models\User;
-use App\Models\Invitation;
+use App\Http\Requests\Users\UserRegisterRequest;
+use App\Http\Requests\Users\AdminRegisterRequest;
+use App\Models\Admin;
 use App\Models\AdminInvitation;
+use App\Models\Invitation;
+use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Log;
-use App\Exceptions\TokenException;
+use Illuminate\Support\Facades\Hash;
 
 class UserRepository extends Repository
 {
+    protected User $user;
+    protected Admin $admin;
     protected Invitation $invitation;
     protected AdminInvitation $admin_invitation;
 
     public function __construct()
     {
+        $this->user = new User;
+        $this->admin = new Admin;
         $this->invitation = new Invitation;
         $this->admin_invitation = new AdminInvitation;
     }
@@ -40,21 +46,24 @@ class UserRepository extends Repository
             'token' => $token
         ])->save();
     }
-
-    public function getEmailFromToken($token): ?string
+    public function setUser(UserRegisterRequest $request): void
     {
-        return $this->handleExceptions(function () use ($token) {
-            $invitation = $this->invitation->where('token', $token)->first();
-            return $invitation ? $invitation->email : throw new TokenException();
-        });
+        $this->user->fill([
+            'name' => Crypt::encryptString($request->input('name')),
+            'email' => $request->input('email'),
+            'icon_image_path' => "",
+            'password' => Hash::make($request->input('password'))
+        ])->save();
+    }
+    public function setAdmin(AdminRegisterRequest $request): void
+    {
+        $this->admin->fill([
+            'name' => Crypt::encryptString($request->input('name')),
+            'email' => $request->input('email'),
+            'icon_image_path' => "",
+            'password' => Hash::make($request->input('password'))
+        ])->save();
     }
 
-    public function getEmailFromAdminToken($token): ?string
-    {
-        return $this->handleExceptions(function () use ($token) {
-            $invitation = $this->admin_invitation->where('token', $token)->first();
-            return $invitation ? $invitation->email : throw new TokenException();
-        });
-    }
 }
 

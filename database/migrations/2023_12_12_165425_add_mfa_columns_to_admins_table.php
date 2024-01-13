@@ -23,7 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('admins', function (Blueprint $table) {
-            //
+            $table->dropColumn('mfa_secret');
+            $table->dropColumn('mfa_enabled');
         });
     }
 };

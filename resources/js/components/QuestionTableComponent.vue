@@ -1,22 +1,38 @@
 <template>
+    <category-component></category-component>
     <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
         <thead
             class="p-10 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr class="border-b-2 border-gray-500">
                 <th class="w-20">Qurin Examination ID<br>Examination ID</th>
-                <th>試験タイトル</th>
+                <th>大カテゴリ</th>
+                <th>中カテゴリ</th>
+                <th>小カテゴリ</th>
                 <th>作成者</th>
+                <th>問題トピック</th>
                 <th>関連問題数</th>
                 <th>作成時間<br>更新時間</th>
                 <th>編集</th>
             </tr>
         </thead>
         <!--<tr v-for="(item, index) in items" :key="index" class="border-b border-gray-500 text-sm">-->
-        <draggable v-model="items" tag="tbody" item-key="index" class="text-md">
+        <draggable v-model="items.data" tag="tbody" item-key="index" class="text-md">
             <template #item="{ element }">
                 <tr class="border-b border-gray-500 text-sm">
                     <td class="w-20">
                         {{ element.id }}
+                    </td>
+                    <td class="w-20">
+                        {{ element.p_c_name }}
+                    </td>
+                    <td class="w-20">
+                        {{ element.s_c_name }}
+                    </td>
+                    <td class="w-20">
+                        {{ element.p_c_name }}
+                    </td>
+                    <td class="w-20">
+                    {{ element.user_name }}
                     </td>
                     <td>{{ element.topic }}
                     </td>
@@ -45,14 +61,22 @@
             </template>
         </draggable>
     </table>
+    <div v-if="this.items.last_page > 1">
+        <button @click="prevPage" :disabled="page <= 1">Prev</button>
+        <span>Page {{ page }}</span>
+        <button @click="nextPage" :disabled="page >= this.items.last_page">Next</button>
+    </div>
 </template>
 
 <script>
 import axios from 'axios';
 import draggable from "vuedraggable";
+import CategoryComponent from './CategoryComponent.vue';
+
 export default {
     components: {
-        draggable
+        draggable,
+        CategoryComponent
     },
     data() {
         return {
@@ -62,17 +86,66 @@ export default {
                 {name: 'Item 3', children: []},*/
                 // 他のアイテム
             ],
+            editableData: {},
+            searchQuery: '',
+            sortKey: '',
+            sortOrder: 'asc',
+            page: 1,
+            perPage: 10,
             activeChildIndex: null
         };
     },
     mounted() {
-        axios.get('/api/question/get')
-            .then(response => {
-                this.items = response.data;
+        this.fetchData();
+    },
+    methods: {
+        fetchData() {
+            axios.get('/api/question/paginate', {
+                params: {
+                    search: this.searchQuery,
+                    sort: this.sortKey,
+                    order: this.sortOrder,
+                    page: this.page,
+                    perPage: this.perPage
+                }
             })
-            .catch(error => {
-                console.error('Error fetching the items:', error);
-            });
+                .then(response => {
+                    this.items = response.data;
+                })
+                .catch(error => {
+                    console.error('Error fetching the items:', error);
+                });
+        },
+        sort(key) {
+            this.sortKey = key;
+            this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+            this.fetchData();
+        },
+        isEditing(item) {
+            return this.editableData.hasOwnProperty(item.id);
+        },
+        editItem(item) {
+            //this.$set(this.editableData, item.id, { ...item });
+            this.editableData[item.id] = { ...item };
+            this.fetchData();
+        },
+        saveItem(item) {
+            console.log('Saving', this.editableData[item.id]);
+            delete this.editableData[item.id];
+            this.fetchData();
+        },
+        prevPage() {
+            if (this.page > 1) {
+                this.page--;
+                this.fetchData();
+            }
+        },
+        nextPage() {
+            if (this.page <= this.items.last_page) {
+                this.page++;
+                this.fetchData();
+            }
+        }
     },
 
 };

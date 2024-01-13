@@ -50,7 +50,8 @@ class SectionController extends Controller
      */
     public function edit(string $id)
     {
-        return view('section.edit');
+        $section = $this->sectionUC->get($id);
+        return view('section.edit',compact('section'));
     }
 
     /**

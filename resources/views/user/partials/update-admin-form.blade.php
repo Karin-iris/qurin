@@ -42,6 +42,7 @@
 
 
         <input type="hidden" name="admin_id" value="{{ Auth::user('admin')->id }}">
+        <input type="hidden" name="id" value="{{ $admin->id }}">
         <input type="hidden" name="mode" value="update">
         <x-danger-button class="ml-3" onClick="changeRequestValue();resetRemandValue();return confirm('レビュー依頼送信後は編集できません。よろしいでしょうか。')">
             {{ __('Submit') }}

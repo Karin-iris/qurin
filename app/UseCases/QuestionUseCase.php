@@ -13,6 +13,7 @@ use App\Models\QuestionCase;
 use App\Models\QuestionImage;
 use App\QueryServices\QuestionQueryService;
 use App\Repositories\QuestionRepository;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -98,6 +99,9 @@ class QuestionUseCase extends UseCase
     }
     function getData(){
         return $this->question->get();
+    }
+    function getPaginate(Request $request){
+        return $this->questionQS->getPaginate($request);
     }
     function getQuestion(int $id): Question
     {

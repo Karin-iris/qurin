@@ -14,10 +14,10 @@ class ApiSectionController extends Controller
     public function __construct(){
         $this->sectionUC = new SectionUseCase();
     }
-    public function get_sections() : JsonResponse
+    public function paginate(Request $request) : JsonResponse
     {
         return response()->json(
-            $this->sectionUC->getSections()
+            $this->sectionUC->getPaginate($request)
         );
     }
 }

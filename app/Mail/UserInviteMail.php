@@ -33,7 +33,7 @@ class UserInviteMail extends Mailable
             ->view('mail.user_invite')
             ->with([
                 'name' => $this->name,
-                'invitationLink' => route('user.regist', $this->token)
+                'invitationLink' => route('user.register', $this->token)
             ]);
     }
 

@@ -9,11 +9,8 @@
         </p>
     </header>
 
-    <form id="send-verification" method="post" action="{{ route('verification.send') }}">
-        @csrf
-    </form>
 
-    <form method="post" action="{{ route('user.create') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('user.store_register',['token'=>$token]) }}" class="mt-6 space-y-6">
         @csrf
         @method('post')
 
@@ -27,6 +24,8 @@
         <div>
             <x-input-label for="email" :value="__('users.email')"/>
             {{ $email }}
+
+            <input type="hidden" name="email" value="{{ $email }}">
         </div>
 
         <div>
@@ -36,7 +35,7 @@
             <x-input-error class="mt-2" :messages="$errors->get('password')"/>
         </div>
 
-        <input type="hidden" name="mode" value="create">
+        <input type="hidden" name="mode" value="register">
         <x-danger-button class="ml-3">
             {{ __('Submit') }}
         </x-danger-button>

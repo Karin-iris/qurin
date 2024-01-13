@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\ApiController;
 use App\UseCases\QuestionUseCase;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use JetBrains\PhpStorm\Pure;
 
@@ -16,9 +18,10 @@ class ApiQuestionController extends ApiController
         $this->questionUC = new QuestionUseCase();
     }
 
-    public function get(){
+    public function paginate(Request $request) : JsonResponse
+    {
         return response()->json(
-            $this->questionUC->getData()
+            $this->questionUC->getPaginate($request)
         );
     }
 

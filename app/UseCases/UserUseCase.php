@@ -2,30 +2,29 @@
 
 namespace App\UseCases;
 
-use App\Http\Requests\UserRegistRequest;
-use App\Models\QuestionCase;
-use App\Models\QuestionImage;
-use App\Models\User;
+use App\Http\Requests\Users\AdminRegisterRequest;
+use App\Http\Requests\Users\UserRegisterRequest;
+use App\Mail\AdminInviteMail;
+use App\Mail\UserInviteMail;
 use App\Models\Admin;
+use App\Models\User;
+use App\QueryServices\UserQueryService;
+use App\Repositories\UserRepository;
+use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
+use BaconQrCode\Renderer\ImageRenderer;
+use BaconQrCode\Renderer\RendererStyle\RendererStyle;
+use BaconQrCode\Writer;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
-use App\Mail\UserInviteMail;
-use App\Mail\AdminInviteMail;
-use Illuminate\Support\Facades\Log;
-use App\Repositories\UserRepository;
 use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 use PragmaRX\Google2FA\Google2FA;
-use BaconQrCode\Writer;
-use BaconQrCode\Common\ErrorCorrectionLevel;
-use BaconQrCode\Renderer\ImageRenderer;
-use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
-use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 
 class UserUseCase extends UseCase
 {
@@ -33,15 +32,18 @@ class UserUseCase extends UseCase
     public User $user;
     public Admin $admin;
     public UserRepository $userR;
-
+    protected UserQueryService $userQS;
     public function __construct()
     {
         $this->user = new User();
         $this->admin = new Admin();
         $this->userR = new UserRepository();
+        $this->userQS = new UserQueryService();
     }
-
-    public function sendInviteMail(UserRegistRequest $request): void
+    function getPaginate(Request $request){
+        return $this->userQS->getPaginate($request);
+    }
+    public function sendInviteMail(UserRegisterRequest $request): void
     {
         $name = 'ユーザーの招待が届いています。';
         $email = $request->input('email');
@@ -54,9 +56,12 @@ class UserUseCase extends UseCase
         return md5($email.Carbon::now());
     }
     public function getEmailFromToken($token){
-        return $this->userR->getEmailFromToken($token);
+        return $this->userQS->getEmailFromToken($token);
     }
-    public function sendAdminInviteMail(UserRegistRequest $request): void
+    public function setUserFromToken(UserRegisterRequest $request,$token){
+        return $this->userR->setUserFromToken($request);
+    }
+    public function sendAdminInviteMail(UserRegisterRequest $request): void
     {
         $name = '管理者の招待が届いています。';
         $email = $request->input('email');
@@ -70,7 +75,10 @@ class UserUseCase extends UseCase
         return md5($email.Carbon::now());
     }
     public function getEmailFromAdminToken($token){
-        return $this->userR->getEmailFromAdminToken($token);
+        return $this->userQS->getEmailFromAdminToken($token);
+    }
+    public function setAdminFromToken(AdminRegisterRequest $request,$token){
+        return $this->userR->setAdmin($request);
     }
     public function getUser(int $id)
     {
@@ -116,7 +124,7 @@ class UserUseCase extends UseCase
         return $this->admin->select('id', 'name', 'password', 'email', 'mfa_enabled')->from('admins')->get();
     }
 
-    function saveUser(UserRegistRequest $request): void
+    function saveUser(UserRegisterRequest $request): void
     {
         $upload_file = $request->file('icon');
         if (!empty($upload_file)) {
@@ -157,7 +165,7 @@ class UserUseCase extends UseCase
         ])->save();
     }
 
-    function updateUser(UserRegistRequest $request, int $id)
+    function updateUser(UserRegisterRequest $request, int $id)
     {
         $upload_file = $request->file('icon');
 
@@ -196,19 +204,19 @@ class UserUseCase extends UseCase
         ])->save();
     }
 
-    function saveAdmin(UserRegistRequest $request)
+    function saveAdmin(AdminRegisterRequest $request)
     {
-        $this->user->fill([
+        $this->admin->fill([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password'))
         ])->save();
     }
 
-    function updateAdmin(UserRegistRequest $request, int $id)
+    function updateAdmin(AdminRegisterRequest $request, int $id)
     {
-        $this->user->find($id)->fill([
-            'name' => $request->input('name'),
+        $this->admin->find($id)->fill([
+            'name' => Crypt::encryptString($request->input('name')),
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password'))
         ])->save();

@@ -33,7 +33,7 @@ class AdminInviteMail extends Mailable
             ->view('mail.admin_invite')
             ->with([
                 'name' => $this->name,
-                'invitationLink' => route('user.admin_regist', $this->token)
+                'invitationLink' => route('user.admin_register', $this->token)
             ]);
     }
 

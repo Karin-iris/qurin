@@ -24,9 +24,6 @@
                     <x-nav-link :href="route('question.index')" :active="request()->routeIs('question.index')">
                         {{ __('Questions') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('question_case.index')" :active="request()->routeIs('question_case.index')">
-                        {{ __('QuestionsCase') }}
-                    </x-nav-link>
                     <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.index')">
                         {{ __('Categories') }}
                     </x-nav-link>

@@ -5,6 +5,7 @@ namespace App\QueryServices;
 use App\Http\Requests\Questions\SearchRequest;
 use App\Models\Question;
 use App\Models\QuestionCase;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class QuestionQueryService extends QueryService
@@ -33,28 +34,63 @@ class QuestionQueryService extends QueryService
             'q.created_at as created_at',
             'q.updated_at as updated_at',
         ];
-        $this->question_admin_summary_column = [
-            'p.name as p_c_name',
-            's.name as s_c_name',
-            'c.name as c_name',
-            'p.code as p_c_code',
-            's.code as s_c_code',
-            'c.code as c_code',
-            'q.topic as topic',
-            'q.id as id',
-            'q.quiz_id as quiz_id',
-            'q.user_name as user_name',
-            'q.is_request as is_request',
-            'q.is_approve as is_approve',
-            'q.is_remand as is_remand',
-            'q.created_at as created_at',
-            'q.updated_at as updated_at',
-        ];
     }
-
+    public function getPaginate(Request $request){
+            $query = $this->question->select(
+                ['p.name as p_c_name',
+                    's.name as s_c_name',
+                    'c.name as c_name',
+                    'p.code as p_c_code',
+                    's.code as s_c_code',
+                    'c.code as c_code',
+                    'q.topic as topic',
+                    'q.id as id',
+                    'q.quiz_id as quiz_id',
+                    'q.user_name as user_name',
+                    'q.is_request as is_request',
+                    'q.is_approve as is_approve',
+                    'q.is_remand as is_remand',
+                    'q.created_at as created_at',
+                    'q.updated_at as updated_at',]
+            )->from('questions as q')
+                ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
+                ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
+                ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
+                ->leftJoin('users as u', 'u.id', '=', 'q.user_id');
+            if($request->query('search')){
+                $searchTerm = $request->query('search');
+                $query->where(function($query) use ($searchTerm) {
+                    $query->where('title','like',"%".$searchTerm."%")
+                        ->orWhere('topic','like',"%".$searchTerm."%");
+                });
+            }
+            if($request->query('sort')){
+                $query->orderBy($request->query('sort'), $request->query('order'));
+            }
+            if($request->query('perPage')) {
+                $perpage = $request->query('perpage');
+            }else{
+                $perpage = 20;
+            };
+            return $query->paginate($perpage);
+        }
     public function getQuestions(SearchRequest $request){
         $query = $this->question->select(
-            $this->question_admin_summary_column
+            ['p.name as p_c_name',
+                's.name as s_c_name',
+                'c.name as c_name',
+                'p.code as p_c_code',
+                's.code as s_c_code',
+                'c.code as c_code',
+                'q.topic as topic',
+                'q.id as id',
+                'q.quiz_id as quiz_id',
+                'q.user_name as user_name',
+                'q.is_request as is_request',
+                'q.is_approve as is_approve',
+                'q.is_remand as is_remand',
+                'q.created_at as created_at',
+                'q.updated_at as updated_at',]
         )->from('questions as q')
             ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
             ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')

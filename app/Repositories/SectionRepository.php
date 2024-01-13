@@ -18,10 +18,11 @@ class SectionRepository extends Repository
     function set(SectionRequest $request)
     {
         try {
-            // ユーザーの作成
             $user = $this->section::create([
                 'title' => $request->input('title'),
-                'topic' => $request->input('topic')
+                'topic' => $request->input('topic'),
+                'is_case' => $request->input('topic'),
+                'case_text' => $request->input('case_text')
             ]);
             //return response()->json(['user' => $user], 201);
         } catch (QueryException $e) {

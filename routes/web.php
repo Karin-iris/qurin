@@ -153,13 +153,15 @@ Route::middleware(['auth:admin','mfa'])->group(function () {
         Route::get('/user/edit/{id}', 'edit')->name('user.edit');
         Route::put('/user/update/{id}', 'update')->name('user.update');
         Route::get('/user/admin_edit/{id}', 'admin_edit')->name('user.admin_edit');
-        Route::put('/user/admin_update/{id}', 'update')->name('user.admin_update');
+        Route::put('/user/admin_update/{id}', 'admin_update')->name('user.admin_update');
         Route::get('/user/invite', 'invite')->name('user.invite');
         Route::post('/user/send_invite', 'send_invite')->name('user.send_invite');
         Route::get('/user/admin_invite', 'admin_invite')->name('user.admin_invite');
         Route::post('/user/send_admin_invite', 'send_admin_invite')->name('user.send_admin_invite');
-        Route::get('/user/admin_regist/{token}', 'admin_regist')->name('user.admin_regist');
-        Route::get('/user/regist/{token}', 'user_regist')->name('user.regist');
+        Route::get('/user/admin_register/{token}', 'admin_register')->name('user.admin_register');
+        Route::post('/user/admin_register/{token}','store_admin_register')->name('user.store_admin_register');
+        Route::get('/user/register/{token}', 'user_register')->name('user.register');
+        Route::post('/user/store_register/{token}','store_user_register')->name('user.store_register');
         Route::get('/user/admin_config_edit/', 'admin_config_edit')->name('user.admin_config_edit');
     });
 });

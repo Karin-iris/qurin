@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Users;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-class UserRegistRequest extends FormRequest
+class AdminRegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,18 +29,15 @@ class UserRegistRequest extends FormRequest
                     'string',
                     'required',
                     'max:255',
-                    Rule::unique('users')->ignore($request->id, 'id'),
-                    'unique:admins',
+                    'unique:users',
+                    Rule::unique('admins')->ignore($request->id, 'id'),
                 ],
                 'email'     => [
                     'email',
                     'required', // 必須
-                    // 重複チェック。Rule::unique('テーブル名')->ignore(主キー, '主キーのカラム名')
-                    Rule::unique('users')->ignore($request->id, 'id'),
-                    'unique:admins',
-                ],
-                'icon' => 'image|mimes:jpeg,jpg',
-                'password' => ['string', 'max:255'],
+                    'unique:users',
+                    Rule::unique('admins')->ignore($request->id, 'id'),
+                ]
             ];
         } elseif (isset($request->mode) && $request->mode == "create") {
             // 登録画面のバリデーション
@@ -56,15 +53,6 @@ class UserRegistRequest extends FormRequest
                 'icon' => 'image|mimes:jpeg,jpg',
                 'password' => ['string', 'max:255'],
             ];
-        } elseif (isset($request->mode) && $request->mode == "user_invite") {
-            return [
-                'email'     => [
-                    'email',
-                    'required',
-                    'unique:users',
-                    'unique:admins',
-                ],
-            ];
         } elseif (isset($request->mode) && $request->mode == "admin_invite") {
             return [
                 'email'     => [
@@ -75,7 +63,16 @@ class UserRegistRequest extends FormRequest
                 ],
             ];
         }else{
-            return [];
+            return [
+                'name' => ['string','required', 'max:255','unique:users'],
+                // メールアドレス
+                'email'     => [
+                    'email',
+                    'required', // 必須
+                    'unique:users',
+                ],
+                'password' => ['string', 'max:255'],
+            ];
         }
     }
 }

@@ -10,23 +10,29 @@
           <span v-if="sortOrder === 'asc'">▲</span>
           <span v-else>▼</span>
         </span></th>
-            <th @click="sort('topic')">セクションタイトル（要約）
+            <th @click="sort('title')">セクションタイトル（要約）
+                <span v-if="sortKey === 'title'">
+                    <span v-if="sortOrder === 'asc'">▲</span>
+                    <span v-else>▼</span>
+                </span>
+            </th>
+            <th @click="sort('topic')">セクショントピック
                 <span v-if="sortKey === 'topic'">
-          <span v-if="sortOrder === 'asc'">▲</span>
-          <span v-else>▼</span>
-        </span></th>
-            <th>作成者</th>
+                    <span v-if="sortOrder === 'asc'">▲</span>
+                    <span v-else>▼</span>
+                </span>
+            </th>
             <th>紐付き問題数</th>
             <th>作成時間<br>更新時間</th>
-            <th>問題の追加</th>
             <th>編集</th>
         </tr>
         </thead>
-        <draggable v-model="items" tag="tbody" item-key="index" class="text-md">
+        <draggable v-model="items.data" tag="tbody" item-key="index" class="text-md">
             <template #item="{ element }">
                 <tr class="border-b border-gray-500 text-sm">
                     <td>
-                        {{ element.id }}
+                        <p>{{ element.id }}</p>
+                        <p>{{ element.sec_id }}</p>
                     </td>
                     <td>
                         <span v-if="!isEditing(element)">{{ element.topic }}</span>
@@ -56,16 +62,7 @@
                         <p>{{ element.updated_at }}</p>
                     </td>
                     <td>
-                        <a :href="`/question_case/q_add/${element.id}`">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/>
-                            </svg>
-                        </a>
-                    </td>
-                    <td>
-                        <a :href="`/question_case/edit/${element.id}`">
+                        <a :href="`/section/edit/${element.id}`">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                  viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -77,9 +74,11 @@
             </template>
         </draggable>
     </table>
-    <button @click="prevPage" :disabled="page <= 1">Prev</button>
-    <span>Page {{ page }}</span>
-    <button @click="nextPage">Next</button>
+    <div v-if="page <= 1 && page >= this.items.last_page">
+        <button @click="prevPage" :disabled="page <= 1">Prev</button>
+        <span>Page {{ page }}</span>
+        <button @click="nextPage" :disabled="page >= this.items.last_page">Next</button>
+    </div>
 </template>
 
 <script>
@@ -96,10 +95,6 @@ export default {
     data() {
         return {
             items: [
-                /*{name: 'Item 1', children: [{name: 'Child 1-1'}, {name: 'Child 1-2'}]},
-                {name: 'Item 2', children: [{name: 'Child 2-1'}, {name: 'Child 2-2'}]},
-                {name: 'Item 3', children: []},*/
-                // 他のアイテム
             ],
             editableData: {},
             searchQuery: '',
@@ -115,7 +110,7 @@ export default {
     },
     methods: {
         fetchData() {
-            axios.get('/api/section/get', {
+            axios.get('/api/section/paginate', {
                 params: {
                     search: this.searchQuery,
                     sort: this.sortKey,
@@ -125,14 +120,12 @@ export default {
                 }
             })
                 .then(response => {
+                    //this.items = response.data.data;
                     this.items = response.data;
                 })
                 .catch(error => {
                     console.error('Error fetching the items:', error);
                 });
-        },
-        changeSort(order) {
-            router.push({ path: '/api/section/get', query: { ...route.query, sort: order } });
         },
         sort(key) {
             this.sortKey = key;
@@ -160,8 +153,10 @@ export default {
             }
         },
         nextPage() {
-            this.page++;
-            this.fetchData();
+            if (this.page <= this.items.last_page) {
+                this.page++;
+                this.fetchData();
+            }
         }
     }
 };
