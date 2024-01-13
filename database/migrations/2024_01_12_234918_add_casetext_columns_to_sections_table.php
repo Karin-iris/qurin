@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::table('sections', function (Blueprint $table) {
             $table->text('case_text')->after('topic')->nullable();
             $table->boolean('is_case')->after('case_text')->nullable();
-            $table->boolean('is_default')->after('is_default')->nullable();
+            $table->boolean('is_default')->after('is_case')->nullable();
         });
     }
 
