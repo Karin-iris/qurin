@@ -35,4 +35,8 @@ class SectionQueryService extends QueryService
         };
         return $query->paginate($perpage);
     }
+
+    function getList(){
+        return $this->section->pluck('title', 'id');
+    }
 }

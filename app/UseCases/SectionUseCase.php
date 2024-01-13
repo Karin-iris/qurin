@@ -27,7 +27,14 @@ class SectionUseCase extends UseCase
         return $this->sectionQS->getPaginate($request);
     }
 
+    function getList(){
+        return $this->sectionQS->getList();
+    }
     function set(SectionRequest $request){
         return $this->sectionR->set($request);
     }
+    function mod(SectionRequest $request,int $id){
+        return $this->sectionR->mod($request,$id);
+    }
+
 }

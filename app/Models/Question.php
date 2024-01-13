@@ -22,6 +22,7 @@ class Question extends Model
         'topic',
         'compitency',
         'user_name',
+        'section_id',
         'category_id',
         'quiz_id',
         'correct_choice',

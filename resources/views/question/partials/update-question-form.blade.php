@@ -23,6 +23,15 @@
         </div>
 
         <div>
+            <x-input-label for="section_id" :value="__('questions.section_id')"/>
+            <x-questions.select-sections name="section_id"
+                                             class="mt-1 block w-full" autofocus
+                                             autocomplete="section_id"
+                                             :value="old('section_id',$question->section_id)" :options="$sections" />
+            <x-input-error class="mt-2" :messages="$errors->get('section_id')" />
+        </div>
+
+        <div>
             <x-input-label for="quiz_id" :value="__('questions.quiz_id')"/>
             <x-text-input id="quiz_id" name="quiz_id" type="text" class="mt-1 block w-full" autofocus
                           autocomplete="topic" :value="old('quiz_id', $question->quiz_id)" />

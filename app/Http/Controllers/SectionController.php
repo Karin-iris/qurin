@@ -34,7 +34,7 @@ class SectionController extends Controller
     public function store(SectionRequest $request)
     {
         $this->sectionUC->set($request);//
-        return Redirect::route('section.create')->with('examination', 'saved');////
+        return Redirect::route('section.create')->with('section', 'saved');////
     }
 
     /**
@@ -57,9 +57,10 @@ class SectionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SectionRequest $request, string $id)
     {
-        //
+        $this->sectionUC->mod($request,$id);//
+        //return Redirect::route('section.edit',['id'=>$id])->with('section', 'saved');//////
     }
 
     /**

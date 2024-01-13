@@ -5,28 +5,27 @@ namespace App\Http\Controllers;
 use App\Http\Requests\QuestionCaseRequest;
 use App\Http\Requests\QuestionRequest;
 use App\Http\Requests\QuestionFileRequest;
-use App\Models\Question;
+use App\UseCases\SectionUseCase;
 use App\UseCases\CategoryUseCase;
 use App\UseCases\QuestionUseCase;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
-use JetBrains\PhpStorm\Pure;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\Questions\SearchRequest;
 
 class QuestionController extends Controller
 {
-    public $categoryUC;
-    public $questionUC;
-
+    protected CategoryUseCase $categoryUC;
+    protected QuestionUseCase $questionUC;
+    protected SectionUseCase $sectionUC;
     public function __construct()
     {
         $this->categoryUC = new CategoryUseCase();
         $this->questionUC = new QuestionUseCase();
+        $this->sectionUC = new SectionUseCase();
     }
 
     /**
@@ -91,8 +90,8 @@ class QuestionController extends Controller
         $p_categories = $this->categoryUC->getPrimaryCategories();
         $s_categories = $this->categoryUC->getSecondaryAllCategories();
         $categories = $this->categoryUC->getSimpleCategories();
-
-        return view('question.edit', compact('question', 'p_categories', 's_categories', 'categories'));//
+        $sections =$this->sectionUC->getList();
+        return view('question.edit', compact('question', 'p_categories', 's_categories', 'categories','sections'));//
     }
 
     public function edit_c(int $id): View

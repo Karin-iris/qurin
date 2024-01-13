@@ -4,18 +4,15 @@ namespace App\QueryServices;
 
 use App\Http\Requests\Questions\SearchRequest;
 use App\Models\Question;
-use App\Models\QuestionCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class QuestionQueryService extends QueryService
 {
     protected Question $question;
-    protected QuestionCase $question_case;
     public function __construct()
     {
         $this->question = new Question;
-        $this->question_case = new QuestionCase;
         $this->question_summary_column = [
             'p.name as p_c_name',
             's.name as s_c_name',
@@ -45,6 +42,7 @@ class QuestionQueryService extends QueryService
                     'c.code as c_code',
                     'q.topic as topic',
                     'q.id as id',
+                    'q.text as text',
                     'q.quiz_id as quiz_id',
                     'q.user_name as user_name',
                     'q.is_request as is_request',
@@ -60,9 +58,18 @@ class QuestionQueryService extends QueryService
             if($request->query('search')){
                 $searchTerm = $request->query('search');
                 $query->where(function($query) use ($searchTerm) {
-                    $query->where('title','like',"%".$searchTerm."%")
+                    $query->where('text','like',"%".$searchTerm."%")
                         ->orWhere('topic','like',"%".$searchTerm."%");
                 });
+            }
+            if($request->query('c_id')){
+                $query->where('c.id',$request->query('c_id'));
+            }
+            if($request->query('p_id')){
+                $query->where('p.id',$request->query('p_id'));
+            }
+            if($request->query('s_id')){
+                $query->where('s.id',$request->query('s_id'));
             }
             if($request->query('sort')){
                 $query->orderBy($request->query('sort'), $request->query('order'));

@@ -11,8 +11,9 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('sections', function (Blueprint $table) {
-            $table->text('case_text')->nullable();
-            $table->boolean('is_case')->default(false);//
+            $table->text('case_text')->after('topic')->nullable();
+            $table->boolean('is_case')->after('case_text')->nullable();
+            $table->boolean('is_default')->after('is_default')->nullable();
         });
     }
 
@@ -24,6 +25,7 @@ return new class extends Migration {
         Schema::table('sections', function (Blueprint $table) {
             $table->dropColumn('case_text');
             $table->dropColumn('is_case');
+            $table->dropColumn('is_default');
         });
     }
 };

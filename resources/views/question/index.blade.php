@@ -43,7 +43,7 @@
                             onClick="location.href='{{ route('question.create') }}'">{{ __('questions.create') }}
                     </button>
                     --}}
-                    @include('question.partials.search-question-form')
+
 
                     <div id="question-table">
                         <table-component></table-component>

@@ -1,38 +1,43 @@
 <template>
-    <div>
+    <div class="mr-12">
+        <div class="mr-3">
         <select id="categorySelect"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 {{$class}}"
                 v-model="selected_primary_id"
-                @change="fetchSecondaryCategories"
+                @change="handlePrimaryChange"
         >
-            <option disabled value="">親カテゴリを選択</option>
+            <option value="">大カテゴリを選択</option>
             <option v-for="primary_category in primary_categories" :key="primary_category.id" :value="primary_category.id">
                 [{{ primary_category.code }}]{{ primary_category.name }}
             </option>
         </select>
-
+        </div>
+        <div class="mr-3">
         <select id="categorySelect"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 {{$class}}"
                 v-model="selected_secondary_id"
-                @change="fetchCategories"
+                @change="handleSecondaryChange"
         >
-            <option disabled value="">子カテゴリを選択</option>
+            <option value="">中カテゴリを選択</option>
             <option v-for="secondary_category in secondary_categories" :key="secondary_category.id" :value="secondary_category.id">
                 [{{ secondary_category.code }}]{{ secondary_category.name }}
             </option>
         </select>
-
+        </div>
+        <div class="mr-6">
         <select id="categorySelect"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 {{$class}}"
                 name="category_id"
                 v-model="selected_category_id"
+                @change="onCategoryChange"
         >
 
-            <option disabled value="">孫カテゴリを選択</option>
+            <option value="">小カテゴリを選択</option>
             <option v-for="category in categories" :key="category.id" :value="category.id">
                 [{{ category.code }}]{{ category.name }}
             </option>
         </select>
+        </div>
     </div>
 </template>
 
@@ -68,6 +73,7 @@ export default {
                 try {
                     const response = await axios.get(`/api/category/get_secondaries/${selected_primary_id.value}`);
                     secondary_categories.value = response.data;
+
                 } catch (error) {
                     console.error(error);
                 }
@@ -82,6 +88,7 @@ export default {
                 try {
                     const response = await axios.get(`/api/category/get_children/${selected_secondary_id.value}`);
                     categories.value = response.data;
+
                 } catch (error) {
                     console.error(error);
                 }
@@ -101,5 +108,24 @@ export default {
             fetchCategories,
         };
     },
+    methods: {
+        onCategoryChange() {
+            this.$emit('category-selected', this.selected_category_id);
+        },
+        handleSecondaryChange() {
+            this.fetchCategories();
+            this.onSecondaryChange();
+        },
+        onSecondaryChange(){
+            this.$emit('secondary-category-selected', this.selected_secondary_id);
+        },
+        handlePrimaryChange() {
+            this.fetchSecondaryCategories();
+            this.onPrimaryChange();
+        },
+        onPrimaryChange(){
+            this.$emit('primary-category-selected', this.selected_primary_id);
+        },
+    }
 };
 </script>

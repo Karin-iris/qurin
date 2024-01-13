@@ -9,7 +9,6 @@ use App\Mail\QuestionApproveMail;
 use App\Mail\QuestionRemandMail;
 use App\Mail\QuestionRequestMail;
 use App\Models\Question;
-use App\Models\QuestionCase;
 use App\Models\QuestionImage;
 use App\QueryServices\QuestionQueryService;
 use App\Repositories\QuestionRepository;
@@ -23,7 +22,6 @@ class QuestionUseCase extends UseCase
 {
 
     public Question $question;
-    public QuestionCase $question_case;
     public QuestionImage $question_image;
     public QuestionRepository $questionR;
     public QuestionQueryService $questionQS;
@@ -34,7 +32,6 @@ class QuestionUseCase extends UseCase
     function __construct()
     {
         $this->question = new Question();
-        $this->question_case = new QuestionCase();
         $this->question_image = new QuestionImage();
         $this->questionR = new QuestionRepository();
         $this->questionQS = new QuestionQueryService();
@@ -64,6 +61,7 @@ class QuestionUseCase extends UseCase
             's.code as s_c_code',
             'c.code as c_code',
             'q.topic as topic',
+            'q.section_id as section_id',
             'q.id as id',
             'q.quiz_id as quiz_id',
             'q.user_name as user_name',
@@ -81,6 +79,7 @@ class QuestionUseCase extends UseCase
             's.id as s_c_id',
             'c.id as c_id',
             'q.topic as topic',
+            'q.section_id as section_id',
             'q.user_name as user_name',
             'q.compitency as compitency',
             'q.id as id',
@@ -301,6 +300,7 @@ class QuestionUseCase extends UseCase
             'compitency' => $request->input('compitency'),
             'user_name' => $request->input('user_name'),
             'text' => $request->input('text'),
+            'section_id' => $request->input('section_id'),
             'category_id' => $request->input('category_id'),
             'quiz_id' => $request->input('quiz_id'),
             'correct_choice' => $request->input('correct_choice'),

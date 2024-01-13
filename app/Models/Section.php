@@ -10,8 +10,12 @@ class Section extends Model
     use HasFactory;
 
     protected $fillable = [
+        'sec_id',
         'title',
-        'topic'
+        'topic',
+        'case_text',
+        'is_case',
+        'is_default'
     ];
 
     protected $casts = [

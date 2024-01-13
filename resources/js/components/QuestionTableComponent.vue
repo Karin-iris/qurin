@@ -1,5 +1,12 @@
 <template>
-    <category-component></category-component>
+    <category-component
+        @category-selected="onCategorySelected"
+        @secondary-category-selected="onSecondaryCategorySelected"
+        @primary-category-selected="onPrimaryCategorySelected"
+    ></category-component>
+
+    検索文字列:<input type="text" v-model="searchQuery" @input="fetchData"/>
+
     <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
         <thead
             class="p-10 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -8,9 +15,8 @@
                 <th>大カテゴリ</th>
                 <th>中カテゴリ</th>
                 <th>小カテゴリ</th>
-                <th>作成者</th>
+                <th>問題文</th>
                 <th>問題トピック</th>
-                <th>関連問題数</th>
                 <th>作成時間<br>更新時間</th>
                 <th>編集</th>
             </tr>
@@ -20,7 +26,8 @@
             <template #item="{ element }">
                 <tr class="border-b border-gray-500 text-sm">
                     <td class="w-20">
-                        {{ element.id }}
+                        <p>{{ element.id }}</p>
+                        <p>{{ element.quiz_id }}</p>
                     </td>
                     <td class="w-20">
                         {{ element.p_c_name }}
@@ -29,19 +36,13 @@
                         {{ element.s_c_name }}
                     </td>
                     <td class="w-20">
-                        {{ element.p_c_name }}
-                    </td>
-                    <td class="w-20">
-                    {{ element.user_name }}
-                    </td>
-                    <td>{{ element.topic }}
-                    </td>
-                    <td>
-                        {{ element.user_id }}
+                        {{ element.c_name }}
                     </td>
                     <td>
                         {{ element.text }}
-
+                    </td>
+                    <td>
+                        {{ element.topic }}
                     </td>
                     <td>
                         <p>{{ element.created_at }}</p>
@@ -87,6 +88,9 @@ export default {
                 // 他のアイテム
             ],
             editableData: {},
+            c_id: '',
+            s_id: '',
+            p_id: '',
             searchQuery: '',
             sortKey: '',
             sortOrder: 'asc',
@@ -103,6 +107,9 @@ export default {
             axios.get('/api/question/paginate', {
                 params: {
                     search: this.searchQuery,
+                    c_id: this.c_id,
+                    s_id: this.s_id,
+                    p_id: this.p_id,
                     sort: this.sortKey,
                     order: this.sortOrder,
                     page: this.page,
@@ -121,6 +128,21 @@ export default {
             this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
             this.fetchData();
         },
+        onCategorySelected(categoryId){
+            this.c_id = categoryId;
+            this.fetchData();
+        },
+        onSecondaryCategorySelected(categoryId){
+            this.s_id = categoryId;
+            this.c_id = '';
+            this.fetchData();
+        },
+        onPrimaryCategorySelected(categoryId){
+            this.p_id = categoryId;
+            this.s_id = '';
+            this.c_id = '';
+            this.fetchData();
+        },
         isEditing(item) {
             return this.editableData.hasOwnProperty(item.id);
         },
@@ -134,6 +156,7 @@ export default {
             delete this.editableData[item.id];
             this.fetchData();
         },
+
         prevPage() {
             if (this.page > 1) {
                 this.page--;
@@ -145,7 +168,8 @@ export default {
                 this.page++;
                 this.fetchData();
             }
-        }
+        },
+
     },
 
 };
