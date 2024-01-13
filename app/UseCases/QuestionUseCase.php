@@ -135,11 +135,6 @@ class QuestionUseCase extends UseCase
             ->groupBy('s.id')->get();
     }
 
-    function getQuestionCase(int $id)
-    {
-        return $this->question_case->where('id', $id)->firstOrFail();
-    }
-
     function getQuestions(SearchRequest $request)
     {
         Log::info('Request', $request->all());
@@ -195,14 +190,6 @@ class QuestionUseCase extends UseCase
             ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
             ->Where('is_approve', '1')->get();
     }
-
-    function getQuestionCases()
-    {
-        $question_cases = $this->question_case
-            ->Where('is_request', '1')->orWhere('is_approve', '1')->orWhere('is_remand', '1')->get();
-        return $question_cases;
-    }
-
     function getUserQuestion(int $id)
     {
         $question = $this->question->select(
@@ -216,11 +203,6 @@ class QuestionUseCase extends UseCase
         return $question;
     }
 
-    function getUserQuestionCase(int $id)
-    {
-        return $this->question_case->where('id', $id)->firstOrFail();
-    }
-
     function getUserQuestions(int $user_id)
     {
         $model = $this->question->select(
@@ -231,14 +213,6 @@ class QuestionUseCase extends UseCase
             ->rightJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
             ->where([['q.user_id', $user_id]]);
         return $model->get();
-    }
-
-    function getUserQuestionCases(int $user_id)
-    {
-        $user_question_cases = $this->question_case
-            ->where('user_id', $user_id)
-            ->get();
-        return $user_question_cases;
     }
 
     function saveQuestion(QuestionRequest $request)
@@ -271,18 +245,6 @@ class QuestionUseCase extends UseCase
             $status = "saved";
         }
         return $status;
-    }
-
-    function saveUserQuestionCase(QuestionCaseRequest $request)
-    {
-        $this->question_case->fill([
-            'topic' => $request->input('topic'),
-            'text' => $request->input('text'),
-            'explanation' => $request->input('explanation'),
-            'is_request' => $request->input('is_request'),
-            'user_id' => Auth::user()->id
-        ])->save();
-
     }
 
     function saveTmpQuestion($id, $text)
@@ -348,29 +310,6 @@ class QuestionUseCase extends UseCase
         }
         return $status;
     }
-
-    function updateQuestionCase(QuestionCaseRequest $request, int $id)
-    {
-        $this->question_case->find($id)->fill([
-            'topic' => $request->input('topic'),
-            'text' => $request->input('text'),
-            'explanation' => $request->input('explanation'),
-            'is_request' => $request->input('is_request'),
-            'is_approve' => $request->input('is_approve'),
-        ])->save();
-    }
-
-    function updateUserQuestionCase(QuestionCaseRequest $request, int $id)
-    {
-        $this->question_case->find($id)->fill([
-            'topic' => $request->input('topic'),
-            'text' => $request->input('text'),
-            'explanation' => $request->input('explanation'),
-            'is_request' => $request->input('is_request'),
-            'user_id' => Auth::user()->id
-        ])->save();
-    }
-
     function updateUserQuestionImage(QuestionRequest $request, int $id)
     {
         if ($request->file('image')) {
@@ -406,19 +345,9 @@ class QuestionUseCase extends UseCase
         $this->question->find($id)->delete();
     }
 
-    function delQuestionCase($id)
-    {
-        $this->question_case->find($id)->delete();
-    }
-
     function delUserQuestion($id)
     {
         $this->question->find($id)->delete();
-    }
-
-    function delUserQuestionCase($id)
-    {
-        $this->question_case->find($id)->delete();
     }
 
     function sendRequestMail(QuestionRequest $request)

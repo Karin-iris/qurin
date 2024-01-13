@@ -8,11 +8,9 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
-                'resources/js/table.js',
                 'resources/js/examinationTable.js',
                 'resources/js/sectionTable.js',
                 'resources/js/questionTable.js',
-                'resources/js/questionCaseTable.js',
                 'resources/js/categoryTable.js',
                 'resources/js/imageUpload.js',
                 'resources/js/category.js',

@@ -37,8 +37,4 @@
             </div>
         </div>
     </div>
-    <div id="app">
-        <example-component></example-component>
-    </div>
-
 </x-admin-layout>
