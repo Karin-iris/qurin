@@ -34,12 +34,6 @@ Route::controller(ApiQuestionController::class)->group(callback: function () {
     Route::get('/question/get_secondary_category_summary', 'get_secondary_category_summary');
 });
 
-Route::controller(ApiQuestionCaseController::class)->group(callback: function () {
-    Route::get('/question_case/get_question_cases', 'get_question_cases');
-    Route::get('/question_case/get_question_case_questions/{id}', 'get_question_case_questions');
-    Route::get('/question_case/get_question_case_with_questions/', 'get_question_case_with_questions');
-});
-
 Route::controller(ApiExaminationController::class)->group(callback: function () {
     Route::get('/examination/get', 'get_examinations');
 });
