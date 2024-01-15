@@ -36,6 +36,7 @@ Route::get('/admin_dashboard', function () {
 })->middleware(['auth:admin', 'verified'])->name('admin_dashboard');
 
 
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -43,15 +44,10 @@ Route::middleware('auth')->group(function () {
     Route::controller(UserQuestionController::class)->group(function () {
         Route::get('/my_question', 'index')->name('userquestion.index');
         Route::get('/my_question/edit/{id}', 'edit')->name('userquestion.edit');
-        Route::get('/my_question/c_edit/{id}', 'edit_c')->name('userquestion.edit_c');
         Route::put('/my_question/edit/{id}', 'update')->name('userquestion.update');
-        Route::put('/my_question/c_edit/{id}', 'update_c')->name('userquestion.update_c');
         Route::get('/my_question/add', 'create')->name('userquestion.create');
-        Route::get('/my_question/c_add', 'create_c')->name('userquestion.create_c');
         Route::post('/my_question/add', 'store')->name('userquestion.store');
-        Route::post('/my_question/c_add', 'store_c')->name('userquestion.store_c');
         Route::delete('/my_question/del/{id}', 'destroy')->name('userquestion.destroy');
-        Route::delete('/my_question/c_del/{id}', 'destroy_c')->name('userquestion.destroy_c');
     });
 });
 
