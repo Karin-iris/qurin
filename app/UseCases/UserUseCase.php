@@ -100,7 +100,7 @@ class UserUseCase extends UseCase
     {
         try {
             $user = $this->admin->select(
-                'id', 'name', 'password', 'email'
+                'id', 'name', 'password', 'email','code'
             )->from('admins')->where('id', $id)->firstOrFail();
             if (!empty($user)) {
                 $user->name = Crypt::decryptString($user->name);
@@ -215,11 +215,17 @@ class UserUseCase extends UseCase
 
     function updateAdmin(AdminRegisterRequest $request, int $id)
     {
-        $this->admin->find($id)->fill([
+        $admin = $this->admin->find($id);
+        $admin->fill([
             'name' => Crypt::encryptString($request->input('name')),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password'))
-        ])->save();
+            'code' => $request->input('code'),
+            'email' => $request->input('email')
+        ]);
+
+        if ($request->has('password') && !empty($request->input('password'))) {
+            $admin->password = Hash::make($request->input('password'));
+        }
+        $admin->save();
     }
 
     function addMFA(String $mfa_secret,int $id){

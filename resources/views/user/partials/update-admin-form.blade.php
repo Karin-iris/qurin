@@ -1,3 +1,7 @@
+@section('page-vite')
+    @vite(['resources/js/toggleText.js'])
+@endsection
+
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
@@ -33,6 +37,7 @@
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
+
         <div>
             <x-input-label for="email" :value="__('admins.email')"/>
             <x-text-input id="topic" name="email" type="text" class="mt-1 block w-full" autofocus
@@ -40,6 +45,18 @@
             <x-input-error class="mt-2" :messages="$errors->get('email')"/>
         </div>
 
+
+        <div>
+            <x-input-label for="code" :value="__('admins.code')"/>
+            <x-text-input id="code" name="code" type="text" class="mt-1 block w-full" autofocus
+                          autocomplete="code" :value="old('code',$admin->code)" />
+            <x-input-error class="mt-2" :messages="$errors->get('code')" />
+        </div>
+
+        <div id="toggle-text-app">
+            <x-input-label for="password" :value="__('admins.password')"/>
+            <toggle-text-component></toggle-text-component>
+        </div>
 
         <input type="hidden" name="admin_id" value="{{ Auth::user('admin')->id }}">
         <input type="hidden" name="id" value="{{ $admin->id }}">

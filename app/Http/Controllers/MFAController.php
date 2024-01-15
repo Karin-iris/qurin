@@ -59,5 +59,14 @@ class MFAController extends Controller
         }
     }
 
+    public function admin_erase(int $id)
+    {
+    }
+
+    public function update_admin_erase(int $id)
+    {
+
+    }
+
 }
 

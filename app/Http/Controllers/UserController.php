@@ -8,6 +8,7 @@ use App\UseCases\UserConfigUseCase;
 use App\UseCases\UserUseCase;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -117,7 +118,8 @@ class UserController extends Controller
 
     public function admin_config_edit(): View
     {
-        $admins = $this->userConfigUC->setAdminConfig();
-        return view('user.admin_config_edit', compact('admins'));
+        $admins = $this->userConfigUC->getAdminConfig();
+        list($qr_image, $secret) = $this->userUC->displayMFA(Auth::guard('admin')->id());
+        return view('user.admin_config_edit', compact('admins','qr_image', 'secret'));
     }
 }

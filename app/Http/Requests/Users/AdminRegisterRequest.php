@@ -35,7 +35,10 @@ class AdminRegisterRequest extends FormRequest
                 'email'     => [
                     'email',
                     'required', // 必須
-                    'unique:users',
+                    Rule::unique('admins')->ignore($request->id, 'id'),
+                ],
+                'code'     => [
+                    'required', // 必須
                     Rule::unique('admins')->ignore($request->id, 'id'),
                 ]
             ];
@@ -43,12 +46,16 @@ class AdminRegisterRequest extends FormRequest
             // 登録画面のバリデーション
             return [
                 // ユーザー名
-                'name' => ['string','required', 'max:255','unique:users'],
+                'name' => ['string','required', 'max:255','unique'],
                 // メールアドレス
                 'email'     => [
                     'email',
                     'required', // 必須
-                    'unique:users',
+                    'unique',
+                ],
+                'code'     => [
+                    'required', // 必須
+                    'unique',
                 ],
                 'icon' => 'image|mimes:jpeg,jpg',
                 'password' => ['string', 'max:255'],
@@ -58,18 +65,17 @@ class AdminRegisterRequest extends FormRequest
                 'email'     => [
                     'email',
                     'required',
-                    'unique:users',
-                    'unique:admins',
+                    'unique',
                 ],
             ];
         }else{
             return [
-                'name' => ['string','required', 'max:255','unique:users'],
+                'name' => ['string','required', 'max:255','unique:admins'],
                 // メールアドレス
                 'email'     => [
                     'email',
                     'required', // 必須
-                    'unique:users',
+                    'unique',
                 ],
                 'password' => ['string', 'max:255'],
             ];

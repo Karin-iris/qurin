@@ -18,7 +18,4 @@
             </div>
         </div>
     </div>
-    <div id="image-upload-app">
-        <image-upload-component></image-upload-component>
-    </div>
 </x-admin-layout>

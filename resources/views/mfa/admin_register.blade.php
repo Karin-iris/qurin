@@ -18,7 +18,7 @@
 
                         <input type="hidden" name="mfa_secret" value="{{ $secret }}">
                         <label for="mfa_code">Enter the code from the app:</label>
-                        <input type="text" name="mfa_code" id="mfa_code" required>
+                        <input type="text" name="mfa_code" id="mfa_code" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" required>
                         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Enable MFA</button>
                     </form>
                 </div>

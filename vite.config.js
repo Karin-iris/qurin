@@ -2,6 +2,8 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 
+
+
 export default defineConfig({
     plugins: [
         laravel({
@@ -12,10 +14,11 @@ export default defineConfig({
                 'resources/js/sectionTable.js',
                 'resources/js/questionTable.js',
                 'resources/js/categoryTable.js',
-                'resources/js/imageUpload.js',
                 'resources/js/category.js',
                 'resources/js/userSummaryPieChart.js',
-                'resources/js/categorySummaryBarChart.js'
+                'resources/js/categorySummaryBarChart.js',
+                'resources/js/imageUpload.js',
+                'resources/js/toggleText.js'
             ],
             refresh: true,
         }),

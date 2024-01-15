@@ -17,6 +17,8 @@
         @csrf
         @method('post')
 
+        <img src="data:image/png;base64, {{ $qr_image }}" alt="MFA QR Code">
+
         <div>
             <x-input-label for="name" :value="__('users.name')"/>
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" autofocus

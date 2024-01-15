@@ -24,6 +24,7 @@
                             {{ __('questions.list_explain') }}
                         </p>
                     </header>
+
                     @if (session('status') === 'approved')
                         <div class="p-4 mb-4 text-sm text-gray-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
                             <span class="font-medium">問題を承認しました。</span>
@@ -43,11 +44,12 @@
                             onClick="location.href='{{ route('question.create') }}'">{{ __('questions.create') }}
                     </button>
                     --}}
+                </div>
+            </div>
 
-
-                    <div id="question-table">
-                        <table-component></table-component>
-                    </div>
+        <div id="question-table" class="p-4 sm:p-8 bg-white shadow sm:rounded-lg mb-5">
+            <table-component></table-component>
+        </div>
 
                     <!--<table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
                         <thead
@@ -92,8 +94,7 @@
                         @endforeach
                         </tbody>
                     </table>-->
-                </div>
-            </div>
+
 
             {{--<div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="w-full">
@@ -161,5 +162,4 @@
     --}}
         </div>
     </div>
-
 </x-admin-layout>

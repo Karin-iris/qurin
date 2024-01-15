@@ -7,7 +7,6 @@ use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
-use App\Http\Controllers\QuestionCaseController;
 use App\Http\Controllers\UserQuestionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -37,7 +36,6 @@ Route::get('/admin_dashboard', function () {
 })->middleware(['auth:admin', 'verified'])->name('admin_dashboard');
 
 
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -58,12 +56,15 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth:admin'])->group(function () {
-Route::get('/mfa/admin_login', [MFAController::class, 'admin_login'])->name('mfa.admin_login');
-Route::post('/mfa/admin_login', [MFAController::class, 'verify_admin_login'])->name('mfa.verify_admin_login');
-Route::get('/mfa/admin_register/{id}', [MFAController::class, 'admin_register'])->name('mfa.admin_register');
-Route::post('/mfa/admin_register/{id}', [MFAController::class, 'update_admin_register'])->name('mfa.update_admin_register');
+    Route::get('/mfa/admin_login', [MFAController::class, 'admin_login'])->name('mfa.admin_login');
+    Route::post('/mfa/admin_login', [MFAController::class, 'verify_admin_login'])->name('mfa.verify_admin_login');
+    Route::get('/mfa/admin_register/{id}', [MFAController::class, 'admin_register'])->name('mfa.admin_register');
+    Route::post('/mfa/admin_register/{id}', [MFAController::class, 'update_admin_register'])->name('mfa.update_admin_register');
+    Route::get('/mfa/admin_erase/{id}', [MFAController::class, 'admin_erase'])->name('mfa.admin_erase');
+    Route::post('/mfa/admin_erase/{id}', [MFAController::class, 'update_admin_erase'])->name('mfa.update_admin_erase');
 });
-Route::middleware(['auth:admin','mfa'])->group(function () {
+
+Route::middleware(['auth:admin', 'mfa'])->group(function () {
     Route::controller(ExaminationController::class)->group(function () {
         Route::get('/examination', 'index')->name('examination.index');
         Route::post('/examination', 'index')->name('examination.index');
@@ -92,19 +93,7 @@ Route::middleware(['auth:admin','mfa'])->group(function () {
         Route::post('/question/add', 'store')->name('question.store');
         Route::delete('/question/del/{id}', 'destroy')->name('question.destroy');
     });
-    Route::controller(QuestionCaseController::class)->group(function () {
-        Route::get('/question_case', 'index')->name('question_case.index');
-        Route::get('/question_case/edit/{id}', 'edit')->name('question_case.edit');
-        Route::put('/question_case/edit/{id}', 'update')->name('question_case.update');
-        Route::get('/question_case/q_edit/{id}', 'edit_q')->name('question_case.edit_q');
-        Route::put('/question_case/q_edit/{id}', 'update_q')->name('question_case.update_q');
-        Route::get('/question_case/add', 'create')->name('question_case.create');
-        Route::post('/question_case/add', 'store')->name('question_case.store');
-        Route::get('/question_case/q_add/{case_id}', 'create_q')->name('question_case.create_q');
-        Route::post('/question_case/q_add/{case_id}', 'store_q')->name('question_case.store_q');
-        Route::delete('/question/del/{id}', 'destroy')->name('question_case.destroy');
-        Route::delete('/question/q_del/{id}', 'destroy_q')->name('question_case.destroy_q');
-    });
+
     Route::controller(ImportController::class)->group(function () {
         Route::get('/import', 'index')->name('import.index');
         Route::get('/import/all_import', 'all_import')->name('import.all_import');
@@ -159,9 +148,9 @@ Route::middleware(['auth:admin','mfa'])->group(function () {
         Route::get('/user/admin_invite', 'admin_invite')->name('user.admin_invite');
         Route::post('/user/send_admin_invite', 'send_admin_invite')->name('user.send_admin_invite');
         Route::get('/user/admin_register/{token}', 'admin_register')->name('user.admin_register');
-        Route::post('/user/admin_register/{token}','store_admin_register')->name('user.store_admin_register');
+        Route::post('/user/admin_register/{token}', 'store_admin_register')->name('user.store_admin_register');
         Route::get('/user/register/{token}', 'user_register')->name('user.register');
-        Route::post('/user/store_register/{token}','store_user_register')->name('user.store_register');
+        Route::post('/user/store_register/{token}', 'store_user_register')->name('user.store_register');
         Route::get('/user/admin_config_edit/', 'admin_config_edit')->name('user.admin_config_edit');
     });
 });
