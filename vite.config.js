@@ -18,7 +18,8 @@ export default defineConfig({
                 'resources/js/userSummaryPieChart.js',
                 'resources/js/categorySummaryBarChart.js',
                 'resources/js/imageUpload.js',
-                'resources/js/toggleText.js'
+                'resources/js/toggleText.js',
+                'resources/js/levelCheckbox.js'
             ],
             refresh: true,
         }),
