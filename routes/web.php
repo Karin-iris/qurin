@@ -7,6 +7,7 @@ use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\UserSectionController;
 use App\Http\Controllers\UserQuestionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -48,6 +49,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/my_question/add', 'create')->name('userquestion.create');
         Route::post('/my_question/add', 'store')->name('userquestion.store');
         Route::delete('/my_question/del/{id}', 'destroy')->name('userquestion.destroy');
+    });
+    Route::controller(UserSectionController::class)->group(function () {
+        Route::get('/my_section', 'index')->name('usersection.index');
+        Route::get('/my_section/edit/{id}', 'edit')->name('usersection.edit');
+        Route::put('/my_section/edit/{id}', 'update')->name('usersection.update');
+        Route::get('/my_section/add', 'create')->name('usersection.create');
+        Route::post('/my_section/add', 'store')->name('usersection.store');
+        Route::delete('/my_section/del/{id}', 'destroy')->name('usersection.destroy');
     });
 });
 

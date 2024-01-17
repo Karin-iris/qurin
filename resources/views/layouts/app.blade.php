@@ -13,9 +13,11 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
         <!-- Scripts -->
+        @yield('page-vite')
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        @yield('page-scripts')
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script type="text/javascript" src="/js/category.js?q={{ time() }}"></script>
         <script type="text/javascript" src="/js/question.js?q={{ time() }}"></script>
 

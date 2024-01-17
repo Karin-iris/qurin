@@ -13,7 +13,7 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('section.update',$section->id) }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('usersection.update',$section->id) }}" class="mt-6 space-y-6">
         @csrf
         @method('put')
 

@@ -62,7 +62,7 @@
                         <p>{{ element.updated_at }}</p>
                     </td>
                     <td>
-                        <a :href="`/section/edit/${element.id}`">
+                        <a :href="mode=='admin' ? `/section/edit/${element.id}` : `/my_section/edit/${element.id}`">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                  viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -102,6 +102,12 @@ const route = useRoute();
 export default {
     components: {
         draggable
+    },
+    props: {
+        mode: {
+            type: String,
+            required: true
+        }
     },
     data() {
         return {

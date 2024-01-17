@@ -2,7 +2,7 @@
     @vite(['resources/js/sectionTable.js'])
 @endsection
 
-<x-admin-layout>
+<x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Sections') }}
@@ -36,12 +36,14 @@
                     @endif
                     <button type="button"
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                            onClick="location.href='{{ route('section.create') }}'">{{ __('sections.create') }}
+                            onClick="location.href='{{ route('usersection.create') }}'">{{ __('usersections.add') }}
                     </button>
 
 
                     <div id="section-table">
-                        <table-component></table-component>
+                        <table-component
+                            :mode="user"
+                        ></table-component>
                     </div>
                 </div>
             </div>
@@ -112,4 +114,4 @@
     --}}
         </div>
     </div>
-</x-admin-layout>
+</x-app-layout>

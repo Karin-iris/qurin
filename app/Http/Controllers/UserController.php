@@ -7,8 +7,10 @@ use App\Http\Requests\Users\AdminRegisterRequest;
 use App\UseCases\UserConfigUseCase;
 use App\UseCases\UserUseCase;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
+use Exception;
 
 class UserController extends Controller
 {
@@ -38,48 +40,57 @@ class UserController extends Controller
     {
         return view('user.invite');
     }
-    public function send_invite(UserRegisterRequest $request){
+
+    public function send_invite(UserRegisterRequest $request): RedirectResponse
+    {
         $this->userUC->sendInviteMail($request);
         return Redirect::route('user.invite')->with('question', 'saved');//
 
     }
-    public function user_register(string $token): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+
+    public function user_register(string $token): View
     {
         $email = $this->userUC->getEmailFromToken($token);
-        return view('user.register', compact('email','token'));
+        return view('user.register', compact('email', 'token'));
     }
-    public function store_user_register(UserRegisterRequest $request,string $token)
+
+    public function store_user_register(UserRegisterRequest $request, string $token): RedirectResponse
     {
-        try{
-            $this->userUC->setAdminFromToken($request,$token);
-            return Redirect::route('user.index')->with('register', 'saved');//
-        }catch(Exception $e){
-            return Redirect::route('user.error')->with('register', 'saved');//
+        try {
+            $this->userUC->setUserFromToken($request, $token);
+            return Redirect::route('user.user_register')->with('register', 'saved');
+        } catch (Exception $e) {
+            return Redirect::route('user.error')->with('error', $e->message());
         }
     }
+
     public function admin_invite(): View
     {
         return view('user.admin_invite');
     }
+
     public function send_admin_invite(AdminRegisterRequest $request): \Illuminate\Http\RedirectResponse
     {
         $this->userUC->sendAdminInviteMail($request);
         return Redirect::route('user.admin_invite')->with('question', 'saved');//
     }
-    public function admin_register(string $token): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+
+    public function admin_register(string $token): View
     {
         $email = $this->userUC->getEmailFromAdminToken($token);
-        return view('user.admin_register', compact('email','token'));
+        return view('user.admin_register', compact('email', 'token'));
     }
-    public function store_admin_register(AdminRegisterRequest $request,$token)
+
+    public function store_admin_register(AdminRegisterRequest $request, $token): \Illuminate\Http\RedirectResponse
     {
-        //try{
-            $this->userUC->setAdminFromToken($request,$token);
-            //return Redirect::route('user.index')->with('register', 'saved');//
-        //}catch(Exception $e){
-            //return Redirect::route('user.error')->with('register', 'saved');//
-        //}
+        try {
+            $this->userUC->setAdminFromToken($request, $token);
+            return Redirect::route('user.admin_register')->with('register', 'saved');
+        } catch (Exception $e) {
+            return Redirect::route('user.error')->with('error', $e->message());//
+        }
     }
+
     public function create()
     {
 
@@ -100,9 +111,10 @@ class UserController extends Controller
 
     public function update(UserRegisterRequest $request, string $id): \Illuminate\Http\RedirectResponse
     {
-        $this->userUC->updateUser($request,$id);
+        $this->userUC->updateUser($request, $id);
         return Redirect::route('user.edit', $id)->with('user', 'saved');
     }
+
     public function admin_edit(int $id): View
     {
 
@@ -110,16 +122,21 @@ class UserController extends Controller
         return view('user.admin_edit', compact('admin'));
     }
 
-    public function admin_update(AdminRegisterRequest $request, string $id)
+    public function admin_update(AdminRegisterRequest $request, string $id): \Illuminate\Http\RedirectResponse
     {
-        $this->userUC->updateAdmin($request,$id);
-        //return Redirect::route('user.edit', $id)->with('user', 'saved');
+        $this->userUC->updateAdmin($request, $id);
+        return Redirect::route('user.admin_edit', $id)->with('user', 'saved');
     }
 
     public function admin_config_edit(): View
     {
-        $admins = $this->userConfigUC->getAdminConfig();
-        list($qr_image, $secret) = $this->userUC->displayMFA(Auth::guard('admin')->id());
-        return view('user.admin_config_edit', compact('admins','qr_image', 'secret'));
+        try {
+            $admins = $this->userConfigUC->getAdminConfig();
+            [$qr_image, $secret] = $this->userUC->displayMFA(Auth::guard('admin')->id());
+            return view('user.admin_config_edit', compact('admins', 'qr_image', 'secret'));
+        } catch (Exception $e) {
+            $error = $e->message();
+            return view('user.error',compact('error'));//
+        }
     }
 }

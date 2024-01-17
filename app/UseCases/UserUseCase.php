@@ -61,7 +61,7 @@ class UserUseCase extends UseCase
     public function setUserFromToken(UserRegisterRequest $request,$token){
         return $this->userR->setUserFromToken($request);
     }
-    public function sendAdminInviteMail(UserRegisterRequest $request): void
+    public function sendAdminInviteMail(AdminRegisterRequest $request): void
     {
         $name = '管理者の招待が届いています。';
         $email = $request->input('email');

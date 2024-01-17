@@ -6,6 +6,8 @@ use App\Http\Requests\Sections\SectionRequest;
 use App\UseCases\SectionUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class UserSectionController extends Controller
 {
@@ -16,32 +18,32 @@ class UserSectionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index():View
     {
-        return view('section.index');//
+        return view('usersection.index');//
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create():View
     {
-        return view('section.create');
+        return view('usersection.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(SectionRequest $request)
+    public function store(SectionRequest $request):RedirectResponse
     {
         $this->sectionUC->set($request);//
-        return Redirect::route('section.create')->with('section', 'saved');////
+        return Redirect::route('usersection.create')->with('section', 'saved');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id):View
     {
         //
     }
@@ -49,19 +51,19 @@ class UserSectionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id):View
     {
         $section = $this->sectionUC->get($id);
-        return view('section.edit',compact('section'));
+        return view('usersection.edit',compact('section'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(SectionRequest $request, string $id)
+    public function update(SectionRequest $request, string $id):RedirectResponse
     {
         $this->sectionUC->mod($request,$id);//
-        //return Redirect::route('section.edit',['id'=>$id])->with('section', 'saved');//////
+        return Redirect::route('section.edit',['id'=>$id])->with('section', 'saved');
     }
 
     /**
