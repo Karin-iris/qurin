@@ -67,6 +67,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('/mfa/admin_register/{id}', [MFAController::class, 'update_admin_register'])->name('mfa.update_admin_register');
     Route::get('/mfa/admin_erase/{id}', [MFAController::class, 'admin_erase'])->name('mfa.admin_erase');
     Route::post('/mfa/admin_erase/{id}', [MFAController::class, 'update_admin_erase'])->name('mfa.update_admin_erase');
+    Route::get('/mfa/show_admin_login', [MFAController::class, 'admin_login'])->name('mfa.showVerifyForm');
 });
 
 Route::middleware(['auth:admin', 'mfa'])->group(function () {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\QuestionRequest;
 use App\UseCases\CategoryUseCase;
 use App\UseCases\QuestionUseCase;
+use App\UseCases\SectionUseCase;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,11 +18,12 @@ class UserQuestionController extends Controller
 {
     public CategoryUseCase $categoryUC;
     public QuestionUseCase $questionUC;
-
+    protected SectionUseCase $sectionUC;
     #[Pure] public function __construct()
     {
         $this->categoryUC = new CategoryUseCase();
         $this->questionUC = new QuestionUseCase();
+        $this->sectionUC = new SectionUseCase();
     }
 
     /**
@@ -42,8 +44,9 @@ class UserQuestionController extends Controller
         $s_categories = $this->categoryUC->getSecondaryAllCategories();
         $categories = $this->categoryUC->getSimpleCategories();
         $user_question = $this->questionUC->getUserQuestion($id);
+        $sections =$this->sectionUC->getList();
         return view('userquestion.edit',
-            compact('user_question','p_categories', 's_categories', 'categories')
+            compact('user_question','p_categories', 's_categories', 'categories','sections')
         );
     }
 
@@ -62,8 +65,8 @@ class UserQuestionController extends Controller
         $p_categories = $this->categoryUC->getPrimaryCategories();
         $s_categories = $this->categoryUC->getSecondaryAllCategories();
         $categories = $this->categoryUC->getSimpleCategories();
-
-        return view('userquestion.create', compact('p_categories', 's_categories', 'categories'));//
+        $sections =$this->sectionUC->getList();
+        return view('userquestion.create', compact('p_categories', 's_categories', 'categories','sections'));
     }
 
     public function store(QuestionRequest $request)

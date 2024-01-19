@@ -20,4 +20,10 @@ class ApiSectionController extends Controller
             $this->sectionUC->getPaginate($request)
         );
     }
+    public function get_data(): JsonResponse
+    {
+        return response()->json(
+            $this->sectionUC->getData()
+        );
+    }
 }

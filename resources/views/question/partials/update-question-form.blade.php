@@ -69,13 +69,6 @@
         </div>
 
         <div>
-            <x-input-label for="user_name" :value="__('questions.user_name')"/>
-            <x-questions.text-users id="user_name" name="user_name" type="text" class="mt-1 block w-full" autofocus
-                                    autocomplete="user_name" :value="old('user_name',$question->user_name)" />
-            <x-input-error class="mt-2" :messages="$errors->get('user_name')" />
-        </div>
-
-        <div>
             <x-input-label for="topic" :value="__('questions.topic')"/>
             <x-text-input id="topic" name="topic" type="text" class="mt-1 block w-full" autofocus
                           autocomplete="topic" :value="old('topic', $question->topic)" />

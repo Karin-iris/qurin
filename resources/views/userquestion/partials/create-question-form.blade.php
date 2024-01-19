@@ -24,6 +24,15 @@
         @method('post')
 
         <div>
+            <x-input-label for="section_id" :value="__('questions.section_id')"/>
+            <x-questions.select-sections name="section_id"
+                                         class="mt-1 block w-full" autofocus
+                                         autocomplete="section_id"
+                                         :value="old('section_id')" :options="$sections" />
+            <x-input-error class="mt-2" :messages="$errors->get('section_id')" />
+        </div>
+
+        <div>
             <x-input-label for="primary_id" :value="__('categories.category_p')"/>
             <x-categories.select-primary-categories name="primary_id"
                                                     class="mt-1 block w-full" autofocus
@@ -44,6 +53,8 @@
             <x-input-error class="mt-2" :messages="$errors->get('category_id')" />
         </div>
 
+
+
         <div>
             <x-input-label for="compitency" :value="__('questions.compitency')"/>
             <x-questions.select-compitencies name="compitency"
@@ -53,12 +64,12 @@
             <x-input-error class="mt-2" :messages="$errors->get('compitency')" />
         </div>
 
-        <div>
+        <!--<div>
             <x-input-label for="user_name" :value="__('questions.user_name')"/>
             <x-questions.text-users id="user_name" name="user_name" type="text" class="mt-1 block w-full" autofocus
                           autocomplete="user_name" :value="old('user_name', Auth::user()->name )" />
             <x-input-error class="mt-2" :messages="$errors->get('user_name')" />
-        </div>
+        </div>-->
 
         <div>
             <x-input-label for="name" :value="__('questions.topic')"/>

@@ -30,6 +30,9 @@ class SectionUseCase extends UseCase
     function getList(){
         return $this->sectionQS->getList();
     }
+    function getData(){
+        return $this->sectionQS->getData();
+    }
     function set(SectionRequest $request){
         return $this->sectionR->set($request);
     }

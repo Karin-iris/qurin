@@ -32,8 +32,11 @@ class MFAController extends Controller
     {
         try {
             $admin = Auth::guard('admin')->user();
-            $this->userUC->checkMFA($admin->mfa_secret, $request->input('mfa_code'));
-            return redirect()->intended('/admin_dashboard');
+            if($this->userUC->checkMFA($admin->mfa_secret, $request->input('mfa_code'))===true){
+                return redirect()->intended('/admin_dashboard');
+            }else{
+                return back()->withErrors(['mfa_code' => 'The MFA code is invalid.']);
+            }
         } catch (Exception $e) {
             return redirect()->intended('/error');
         }

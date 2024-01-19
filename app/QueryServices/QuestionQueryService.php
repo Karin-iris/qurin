@@ -42,6 +42,7 @@ class QuestionQueryService extends QueryService
                     'c.code as c_code',
                     'q.topic as topic',
                     'q.id as id',
+                    'q.section_id as section_id',
                     'q.text as text',
                     'q.quiz_id as quiz_id',
                     'q.user_name as user_name',
@@ -70,6 +71,17 @@ class QuestionQueryService extends QueryService
             }
             if($request->query('s_id')){
                 $query->where('s.id',$request->query('s_id'));
+            }
+            if($request->query('se_id')){
+                $query->where('q.section_id',$request->query('se_id'));
+            }
+            if ($request->query('l')) {
+                $l = $request->query('l');
+                $query->where(function($q) use ($l) {
+                    foreach ($l as $competency) {
+                        $q->orWhere('compitency', $competency);
+                    }
+                });
             }
             if($request->query('sort')){
                 $query->orderBy($request->query('sort'), $request->query('order'));

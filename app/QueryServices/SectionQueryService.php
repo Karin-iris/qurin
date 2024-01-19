@@ -39,4 +39,8 @@ class SectionQueryService extends QueryService
     function getList(){
         return $this->section->pluck('title', 'id');
     }
+
+    function getData(){
+        return $this->section->get();
+    }
 }

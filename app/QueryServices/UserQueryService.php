@@ -5,6 +5,7 @@ namespace App\QueryServices;
 use App\Exceptions\TokenException;
 use App\Models\AdminInvitation;
 use App\Models\Invitation;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 
@@ -18,7 +19,9 @@ class UserQueryService extends QueryService
         $this->invitation = new Invitation;
         $this->admin_invitation = new AdminInvitation;
     }
+    function getPaginate(Request $request){
 
+    }
     public function getEmailFromToken($token): ?string
     {
         return $this->handleExceptions(function () use ($token) {

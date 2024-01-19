@@ -11,6 +11,8 @@ use Illuminate\Http\RedirectResponse;
 
 class UserSectionController extends Controller
 {
+    protected SectionUseCase $sectionUC;
+
     public function __construct()
     {
         $this->sectionUC = new SectionUseCase();
