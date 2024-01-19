@@ -1,4 +1,9 @@
 <template>
+
+    <id-exist-component
+        @id-exist="onExistCheck"
+        :name="is_quizid">
+    </id-exist-component>
     セクション
     <section-select-component
         @section-selected="onSectionSelected"
@@ -124,6 +129,7 @@
 import axios from 'axios';
 import draggable from "vuedraggable";
 import CategoryComponent from './CategoryComponent.vue';
+import IdExistComponent from '../form_components/IdExistCheckboxComponent.vue';
 import SectionSelectComponent from '../form_components/SectionSelectComponent.vue';
 import LevelCheckboxComponent from '../form_components/LevelCheckboxComponent.vue';
 
@@ -132,7 +138,8 @@ export default {
         draggable,
         SectionSelectComponent,
         CategoryComponent,
-        LevelCheckboxComponent
+        LevelCheckboxComponent,
+        IdExistComponent
     },
     data() {
         return {
@@ -147,6 +154,7 @@ export default {
             s_id: '',
             p_id: '',
             se_id: '',
+            is_quizid:'',
             l: [],
             searchQuery: '',
             sortKey: '',
@@ -168,6 +176,7 @@ export default {
                     s_id: this.s_id,
                     p_id: this.p_id,
                     se_id: this.se_id,
+                    is_quizid: this.is_quizid,
                     l: this.l,
                     sort: this.sortKey,
                     order: this.sortOrder,
@@ -185,6 +194,10 @@ export default {
         sort(key) {
             this.sortKey = key;
             this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+            this.fetchData();
+        },
+        onExistCheck(is_q){
+            this.is_quizid = is_q;
             this.fetchData();
         },
         onSectionSelected(sectionId) {

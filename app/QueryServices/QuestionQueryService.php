@@ -13,24 +13,6 @@ class QuestionQueryService extends QueryService
     public function __construct()
     {
         $this->question = new Question;
-        $this->question_summary_column = [
-            'p.name as p_c_name',
-            's.name as s_c_name',
-            'c.name as c_name',
-            'p.code as p_c_code',
-            's.code as s_c_code',
-            'c.code as c_code',
-            'q.user_name as user_name',
-            'q.compitency as compitency',
-            'q.topic as topic',
-            'q.id as id',
-            'q.quiz_id as quiz_id',
-            'q.is_request as is_request',
-            'q.is_approve as is_approve',
-            'q.is_remand as is_remand',
-            'q.created_at as created_at',
-            'q.updated_at as updated_at',
-        ];
     }
     public function getPaginate(Request $request){
             $query = $this->question->select(
@@ -74,6 +56,9 @@ class QuestionQueryService extends QueryService
             }
             if($request->query('se_id')){
                 $query->where('q.section_id',$request->query('se_id'));
+            }
+            if ($request->has('is_quizid') && $request->input('is_quizid') === '1') {
+                $query->whereNotNull('q.quiz_id');
             }
             if ($request->query('l')) {
                 $l = $request->query('l');
@@ -131,6 +116,9 @@ class QuestionQueryService extends QueryService
             $query->where(function ($query) use ($request) {
                 $query->orWhere('q.compitency', $request->input('competency'));
             });
+        }
+        if ($request->has('is_quizid') && $request->input('is_quizid')) {
+                $query->whereNotNull('q.quiz_id');
         }
         if ($request->has('primary_id')) {
             $query->where(function ($query) use ($request) {
