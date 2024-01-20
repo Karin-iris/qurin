@@ -21,6 +21,11 @@ class ApiCategoryController extends ApiController
             $this->categoryUC->getAllCategories()
         );
     }
+    public function get_gpt(int $category_id){
+        return response()->json(
+            $this->categoryUC->getGptQuery($category_id)
+        );
+    }
     public function get_primaries()
     {
         return response()->json(

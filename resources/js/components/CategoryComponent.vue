@@ -37,6 +37,7 @@
                 [{{ category.code }}]{{ category.name }}
             </option>
         </select>
+            GPTクエリ : {{ gpt_str }}
         </div>
     </div>
 </template>
@@ -54,7 +55,7 @@ export default {
         const selected_primary_id = ref('');
         const selected_secondary_id = ref('');
         const selected_category_id = ref('');
-
+        const gpt_str = ref('');
         const fetchPrimaryCategories = async () => {
             try {
                 const response = await axios.get('/api/category/get_primaries/');
@@ -97,6 +98,8 @@ export default {
 
         fetchPrimaryCategories();
 
+
+
         return {
             primary_categories,
             selected_primary_id,
@@ -106,11 +109,20 @@ export default {
             categories,
             fetchSecondaryCategories,
             fetchCategories,
+            gpt_str
         };
     },
     methods: {
-        onCategoryChange() {
-            this.$emit('category-selected', this.selected_category_id);
+        async onCategoryChange() {
+            try {
+                const response = await axios.get(`/api/category/get_gpt/${this.selected_category_id}`);
+                this.gpt_str = response.data;
+                console.log(this.gpt_str );
+                this.$emit('category-selected', this.selected_category_id);
+            } catch (error) {
+                console.error(error);
+                this.gpt_str = ''; // Reset or handle error
+            }
         },
         handleSecondaryChange() {
             this.fetchCategories();

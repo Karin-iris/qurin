@@ -139,6 +139,13 @@ class CategoryUseCase extends UseCase
             });
         })->where('c.id', $id)->firstOrFail();
     }
+    function getGptQuery(int $id){
+        $category_array = $this->getDetail($id);
+        $str="[p_name]カテゴリの、[s_name]分類の中の、[c_name]に関する問題を５つつくって";
+        $str = str_replace('[p_name]',$category_array['p_name'],$str);
+        $str = str_replace('[s_name]',$category_array['s_name'],$str);
+        return str_replace('[c_name]',$category_array['name'],$str);
+    }
 
     function getPrimaryDetail(int $id)
     {
