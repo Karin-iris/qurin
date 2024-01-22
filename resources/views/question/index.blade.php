@@ -75,7 +75,6 @@
                                 <td>[{{$question->s_c_code}}]{{ mb_substr($question->s_c_name,0,20)}}</td>
                                 <td>[{{$question->c_code}}]{{ mb_substr($question->c_name,0,20)}}</td>
                                 <td>{{mb_substr($question->topic,0,30)}}</td>
-                                <td>{{$question->user_name}}</td>
                                 <td class="text-sm">{{$question->created_at}}<br>
                                     {{$question->updated_at}}</td>
                                 <td>
