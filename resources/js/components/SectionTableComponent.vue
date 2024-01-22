@@ -48,8 +48,10 @@
                                 {{ child.name }}
                             </li>
                         </ul>-->
+                        <!--
                         <button class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300" v-if="!isEditing(element)" @click="editItem(element)">Edit</button>
                         <button v-else @click="saveItem(element)">Save</button>
+                        -->
                     </td>
                     <td>
                         {{ element.topic }}
@@ -61,7 +63,7 @@
                         <p>{{ element.created_at }}</p>
                         <p>{{ element.updated_at }}</p>
                     </td>
-                    <td>
+                    <td>{{ mode }}
                         <a :href="mode=='admin' ? `/section/edit/${element.id}` : `/my_section/edit/${element.id}`">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                  viewBox="0 0 24 24" stroke="currentColor">
@@ -124,6 +126,7 @@ export default {
     },
     mounted() {
         this.fetchData();
+        console.log(this.mode);
     },
     methods: {
         fetchData() {

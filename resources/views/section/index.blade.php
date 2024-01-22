@@ -40,10 +40,10 @@
                     </button>
 
 
-                    <div id="section-table"
-                         :mode="user"
-                    >
-                        <table-component></table-component>
+                    <div id="section-table">
+                        <table-component
+                            :mode="admin"
+                        ></table-component>
                     </div>
                 </div>
             </div>
