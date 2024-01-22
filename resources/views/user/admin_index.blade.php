@@ -33,6 +33,7 @@
                             <th class="w-20">User ID</th>
                             <th>{{ __('admins.name')}}</th>
                             <th>{{ __('admins.email')}}</th>
+                            <th>{{ __('admins.code')}}</th>
                             <th>{{ __('admins.mfa_enabled')}}</th>
                             <th>編集</th>
                         </tr>
@@ -43,6 +44,7 @@
                                 <td><strong>{{ $admin->id }}</strong></td>
                                 <td>{{ \Crypt::decryptString($admin->name) }}</td>
                                 <td>{{ $admin->email }}</td>
+                                <td>{{ $admin->code }}</td>
                                 <td>
                                     @if($admin->mfa_enabled=="1")
                                         <a href="{{ route('mfa.admin_erase', ['id'=> $admin->id]) }}"

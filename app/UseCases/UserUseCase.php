@@ -93,7 +93,7 @@ class UserUseCase extends UseCase
 
     function getUsers()
     {
-        return $this->user->select('id', 'name', 'password', 'email', 'icon_image_path')->from('users')->get();
+        return $this->user->select('id', 'name','code', 'password', 'email', 'icon_image_path')->from('users')->get();
     }
 
     function getAdmin(int $id)
@@ -121,7 +121,7 @@ class UserUseCase extends UseCase
 
     function getAdmins()
     {
-        return $this->admin->select('id', 'name', 'password', 'email', 'mfa_enabled')->from('admins')->get();
+        return $this->admin->select('id', 'name','code',  'password', 'email', 'mfa_enabled')->from('admins')->get();
     }
 
     function saveUser(UserRegisterRequest $request): void

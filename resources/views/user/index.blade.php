@@ -59,6 +59,7 @@
                             <th class="w-20">User ID</th>
                             <th>{{ __('users.name')}}</th>
                             <th>{{ __('users.email')}}</th>
+                            <td>{{ __('users.code') }}</td>
                             <th>編集</th>
                         </tr>
                         </thead>
@@ -68,6 +69,7 @@
                                 <td><strong>{{ $user->id }}</strong></td>
                                 <td>{{ \Crypt::decryptString($user->name) }}</td>
                                 <td>{{ $user->email }}</td>
+                                <td>{{ $user->code }}</td>
                                 <td>
                                     @if(!empty($user->id))
                                         <a href="{{ route('user.edit', ['id'=> $user->id]) }}">
