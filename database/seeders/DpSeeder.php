@@ -32,9 +32,9 @@ class DpSeeder extends Seeder
             'password' => Hash::make('Pass_001'),
         ]);
         Admin::factory()->create([
-            'name' => Crypt::encryptString('中村 美月(管理者)'),
-            'email' => 'nakamura@primeforce.co.jp',
-            'password' => Hash::make('Pass_002'),
+            'name' => Crypt::encryptString('山中 かりん(管理者)'),
+            'email' => 'yamanaka@primeforce.co.jp',
+            'password' => Hash::make('password'),
         ]);
         Admin::factory()->create([
             'name' => Crypt::encryptString('津嶋 一樹(管理者)'),
@@ -47,8 +47,8 @@ class DpSeeder extends Seeder
             'password' => Hash::make('Pass_004'),
         ]);
         Admin::factory()->create([
-            'name' => Crypt::encryptString('中村 友音(管理者)'),
-            'email' => 'nakamurato@pcdepot.co.jp',
+            'name' => Crypt::encryptString('川井 えみり(管理者)'),
+            'email' => 'kawaie@pcdepot.co.jp',
             'password' => Hash::make('Pass_005'),
         ]);
         User::factory()->create([
@@ -64,10 +64,10 @@ class DpSeeder extends Seeder
             'password' => Hash::make('Pass_001'),
         ]);
         User::factory()->create([
-            'name' => Crypt::encryptString('中村 美月'),
+            'name' => Crypt::encryptString('山中 かりん'),
             'email' => 'info@primeforce.co.jp',
             'icon_image_path' => '',
-            'password' => Hash::make('Pass_002'),
+            'password' => Hash::make('password'),
         ]);
         User::factory()->create([
             'name' => Crypt::encryptString('津嶋 一樹'),
@@ -82,8 +82,8 @@ class DpSeeder extends Seeder
             'password' => Hash::make('Pass_004'),
         ]);
         User::factory()->create([
-            'name' => Crypt::encryptString('中村 友音'),
-            'email' => 'shigotoyou.tomone@gmail.com',
+            'name' => Crypt::encryptString('川井 えみり'),
+            'email' => 'kawai.shikaku@gmail.com',
             'icon_image_path' => '',
             'password' => Hash::make('Pass_005'),
         ]);
