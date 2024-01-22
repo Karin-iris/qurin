@@ -41,9 +41,7 @@
 
 
                     <div id="section-table">
-                        <table-component
-                            :mode="admin"
-                        ></table-component>
+                        <table-component></table-component>
                     </div>
                 </div>
             </div>

@@ -3,6 +3,19 @@
         <h2 class="text-lg font-medium text-gray-900">
             {{ __('questions.question_edit') }}
         </h2>
+{{session('status')}}
+        @if (session('status') === 'updated')
+            <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                <span class="font-medium">問題の更新に成功しました。</span>
+            </div>
+        @endif
+
+        @if (session('status') === 'error')
+            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                <span class="font-medium">問題の更新に失敗しました。</span>
+            </div>
+        @endif
+
 
         <p class="mt-1 text-sm text-gray-600">
             {{ __("questions.question_edit_message") }}
@@ -16,7 +29,7 @@
     <form method="post" action="{{ route('question.update',$question->id) }}" class="mt-6 space-y-6">
         @csrf
         @method('put')
-
+        {{ print_r($errors) }}
         <div>
             <x-input-label for="quiz_id" :value="__('questions.id')"/>
             {{ $question->id }}

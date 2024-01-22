@@ -16,6 +16,7 @@ class QuestionRequest extends FormRequest
             'wrong_choice_2' => str_replace(array("\r\n", "\r", "\n"), '', $this['wrong_choice_2']),
             'wrong_choice_3' => str_replace(array("\r\n", "\r", "\n"), '', $this['wrong_choice_3']),
         ]);
+        if(empty($this['section_id']))$this->merge(['quiz_id' =>null]);
         if(empty($this['quiz_id']))$this->merge(['quiz_id' =>null]);
         if(empty($this['topic']))$this->merge(['topic' =>'']);
         if(empty($this['explanation']))$this->merge(['explanation' =>'']);
@@ -31,7 +32,6 @@ class QuestionRequest extends FormRequest
             'category_id' => 'integer',
             'text' => 'required|string',
             'compitency' => 'string',
-            'user_name' => 'required|string',
             'correct_choice' => 'required|string',
             'wrong_choice_1' => 'required|string',
             'wrong_choice_2' => 'required|string',

@@ -1,5 +1,5 @@
 @section('page-vite')
-    @vite(['resources/js/sectionTable.js'])
+    @vite(['resources/js/mySectionTable.js'])
 @endsection
 
 <x-app-layout>
@@ -40,10 +40,8 @@
                     </button>
 
 
-                    <div id="section-table">
-                        <table-component
-                            :mode="user"
-                        ></table-component>
+                    <div id="my-section-table">
+                        <table-component></table-component>
                     </div>
                 </div>
             </div>

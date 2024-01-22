@@ -1,9 +1,13 @@
 <template>
-
+    ID検索
     <id-exist-component
         @id-exist="onExistCheck"
         :name="is_quizid">
     </id-exist-component>
+    quiz id<br>
+    <input type="text" v-model="quizid" @input="fetchData"><br>
+    qurin id<br>
+    <input type="text" v-model="qurinid" @input="fetchData"><br>
     セクション
     <section-select-component
         @section-selected="onSectionSelected"
@@ -118,10 +122,11 @@
                 </svg>
             </button>
         </div>
-
+    <!--
         <button @click="prevPage" :disabled="page <= 1">Prev</button>
         <span>Page {{ page }}</span>
         <button @click="nextPage" :disabled="page >= this.items.last_page">Next</button>
+        -->
     </div>
 </template>
 
@@ -154,14 +159,16 @@ export default {
             s_id: '',
             p_id: '',
             se_id: '',
-            is_quizid:'',
+            has_quizid:'',
             l: [],
             searchQuery: '',
             sortKey: '',
             sortOrder: 'asc',
             page: 1,
             perPage: 10,
-            activeChildIndex: null
+            activeChildIndex: null,
+            quizid: '',
+            qurinid: ''
         };
     },
     mounted() {
@@ -176,12 +183,14 @@ export default {
                     s_id: this.s_id,
                     p_id: this.p_id,
                     se_id: this.se_id,
-                    is_quizid: this.is_quizid,
+                    has_quizid: this.is_quizid,
                     l: this.l,
                     sort: this.sortKey,
                     order: this.sortOrder,
                     page: this.page,
-                    perPage: this.perPage
+                    perPage: this.perPage,
+                    quizid: this.quizid,
+                    qurinid: this.qurinid
                 }
             })
                 .then(response => {
@@ -202,21 +211,25 @@ export default {
         },
         onSectionSelected(sectionId) {
             this.se_id = sectionId;
+            this.page = '';
             this.fetchData();
         },
         onCategorySelected(categoryId) {
             this.c_id = categoryId;
+            this.page = '';
             this.fetchData();
         },
         onSecondaryCategorySelected(categoryId) {
             this.s_id = categoryId;
             this.c_id = '';
+            this.page = '';
             this.fetchData();
         },
         onPrimaryCategorySelected(categoryId) {
             this.p_id = categoryId;
             this.s_id = '';
             this.c_id = '';
+            this.page = '';
             this.fetchData();
         },
         onLevelChecked(data) {
@@ -225,6 +238,7 @@ export default {
             } else {
                 this.l = this.l.filter(item => item !== data.level);
             }
+            this.page = '';
             this.fetchData();
             //console.log('Level changed:', data.level, 'New State:', data.isChecked);
         },

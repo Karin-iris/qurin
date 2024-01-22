@@ -94,28 +94,13 @@ class QuestionController extends Controller
         return view('question.edit', compact('question', 'p_categories', 's_categories', 'categories','sections'));//
     }
 
-    public function edit_c(int $id): View
-    {
-        $question_case = $this->questionUC->getQuestionCase($id);
-        return view('question.edit_c',
-            compact('question_case')
-        );
-    }
-
     /**
      * Update the specified resource in storage.
      */
     public function update(QuestionRequest $request, string $id)
     {
-
         $status = $this->questionUC->updateQuestion($request, $id);
-        return Redirect::route('question.index')->with('status', $status);////
-    }
-
-    public function update_c(QuestionCaseRequest $request, int $id): RedirectResponse
-    {
-        $this->questionUC->updateQuestionCase($request, $id);
-        return Redirect::route('question.edit_c')->with('status', 'question-updated');
+        return Redirect::route('question.index')->with('status', $status);
     }
 
     /**

@@ -96,12 +96,17 @@ class QuestionUseCase extends UseCase
         ];
 
     }
-    function getData(){
+
+    function getData()
+    {
         return $this->question->get();
     }
-    function getPaginate(Request $request){
+
+    function getPaginate(Request $request)
+    {
         return $this->questionQS->getPaginate($request);
     }
+
     function getQuestion(int $id): Question
     {
         $question = $this->question->select(
@@ -190,6 +195,7 @@ class QuestionUseCase extends UseCase
             ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
             ->Where('is_approve', '1')->get();
     }
+
     function getUserQuestion(int $id)
     {
         $question = $this->question->select(
@@ -217,7 +223,7 @@ class QuestionUseCase extends UseCase
 
     function saveQuestion(QuestionRequest $request)
     {
-        $this->question->fill($request->all())->save();
+        $this->questionR->saveQuestion($request);
     }
 
     function saveUserQuestion(QuestionRequest $request): string
@@ -257,31 +263,7 @@ class QuestionUseCase extends UseCase
 
     function updateQuestion(QuestionRequest $request, int $id): string
     {
-        $this->question->find($id)->fill([
-            'topic' => $request->input('topic'),
-            'compitency' => $request->input('compitency'),
-            'user_name' => $request->input('user_name'),
-            'text' => $request->input('text'),
-            'section_id' => $request->input('section_id'),
-            'category_id' => $request->input('category_id'),
-            'quiz_id' => $request->input('quiz_id'),
-            'correct_choice' => $request->input('correct_choice'),
-            'wrong_choice_1' => $request->input('wrong_choice_1'),
-            'wrong_choice_2' => $request->input('wrong_choice_2'),
-            'wrong_choice_3' => $request->input('wrong_choice_3'),
-            'explanation' => $request->input('explanation'),
-            'is_request' => $request->input('is_request'),
-            'is_approve' => $request->input('is_approve'),
-            'is_remand' => $request->input('is_remand'),
-        ])->save();
-        $status = "saved";
-        if ($request->input('is_approve') === "1") {
-            $status = "approved";
-        }
-        if ($request->input('is_approve') === "0" && $request->input('is_request') === "0") {
-            $status = "remand";
-        }
-        return $status;
+        return $this->questionR->updateQuestion($request,$id);
     }
 
     function updateUserQuestion(QuestionRequest $request, int $id): string
@@ -310,6 +292,7 @@ class QuestionUseCase extends UseCase
         }
         return $status;
     }
+
     function updateUserQuestionImage(QuestionRequest $request, int $id)
     {
         if ($request->file('image')) {
