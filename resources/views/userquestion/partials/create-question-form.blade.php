@@ -1,3 +1,7 @@
+@section('page-vite')
+    @vite(['resources/js/category.js'])
+@endsection
+
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
@@ -23,6 +27,7 @@
         @csrf
         @method('post')
 
+
         <div>
             <x-input-label for="section_id" :value="__('questions.section_id')"/>
             <x-questions.select-sections name="section_id"
@@ -32,28 +37,13 @@
             <x-input-error class="mt-2" :messages="$errors->get('section_id')" />
         </div>
 
-        <div>
-            <x-input-label for="primary_id" :value="__('categories.category_p')"/>
-            <x-categories.select-primary-categories name="primary_id"
-                                                    class="mt-1 block w-full" autofocus
-                                                    autocomplete="primary_id"
-                                                    :value="old('primary_id')" :options="$p_categories"/>
-            <x-input-label for="secondary_id" :value="__('categories.category_s')"/>
-            <x-categories.select-secondary-categories name="secondary_id"
-                                                      class="mt-1 block w-full" autofocus
-                                                      autocomplete="secondary_id"
-                                                      :value="old('secondary_id')" :options="$s_categories" />
-            <x-input-label for="category_id" :value="__('categories.category')"/>
-            <x-categories.select-categories name="category_id"
-                                            class="mt-1 block w-full" autofocus
-                                            autocomplete="category_id"
-                                            :value="old('category_id')" :options="$categories" />
-            <x-input-error class="mt-2" :messages="$errors->get('primary_id')" />
-            <x-input-error class="mt-2" :messages="$errors->get('secondary_id')" />
-            <x-input-error class="mt-2" :messages="$errors->get('category_id')" />
+        <div id="category-app">
+            <category-component
+                @category-selected="onCategorySelected"
+                @secondary-category-selected="onSecondaryCategorySelected"
+                @primary-category-selected="onPrimaryCategorySelected"
+            ></category-component>
         </div>
-
-
 
         <div>
             <x-input-label for="compitency" :value="__('questions.compitency')"/>
