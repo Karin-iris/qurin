@@ -21,7 +21,6 @@ class Question extends Model
         'text',
         'topic',
         'compitency',
-        'user_name',
         'section_id',
         'category_id',
         'quiz_id',
