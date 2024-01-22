@@ -24,66 +24,78 @@ class DpSeeder extends Seeder
         Admin::factory()->create([
             'name' => Crypt::encryptString('澤田 哲理(管理者)'),
             'email' => 'sawada@primeforce.co.jp',
+            'code' => 'sawada@primeforce.co.jp',
             'password' => Hash::make('password'),
         ]);
         Admin::factory()->create([
             'name' => Crypt::encryptString('藤木 健(管理者)'),
             'email' => 'fujiki@primeforce.co.jp',
+            'code' => 'fujiki@primeforce.co.jp',
             'password' => Hash::make('Pass_001'),
         ]);
         Admin::factory()->create([
             'name' => Crypt::encryptString('山中 かりん(管理者)'),
             'email' => 'yamanaka@primeforce.co.jp',
+            'code' => 'yamanaka@primeforce.co.jp',
             'password' => Hash::make('password'),
         ]);
         Admin::factory()->create([
             'name' => Crypt::encryptString('津嶋 一樹(管理者)'),
             'email' => 'tsushimak@pcdepot.co.jp',
+            'code' => 'tsushimak@pcdepot.co.jp',
             'password' => Hash::make('Pass_003'),
         ]);
         Admin::factory()->create([
             'name' => Crypt::encryptString('田中 武彦(管理者)'),
             'email' => 'tanakatak@pcdepot.co.jp',
+            'code' => 'tanakatak@pcdepot.co.jp',
             'password' => Hash::make('Pass_004'),
         ]);
         Admin::factory()->create([
             'name' => Crypt::encryptString('川井 えみり(管理者)'),
             'email' => 'kawaie@pcdepot.co.jp',
+            'code' => 'kawaie@pcdepot.co.jp',
             'password' => Hash::make('Pass_005'),
         ]);
         User::factory()->create([
             'name' => Crypt::encryptString('澤田 哲理'),
             'email' => 'tetsu707@outlook.com',
+            'code' => 'tetsu707@outlook.com',
             'icon_image_path' => '',
             'password' => Hash::make('password'),
         ]);
         User::factory()->create([
             'name' => Crypt::encryptString('藤木 健'),
             'email' => 'passionmissionary@gmail.com',
+            'code' => 'passionmissionary@gmail.com',
             'icon_image_path' => '',
             'password' => Hash::make('Pass_001'),
         ]);
         User::factory()->create([
             'name' => Crypt::encryptString('山中 かりん'),
             'email' => 'info@primeforce.co.jp',
+            'code' => 'info@primeforce.co.jp',
             'icon_image_path' => '',
             'password' => Hash::make('password'),
         ]);
         User::factory()->create([
             'name' => Crypt::encryptString('津嶋 一樹'),
             'email' => 'campjourney24@gmail.com',
+            'code' => 'campjourney24@gmail.com',
             'icon_image_path' => '',
             'password' => Hash::make('Pass_003'),
         ]);
         User::factory()->create([
             'name' => Crypt::encryptString('田中 武彦'),
             'email' => 'takehiko.tanaka@gmail.com',
+            'code' => 'takehiko.tanaka@gmail.com',
             'icon_image_path' => '',
             'password' => Hash::make('Pass_004'),
         ]);
         User::factory()->create([
             'name' => Crypt::encryptString('川井 えみり'),
             'email' => 'kawai.shikaku@gmail.com',
+            'code' => 'kawai.shikaku@gmail.com',
             'icon_image_path' => '',
             'password' => Hash::make('Pass_005'),
         ]);
