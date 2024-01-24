@@ -36,7 +36,7 @@ Route::controller(ApiQuestionController::class)->group(callback: function () {
 });
 
 Route::controller(ApiExaminationController::class)->group(callback: function () {
-    Route::get('/examination/get', 'get_examinations');
+    Route::get('/examination/paginate', 'paginate');
 });
 Route::controller(ApiSectionController::class)->group(callback: function () {
     Route::get('/section/paginate','paginate');

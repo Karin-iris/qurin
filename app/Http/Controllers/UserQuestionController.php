@@ -71,7 +71,7 @@ class UserQuestionController extends Controller
 
     public function store(QuestionRequest $request)
     {
-        $status = $this->questionUC->saveUserQuestion($request);
+        $status = $this->questionUC->addUserQuestion($request);
         return Redirect::route('userquestion.index')->with('status', $status);//
     }
     /**

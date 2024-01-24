@@ -7,6 +7,7 @@ use App\Models\Examination;
 use App\QueryServices\ExaminationQueryService;
 use App\Repositories\ExaminationRepository;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class ExaminationUseCase extends UseCase
 {
@@ -20,20 +21,20 @@ class ExaminationUseCase extends UseCase
         $this->examinationR = new ExaminationRepository();
         $this->examinationQS = new ExaminationQueryService();
     }
-    function getExaminations(){
-        return $this->examinationQS->getExaminations();
+    function getPaginate(Request $request){
+        return $this->examinationQS->getPaginate( $request);
     }
 
     function get($id){
         return $this->examinationQS->get($id);
     }
 
-    function set(ExaminationRequest $request){
-        return $this->examinationR->set($request);
+    function add(ExaminationRequest $request){
+        return $this->examinationR->add($request);
     }
 
-    function mod(ExaminationRequest $request, int $id){
-        return $this->examinationR->mod($request,$id);
+    function update(ExaminationRequest $request, int $id){
+        return $this->examinationR->update($request,$id);
     }
     // ここにリポジトリのコードを追加
 }

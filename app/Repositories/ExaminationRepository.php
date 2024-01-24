@@ -6,14 +6,18 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Examination;
 use App\Http\Requests\Examinations\ExaminationRequest;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 
 class ExaminationRepository extends Repository
 {
     protected Examination $examination;
-    function __construct(){
+
+    public function __construct()
+    {
         $this->examination = new Examination;
     }
-    function set(ExaminationRequest $request)
+
+    public function add(ExaminationRequest $request)
     {
         try {
             // ユーザーの作成
@@ -21,14 +25,18 @@ class ExaminationRepository extends Repository
                 'title' => $request->input('title'),
                 'topic' => $request->input('topic')
             ]);
-            return response()->json(['user' => $user], 201);
+            return "saved";
+            //response()->json(['user' => $user], 201);
         } catch (QueryException $e) {
             // データベースエラーの場合、例外メッセージを返す
-            return response()->json(['error' => 'Database error occurred'], 500);
+            Log::error("An error occurred in updateQuestion: " . $e->getMessage());
+
+            // エラーをユーザーに通知するためのステータス
+            return "error";
         }
     }
 
-    function mod(ExaminationRequest $request,int $id)
+    public function update(ExaminationRequest $request, int $id)
     {
         try {
             // ユーザーの作成
@@ -36,14 +44,19 @@ class ExaminationRepository extends Repository
                 'title' => $request->input('title'),
                 'topic' => $request->input('topic')
             ])->save();
-            return response()->json(['user' => $user], 201);
+            return "updated";
         } catch (QueryException $e) {
             // データベースエラーの場合、例外メッセージを返す
-            return response()->json(['error' => 'Database error occurred'], 500);
+            Log::error("An error occurred in updateQuestion: " . $e->getMessage());
+
+            // エラーをユーザーに通知するためのステータス
+            return "error";
         }
     }
 
-    function del(int $id){
+    public function del(int $id)
+    {
+
 
     }
     // 成功した場合、作成したユーザーの情報を返す

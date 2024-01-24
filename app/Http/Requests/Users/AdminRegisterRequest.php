@@ -57,7 +57,7 @@ class AdminRegisterRequest extends FormRequest
                     'required', // 必須
                     'unique',
                 ],
-                'icon' => 'image|mimes:jpeg,jpg',
+                'icon' => 'nullable|image|mimes:jpeg,jpg',
                 'password' => ['string', 'max:255'],
             ];
         } elseif (isset($request->mode) && $request->mode == "admin_invite") {

@@ -31,7 +31,7 @@
             <x-questions.select-sections name="section_id"
                                          class="mt-1 block w-full" autofocus
                                          autocomplete="section_id"
-                                         :value="old('section_id',$question->section_id)" :options="$sections" />
+                                         :value="old('section_id',$user_question->section_id)" :options="$sections" />
             <x-input-error class="mt-2" :messages="$errors->get('section_id')" />
         </div>
 

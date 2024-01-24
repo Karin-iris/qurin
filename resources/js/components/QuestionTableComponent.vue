@@ -5,9 +5,14 @@
         :name="is_quizid">
     </id-exist-component>
     quiz id<br>
-    <input type="text" v-model="quizid" @input="fetchData"><br>
+    <input type="text" v-model="quizid" @input="fetchData"
+           class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+           placeholder="Quiz ID"/>
+    ><br>
     qurin id<br>
-    <input type="text" v-model="qurinid" @input="fetchData"><br>
+    <input type="text" v-model="qurinid" @input="fetchData"
+           class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+       placeholder="Qurin　ID"/>><br>
     セクション
     <section-select-component
         @section-selected="onSectionSelected"

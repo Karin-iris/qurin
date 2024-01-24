@@ -226,7 +226,7 @@ class QuestionUseCase extends UseCase
         $this->questionR->saveQuestion($request);
     }
 
-    function saveUserQuestion(QuestionRequest $request): string
+    function addUserQuestion(QuestionRequest $request): string
     {
         $this->question->fill([
             'topic' => $request->input('topic'),
@@ -261,9 +261,9 @@ class QuestionUseCase extends UseCase
         ]);
     }
 
-    function updateQuestion(QuestionRequest $request, int $id): string
+    function update(QuestionRequest $request, int $id): string
     {
-        return $this->questionR->updateQuestion($request,$id);
+        return $this->questionR->update($request,$id);
     }
 
     function updateUserQuestion(QuestionRequest $request, int $id): string

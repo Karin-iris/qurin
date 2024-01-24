@@ -13,26 +13,33 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('user.create') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('admin.create') }}" class="mt-6 space-y-6">
         @csrf
         @method('post')
 
         <div>
-            <x-input-label for="name" :value="__('users.name')"/>
+            <x-input-label for="name" :value="__('admins.name')"/>
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" autofocus
                                     autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
         <div>
-            <x-input-label for="email" :value="__('users.email')"/>
+            <x-input-label for="email" :value="__('admins.email')"/>
             <x-text-input id="email" name="email" type="text" class="mt-1 block w-full" autofocus
                           autocomplete="email" />
             <x-input-error class="mt-2" :messages="$errors->get('email')"/>
         </div>
 
         <div>
-            <x-input-label for="password" :value="__('users.password')"/>
+            <x-input-label for="code" :value="__('admins.code')"/>
+            <x-text-input id="code" name="code" type="text" class="mt-1 block w-full" autofocus
+                          autocomplete="code"/>
+            <x-input-error class="mt-2" :messages="$errors->get('code')"/>
+        </div>
+
+        <div>
+            <x-input-label for="password" :value="__('admins.password')"/>
             <x-text-input id="password" name="password" type="text" class="mt-1 block w-full" autofocus
                           autocomplete="password" />
             <x-input-error class="mt-2" :messages="$errors->get('password')"/>

@@ -33,8 +33,8 @@ class SectionController extends Controller
      */
     public function store(SectionRequest $request)
     {
-        $this->sectionUC->set($request);//
-        return Redirect::route('section.create')->with('section', 'saved');////
+        $status = $this->sectionUC->add($request);//
+        return Redirect::route('section.index')->with('status', $status);////
     }
 
     /**
@@ -59,8 +59,8 @@ class SectionController extends Controller
      */
     public function update(SectionRequest $request, string $id)
     {
-        $this->sectionUC->mod($request,$id);//
-        //return Redirect::route('section.edit',['id'=>$id])->with('section', 'saved');//////
+        $status = $this->sectionUC->update($request,$id);
+        return Redirect::route('section.index')->with('status', $status);//////
     }
 
     /**

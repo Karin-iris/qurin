@@ -38,8 +38,8 @@ class ExaminationController extends Controller
      */
     public function store(ExaminationRequest $request)
     {
-        $this->examinationUC->set($request);//
-        return Redirect::route('examination.create')->with('examination', 'saved');//
+        $status = $this->examinationUC->add($request);//
+        return Redirect::route('examination.index')->with('status', $status);////
     }
 
     /**
@@ -47,13 +47,7 @@ class ExaminationController extends Controller
      */
     public function show(string $id)
     {
-// ファイルをアップロード
 
-// ファイルを取得
-        $content = Storage::disk('gcs')->get('shoumeishasin_AI Anime (1).jpg');//
-        header("Content-Type: image/jpeg");
-        echo $content;
-        //return view('examination.create');
     }
 
     /**
@@ -70,8 +64,8 @@ class ExaminationController extends Controller
      */
     public function update(ExaminationRequest $request, string $id)
     {
-        $this->examinationUC->mod($request,$id);
-        return Redirect::route('examination.edit',['id'=>$id])->with('examination', 'saved');////
+        $status = $this->examinationUC->update($request,$id);
+        return Redirect::route('examination.index')->with('status', $status);////
     }
 
     /**

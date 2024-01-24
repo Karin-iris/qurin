@@ -17,6 +17,7 @@
                         {{ __("categories.list_explain") }}
                     </p>
                 </header>
+
                 @if (session('status') === 'updated')
                     <div
                         class="p-4 mb-4 text-sm text-gray-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
@@ -28,6 +29,10 @@
                         class="p-4 mb-4 text-sm text-gray-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-blue-400"
                         role="alert">
                         <span class="font-medium">カテゴリを登録しました。</span>
+                    </div>
+                @elseif(session('status') === 'error')
+                    <div class="p-4 mb-4 text-sm text-gray-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                        <span class="font-medium">エラーが出ています。</span>
                     </div>
                 @endif
 

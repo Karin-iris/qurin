@@ -38,7 +38,7 @@ class UserSectionController extends Controller
      */
     public function store(SectionRequest $request):RedirectResponse
     {
-        $this->sectionUC->set($request);//
+        $this->sectionUC->add($request);//
         return Redirect::route('usersection.create')->with('section', 'saved');
     }
 
@@ -64,7 +64,7 @@ class UserSectionController extends Controller
      */
     public function update(SectionRequest $request, string $id):RedirectResponse
     {
-        $this->sectionUC->mod($request,$id);//
+        $this->sectionUC->update($request,$id);//
         return Redirect::route('section.edit',['id'=>$id])->with('section', 'saved');
     }
 

@@ -37,6 +37,14 @@
                         <div class="p-4 mb-4 text-sm text-gray-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
                             <span class="font-medium">問題を一時保存しました。</span>
                         </div>
+                    @elseif(session('status') === 'updated')
+                        <div class="p-4 mb-4 text-sm text-gray-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                            <span class="font-medium">問題を編集しました。</span>
+                        </div>
+                    @elseif(session('status') === 'error')
+                        <div class="p-4 mb-4 text-sm text-gray-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                            <span class="font-medium">エラーが出ています。</span>
+                        </div>
                     @endif
                     {{--
                     <button type="button"
