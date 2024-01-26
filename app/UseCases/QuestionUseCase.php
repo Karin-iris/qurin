@@ -90,6 +90,7 @@ class QuestionUseCase extends UseCase
             'q.wrong_choice_2 as wrong_choice_2',
             'q.wrong_choice_3 as wrong_choice_3',
             'q.is_remand as is_remand',
+            'q.is_adopt as is_adopt',
             'q.created_at as created_at',
             'q.updated_at as updated_at',
             'q.explanation as explanation'
@@ -162,7 +163,8 @@ class QuestionUseCase extends UseCase
                 'q.wrong_choice_2 as wrong_choice_2',
                 'q.wrong_choice_3 as wrong_choice_3',
                 'sec.sec_id as section_id',
-                'sec.title as section_title'
+                'sec.title as section_title',
+                'q.is_adopt',
             ]
         )->from('questions as q')
             ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')

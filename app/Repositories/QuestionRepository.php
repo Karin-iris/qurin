@@ -25,7 +25,6 @@ class QuestionRepository extends Repository
                 'topic' => $request->input('topic'),
                 'section_id' => $request->input('section_id'),
                 'compitency' => $request->input('compitency'),
-                'user_name' => $request->input('user_name'),
                 'text' => $request->input('text'),
                 'quiz_id' => $request->input('quiz_id'),
                 'category_id' => $request->input('category_id'),
@@ -36,6 +35,7 @@ class QuestionRepository extends Repository
                 'explanation' => $request->input('explanation'),
                 'is_request' => $request->input('is_request'),
                 'is_remand' => $request->input('is_remand'),
+                'is_adopt' => $request->input('is_adopt'),
                 'user_id' => Auth::user()->id
             ])->save();
             return 'saved';
@@ -52,10 +52,9 @@ class QuestionRepository extends Repository
     public function update(QuestionRequest $request, int $id)
     {
         try {
-            $this->question->find($id)->fill([
+            $r= $this->question->find($id)->fill([
                 'topic' => $request->input('topic'),
                 'compitency' => $request->input('compitency'),
-                'user_name' => $request->input('user_name'),
                 'text' => $request->input('text'),
                 'section_id' => $request->input('section_id'),
                 'category_id' => $request->input('category_id'),
@@ -67,6 +66,7 @@ class QuestionRepository extends Repository
                 'explanation' => $request->input('explanation'),
                 'is_request' => $request->input('is_request'),
                 'is_approve' => $request->input('is_approve'),
+                'is_adopt' => $request->input('is_adopt'),
                 'is_remand' => $request->input('is_remand'),
             ])->save();
             $status = "updated";

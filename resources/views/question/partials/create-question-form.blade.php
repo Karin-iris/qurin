@@ -92,6 +92,7 @@
                         autocomplete="name">{{old('explanation')}}</x-textarea>
             <x-input-error class="mt-2" :messages="$errors->get('explanation')"/>
         </div>
+        <input type="checkbox" name="is_case" value="1" />
 
         <x-secondary-button x-on:click="$dispatch('close')">
             {{ __('Cancel') }}
