@@ -160,12 +160,14 @@ class QuestionUseCase extends UseCase
                 'q.correct_choice as correct_choice',
                 'q.wrong_choice_1 as wrong_choice_1',
                 'q.wrong_choice_2 as wrong_choice_2',
-                'q.wrong_choice_3 as wrong_choice_3'
+                'q.wrong_choice_3 as wrong_choice_3',
+                'sec.sec_id as section_id'
             ]
         )->from('questions as q')
             ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
             ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
             ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
+            ->leftJoin('sections as sec', 'sec.id', '=', 'q.section_id')
             ->Where('is_approve', '1')->get();
     }
 

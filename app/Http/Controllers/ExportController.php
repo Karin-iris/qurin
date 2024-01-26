@@ -130,7 +130,8 @@ class ExportController extends Controller
                 '誤答選択肢２',
                 '誤答選択肢３',
                 '大分類',
-                '中分類'
+                '中分類',
+                'セクションID'
             ];
 
             mb_convert_variables('SJIS-win', 'UTF-8', $columns);
@@ -150,9 +151,9 @@ class ExportController extends Controller
                     str_replace(array("\r\n", "\r", "\n"),'',$question->wrong_choice_1),
                     str_replace(array("\r\n", "\r", "\n"),'',$question->wrong_choice_2),
                     str_replace(array("\r\n", "\r", "\n"),'',$question->wrong_choice_3),
-
                     $question->p_c_code,
-                    $question->s_c_code
+                    $question->s_c_code,
+                    $question->section_id
                 ];
 
                 mb_convert_variables('SJIS-win', 'UTF-8', $csv);
