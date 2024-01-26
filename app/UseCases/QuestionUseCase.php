@@ -161,7 +161,8 @@ class QuestionUseCase extends UseCase
                 'q.wrong_choice_1 as wrong_choice_1',
                 'q.wrong_choice_2 as wrong_choice_2',
                 'q.wrong_choice_3 as wrong_choice_3',
-                'sec.sec_id as section_id'
+                'sec.sec_id as section_id',
+                'sec.title as section_title'
             ]
         )->from('questions as q')
             ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
