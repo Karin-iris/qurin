@@ -161,7 +161,7 @@ class CategoryUseCase extends UseCase
 誤答３問
 正答の解説とそれぞれの誤答の解説";
         }else{
-            $str = "[p_name][s_name][c_name]に関する問題をつくってください。";
+            $str = "[p_name]、[s_name]、[c_name]に関する問題をつくってください。";
         }
 
         $str = str_replace('[p_name]',$category_array['p_name'],$str);
