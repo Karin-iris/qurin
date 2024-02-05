@@ -42,7 +42,6 @@ class QuestionUseCase extends UseCase
             'p.code as p_c_code',
             's.code as s_c_code',
             'c.code as c_code',
-            'q.user_name as user_name',
             'q.compitency as compitency',
             'q.topic as topic',
             'q.id as id',
@@ -236,7 +235,6 @@ class QuestionUseCase extends UseCase
         $this->question->fill([
             'topic' => $request->input('topic'),
             'compitency' => $request->input('compitency'),
-            'user_name' => $request->input('user_name'),
             'text' => $request->input('text'),
             'quiz_id' => $request->input('quiz_id'),
             'category_id' => $request->input('category_id'),
@@ -276,7 +274,6 @@ class QuestionUseCase extends UseCase
         $this->question->find($id)->fill([
             'topic' => $request->input('topic'),
             'compitency' => $request->input('compitency'),
-            'user_name' => $request->input('user_name'),
             'text' => $request->input('text'),
             'quiz_id' => $request->input('quiz_id'),
             'category_id' => $request->input('category_id'),
