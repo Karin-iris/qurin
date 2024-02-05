@@ -60,7 +60,7 @@ class TrSeeder extends Seeder
         Category::factory()->create([
             'name' => "次世代のコンタクトセンター像",
             'code' => "01",
-            'primary_id' => 1,
+            'secondary_id' => 1,
             'order' => 01
         ]);
 
