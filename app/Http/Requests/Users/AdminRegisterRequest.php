@@ -42,7 +42,8 @@ class AdminRegisterRequest extends FormRequest
                     Rule::unique('admins')->ignore($request->id, 'id'),
                 ]
             ];
-        } elseif (isset($request->mode) && $request->mode == "create") {
+        }
+        if (isset($request->mode) && $request->mode == "create") {
             // 登録画面のバリデーション
             return [
                 // ユーザー名
@@ -60,7 +61,8 @@ class AdminRegisterRequest extends FormRequest
                 'icon' => 'nullable|image|mimes:jpeg,jpg',
                 'password' => ['string', 'max:255'],
             ];
-        } elseif (isset($request->mode) && $request->mode == "admin_invite") {
+        }
+        if (isset($request->mode) && $request->mode == "admin_invite") {
             return [
                 'email'     => [
                     'email',
@@ -68,17 +70,21 @@ class AdminRegisterRequest extends FormRequest
                     'unique',
                 ],
             ];
-        }else{
+        }
+        if (isset($request->mode) && $request->mode == "change_password") {
             return [
-                'name' => ['string','required', 'max:255','unique:admins'],
+                'password' => ['string', 'max:255'],
+            ];
+        }
+
+            return [
+                'name' => ['string','required', 'max:255',Rule::unique('admins')->ignore($request->id, 'id'),],
                 // メールアドレス
                 'email'     => [
                     'email',
                     'required', // 必須
-                    'unique',
-                ],
-                'password' => ['string', 'max:255'],
+                    Rule::unique('admins')->ignore($request->id, 'id'),
+                ]
             ];
-        }
     }
 }

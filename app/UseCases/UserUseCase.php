@@ -168,6 +168,10 @@ class UserUseCase extends UseCase
     {
         return $this->userR->updateAdmin($request, $id);
     }
+    function updatePasswordAdmin(AdminRegisterRequest $request, int $id)
+    {
+        return $this->userR->updatePasswordAdmin($request, $id);
+    }
 
     function addMFA(string $mfa_secret, int $id)
     {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\Users\AdminRegisterRequest;
 use App\UseCases\UserConfigUseCase;
 use App\UseCases\UserUseCase;
 use Illuminate\Http\RedirectResponse;
@@ -52,17 +53,33 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        /*$request->user()->fill($request->validated());
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $request->user()->save();*/
+        $status = $this->userUC->update($request, Auth::guard('admin')->id());
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
+    /**
+     * Update the user's profile information.
+     */
+    public function admin_update(AdminRegisterRequest $request): RedirectResponse
+    {
+        /*$request->user()->fill($request->validated());
 
+        if ($request->user()->isDirty('email')) {
+            $request->user()->email_verified_at = null;
+        }
+
+        $request->user()->save();*/
+        $status = $this->userUC->updateAdmin($request, Auth::guard('admin')->id());
+
+        return Redirect::route('profile.admin_edit')->with('status', 'profile-updated');
+    }
     /**
      * Delete the user's account.
      */

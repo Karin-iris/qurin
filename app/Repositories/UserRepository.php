@@ -168,14 +168,17 @@ class UserRepository extends Repository
             } else {
                 $icon_image_path = '';
             }
-
-            $this->user->find($id)->fill([
+            $array = [
                 'name' => Crypt::encryptString($request->input('name')),
                 'email' => $request->input('email'),
                 'code' => $request->input('code'),
                 'icon_image_path' => $icon_image_path,
-                'password' => Hash::make($request->input('password'))
-            ])->save();
+
+            ];
+            if ($request->has('password')) {
+                $array['password'] = Hash::make($request->input('password'));
+            }
+            $this->user->find($id)->fill($array)->save();
             return "updated";
         } catch (\Exception $e) {
 // 例外が発生した場合の処理
@@ -186,7 +189,15 @@ class UserRepository extends Repository
             return "error";
         }
     }
-
+    public function updatePassword(UserRegisterRequest $request, int $id): string
+    {
+        $user = $this->user->find($id);
+        $user->fill([
+            'password' => Hash::make($request->input('password'))
+        ]);
+        $user->save();
+        return 'updated';
+    }
     public function addAdmin(AdminRegisterRequest $request): string
     {
         try {
@@ -232,6 +243,16 @@ class UserRepository extends Repository
             // エラーをユーザーに通知するためのステータス
             return "error";
         }
+    }
+
+    public function updatePasswordAdmin(AdminRegisterRequest $request, int $id): string
+    {
+        $admin = $this->admin->find($id);
+        $admin->fill([
+            'password' => Hash::make($request->input('password'))
+        ]);
+        $admin->save();
+        return 'updated';
     }
 
 }

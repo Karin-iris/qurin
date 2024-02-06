@@ -13,7 +13,7 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.admin_update') }}" class="mt-6 space-y-6">
         @csrf
         @method('patch')
 
@@ -21,6 +21,12 @@
             <x-input-label for="name" :value="__('Name')" />
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $admin->name)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
+        </div>
+
+        <div>
+            <x-input-label for="code" :value="__('admins.code')" />
+            <x-text-input id="code" name="code" type="text" class="mt-1 block w-full" :value="old('code', $admin->code)" required autofocus autocomplete="code" />
+            <x-input-error class="mt-2" :messages="$errors->get('code')" />
         </div>
 
         <div>
@@ -46,7 +52,8 @@
                 </div>
             @endif
         </div>
-
+        <input type="hidden" name="mode" value="update">
+        <input type="hidden" name="id" value="{{ Auth::user('admin')->id }}">
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 

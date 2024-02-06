@@ -32,7 +32,7 @@ class UserRegisterRequest extends FormRequest
                     Rule::unique('users')->ignore($request->id, 'id'),
                     'unique:admins',
                 ],
-                'email'     => [
+                'email' => [
                     'email',
                     'required', // 必須
                     // 重複チェック。Rule::unique('テーブル名')->ignore(主キー, '主キーのカラム名')
@@ -47,9 +47,9 @@ class UserRegisterRequest extends FormRequest
             // 登録画面のバリデーション
             return [
                 // ユーザー名
-                'name' => ['string','required', 'max:255','unique:users'],
+                'name' => ['string', 'required', 'max:255', 'unique:users'],
                 // メールアドレス
-                'email'     => [
+                'email' => [
                     'email',
                     'required', // 必須
                     'unique:users',
@@ -61,7 +61,7 @@ class UserRegisterRequest extends FormRequest
 
         if (isset($request->mode) && $request->mode === "user_invite") {
             return [
-                'email'     => [
+                'email' => [
                     'email',
                     'required',
                     'unique:users',
@@ -69,10 +69,14 @@ class UserRegisterRequest extends FormRequest
                 ],
             ];
         }
-
+        if (isset($request->mode) && $request->mode == "change_password") {
+            return [
+                'password' => ['string', 'max:255'],
+            ];
+        }
         if (isset($request->mode) && $request->mode == "admin_invite") {
             return [
-                'email'     => [
+                'email' => [
                     'email',
                     'required',
                     'unique:users',
@@ -82,14 +86,13 @@ class UserRegisterRequest extends FormRequest
         }
 
         return [
-            'name' => ['string','required', 'max:255','unique:users'],
+            'name' => ['string','required', 'max:255',Rule::unique('admins')->ignore($request->id, 'id'),],
             // メールアドレス
             'email'     => [
                 'email',
                 'required', // 必須
-                'unique:users',
-            ],
-            'password' => ['string', 'max:255'],
+                Rule::unique('admins')->ignore($request->id, 'id'),
+            ]
         ];
     }
 }

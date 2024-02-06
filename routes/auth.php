@@ -83,7 +83,7 @@ Route::middleware('auth:admin')->group(function () {
 
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
-    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
+    Route::put('admin_password', [PasswordController::class, 'admin_update'])->name('password.admin_update');
 
     Route::post('admin_logout', [AuthenticatedSessionController::class, 'admin_destroy'])
         ->name('admin_logout');
