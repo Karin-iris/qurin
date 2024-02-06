@@ -155,7 +155,10 @@ class UserUseCase extends UseCase
     {
         return $this->userR->update($request, $id);
     }
-
+    function updatePassword(Request $request, int $id)
+    {
+        return $this->userR->updatePassword($request, $id);
+    }
     function addAdmin(AdminRegisterRequest $request)
     {
         return $this->userR->addAdmin($request);

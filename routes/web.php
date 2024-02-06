@@ -61,6 +61,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth:admin'])->group(function () {
+    Route::get('/admin_profile', [ProfileController::class, 'admin_edit'])->name('profile.admin_edit');
+    Route::patch('/admin_profile', [ProfileController::class, 'admin_update'])->name('profile.admin_update');
+    Route::delete('/admin_profile', [ProfileController::class, 'admin_destroy'])->name('profile.admin_destroy');
     Route::get('/mfa/admin_login', [MFAController::class, 'admin_login'])->name('mfa.admin_login');
     Route::post('/mfa/admin_login', [MFAController::class, 'verify_admin_login'])->name('mfa.verify_admin_login');
     Route::get('/mfa/admin_register/{id}', [MFAController::class, 'admin_register'])->name('mfa.admin_register');

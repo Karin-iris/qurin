@@ -3,23 +3,48 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\UseCases\UserConfigUseCase;
+use App\UseCases\UserUseCase;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
+use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
+use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 
 
 class ProfileController extends Controller
 {
+    public UserUseCase $userUC;
+    public UserConfigUseCase $userConfigUC;
+
+    public function __construct()
+    {
+        $this->userUC = new UserUseCase();
+        $this->userConfigUC = new UserConfigUseCase();
+    }
+
     /**
      * Display the user's profile form.
      */
     public function edit(Request $request): View
     {
         return view('profile.edit', [
-            'user' => $request->user(),
+            //'user' => $request->user(),
+            'user' => $this->userUC->getUser(Auth::id()),
         ]);
+    }
+
+    public function admin_edit(Request $request): View
+    {
+        $admin = $this->userUC->getAdmin(Auth::guard('admin')->id());
+        list($qr_image, $secret) = $this->userUC->displayMFA(Auth::guard('admin')->id());
+        return view('profile.admin_edit',
+            compact('qr_image', 'secret', 'admin')
+        );
+
     }
 
     /**

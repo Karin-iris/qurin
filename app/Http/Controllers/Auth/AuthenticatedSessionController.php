@@ -63,7 +63,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/login');
     }
     public function admin_destroy(Request $request): RedirectResponse
     {
@@ -73,7 +73,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/admin_login');
     }
 
     protected function authenticated(Request $request, $user)

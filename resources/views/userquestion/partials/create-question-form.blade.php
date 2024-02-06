@@ -42,6 +42,7 @@
                 @category-selected="onCategorySelected"
                 @secondary-category-selected="onSecondaryCategorySelected"
                 @primary-category-selected="onPrimaryCategorySelected"
+
             ></category-component>
         </div>
 

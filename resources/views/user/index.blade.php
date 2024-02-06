@@ -54,7 +54,7 @@
 
                     <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
                         <thead
-                            class="p-10 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            class="p-10 text-sm text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr class="border-b-2 border-gray-500">
                             <th class="w-20">User ID</th>
                             <th>{{ __('users.name')}}</th>

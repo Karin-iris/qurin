@@ -6,6 +6,11 @@
     "Export": "エクスポート",
     "User": "ユーザー",
     "Admin": "管理者",
+    "Name": "名前",
+    "Email": "メールアドレス",
+    "Current Password":"現在のパスワード",
+    "New Password": "新規パスワード",
+    "Confirm Password": "新規パスワード(確認)",
     "Questions": "試験問題一覧",
     "QuestionsCase": "ケース問題一覧",
     "QuestionAdd": "試験問題作成",
@@ -24,5 +29,11 @@
     "SaveAndRemand": "更新後差し戻し",
     "TemporarySave": "一時保存",
     "Save": "保存",
-    "Cancel": "クリア"
+    "Cancel": "クリア",
+    "Profile Information":"プロフィール情報",
+    "Update your account's profile information and email address.":"プロフィール情報とメールアドレスの変更が可能です",
+    "Update Password":"パスワードの更新",
+    "Ensure your account is using a long, random password to stay secure.":"パスワードの更新ができます",
+    "User ID": "ユーザーID"
+
 }

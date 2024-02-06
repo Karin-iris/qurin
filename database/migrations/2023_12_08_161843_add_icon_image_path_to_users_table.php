@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('icon_image_path');  //カラム追加//
+            $table->string('icon_image_path')->nullable();  //カラム追加//
         });
     }
 

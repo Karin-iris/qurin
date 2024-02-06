@@ -55,7 +55,7 @@
             <x-input-error class="mt-2" :messages="$errors->get('secondary_id')" />
             <x-input-error class="mt-2" :messages="$errors->get('category_id')" />
         </div>
-
+<input type="text" id="categoryGPT">
         <div>
             <x-input-label for="compitency" :value="__('questions.compitency')"/>
             <x-questions.select-compitencies name="compitency"

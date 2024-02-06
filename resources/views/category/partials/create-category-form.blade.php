@@ -61,9 +61,5 @@
         <x-primary-button class="ml-3" x-on:click="$dispatch('close')">
             {{ __('Save') }}
         </x-primary-button>
-
-        <x-danger-button class="ml-3">
-            {{ __('Submit') }}
-        </x-danger-button>
     </form>
 </section>

@@ -22,7 +22,6 @@
                     <span v-else>▼</span>
                 </span>
             </th>
-            <th>紐付き問題数</th>
             <th>作成時間<br>更新時間</th>
             <th>編集</th>
         </tr>
@@ -55,9 +54,6 @@
                     </td>
                     <td>
                         {{ element.topic }}
-                    </td>
-                    <td>
-                        {{ element.count_questions }}
                     </td>
                     <td>
                         <p>{{ element.created_at }}</p>
