@@ -71,7 +71,7 @@ class UserRegisterRequest extends FormRequest
         }
         if (isset($request->mode) && $request->mode == "change_password") {
             return [
-                'password' => ['string', 'max:255'],
+                'password' => ['string', 'max:255', 'confirmed']
             ];
         }
         if (isset($request->mode) && $request->mode == "admin_invite") {

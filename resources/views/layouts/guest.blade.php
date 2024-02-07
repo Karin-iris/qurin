@@ -21,7 +21,7 @@
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
     @endif
         <div>
-            <a href="/">
+            <a href="/login">
                 <x-application-logo class="w-30 h-30 fill-current text-gray-500"/>
             </a>
         </div>

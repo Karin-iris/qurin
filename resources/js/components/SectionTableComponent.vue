@@ -1,6 +1,7 @@
 
 <template>
     <input type="text" v-model="searchQuery" @input="fetchData" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search"/>
+    {{ this.items.total }}
     <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
         <thead
             class="p-10 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -26,6 +27,7 @@
             <th>編集</th>
         </tr>
         </thead>
+
         <draggable v-model="items.data" tag="tbody" item-key="index" class="text-md">
             <template #item="{ element }">
                 <tr class="border-b border-gray-500 text-sm">

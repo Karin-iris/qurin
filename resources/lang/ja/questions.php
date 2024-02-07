@@ -19,6 +19,8 @@
         'user_name'=>'登録者名',
         'id'=>'Qurin ID',
         'quiz_id'=>'Quiz ID',
+        'section_id'=>'セクション',
+        'category_id'=>'分類',
         'compitency'=>'コンピテンシーレベル',
         'topic'=>'問題文要約',
         'text'=>'問題文',

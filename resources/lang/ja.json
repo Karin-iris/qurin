@@ -34,6 +34,8 @@
     "Update your account's profile information and email address.":"プロフィール情報とメールアドレスの変更が可能です",
     "Update Password":"パスワードの更新",
     "Ensure your account is using a long, random password to stay secure.":"パスワードの更新ができます",
-    "User ID": "ユーザーID"
-
+    "User ID": "ユーザーID",
+    "Code": "ログインコード",
+    "Password": "パスワード",
+    "Log in": "ログイン"
 }

@@ -52,8 +52,8 @@
         </div>
         <input type="checkbox" name="is_default" value="1" {{ old('is_default', $section->is_default) == '1' ? 'checked' : '' }} />
 
-        <x-danger-button class="ml-3">
-            {{ __('Submit') }}
+        <x-danger-button class="ml-3" x-on:click="$dispatch('close')">
+            {{ __('Save') }}
         </x-danger-button>
     </form>
 </section>

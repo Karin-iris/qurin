@@ -73,7 +73,7 @@ class AdminRegisterRequest extends FormRequest
         }
         if (isset($request->mode) && $request->mode == "change_password") {
             return [
-                'password' => ['string', 'max:255'],
+                'password' => ['string', 'max:255','confirmed']
             ];
         }
 

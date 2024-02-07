@@ -180,7 +180,13 @@ class UserUseCase extends UseCase
             'mfa_enabled' => 1
         ])->save();
     }
-
+    function delMFA(int $id)
+    {
+        $this->admin->find($id)->fill([
+            'mfa_secret' => '',
+            'mfa_enabled' => 0
+        ])->save();
+    }
     function checkMFA(string $mfa_secret, string $mfa_code)
     {
         // MFAコードが正しいか検証
@@ -215,7 +221,7 @@ class UserUseCase extends UseCase
         // Google Authenticator用のQRコードURLを生成
         $google2fa_url = $google2fa->getQRCodeUrl(
             config('app.name'),
-            $admin->email,
+            $admin->code,
             $secret
         );
 
@@ -247,4 +253,9 @@ class UserUseCase extends UseCase
             return false;
         }
     }
+    function eraseMFA($id)
+    {
+        $this->delMFA($id);
+    }
+
 }

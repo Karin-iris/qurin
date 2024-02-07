@@ -42,8 +42,8 @@
             <x-input-error class="mt-2" :messages="$errors->get('case_text')"/>
         </div>
 
-        <x-danger-button class="ml-3">
-            {{ __('Submit') }}
+        <x-danger-button class="ml-3" x-on:click="$dispatch('close')">
+            {{ __('Save') }}
         </x-danger-button>
     </form>
 </section>

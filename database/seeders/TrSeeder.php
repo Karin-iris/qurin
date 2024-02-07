@@ -33,40 +33,40 @@ class TrSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
         Admin::factory()->create([
-            'name' => Crypt::encryptString('ADMIN_横尾'),
+            'name' => Crypt::encryptString('adm_横尾'),
             'email' => 'tci_admin1@primeforce.co.jp',
-            'code' => 'admin_yokoo',
-            'password' => Hash::make('Admin_001'),
+            'code' => 'adm_yokoo',
+            'password' => Hash::make('Adm_001'),
         ]);
         Admin::factory()->create([
-            'name' => Crypt::encryptString('ADMIN_栄福'),
+            'name' => Crypt::encryptString('adm_栄福'),
             'email' => 'tci_admin2@primeforce.co.jp',
-            'code' => 'admin_eihuku',
-            'password' => Hash::make('Admin_002'),
+            'code' => 'adm_eihuku',
+            'password' => Hash::make('Adm_002'),
         ]);
         Admin::factory()->create([
-            'name' => Crypt::encryptString('ADMIN_野口'),
+            'name' => Crypt::encryptString('adm_野口'),
             'email' => 'tci_admin3@primeforce.co.jp',
-            'code' => 'admin_noguchi',
-            'password' => Hash::make('Admin_003'),
+            'code' => 'adm_noguchi',
+            'password' => Hash::make('Adm_003'),
         ]);
         Admin::factory()->create([
-            'name' => Crypt::encryptString('ADMIN_小川'),
+            'name' => Crypt::encryptString('adm_小川'),
             'email' => 'tci_admin4@primeforce.co.jp',
-            'code' => 'admin_ogawa',
-            'password' => Hash::make('Admin_004'),
+            'code' => 'adm_ogawa',
+            'password' => Hash::make('Adm_004'),
         ]);
         Admin::factory()->create([
-            'name' => Crypt::encryptString('ADMIN_玉置'),
+            'name' => Crypt::encryptString('adm_玉置'),
             'email' => 'tci_admin5@primeforce.co.jp',
-            'code' => 'admin_tamaki',
-            'password' => Hash::make('Admin_005'),
+            'code' => 'adm_tamaki',
+            'password' => Hash::make('Adm_005'),
         ]);
         Admin::factory()->create([
             'name' => Crypt::encryptString('TCI_鈴木'),
             'email' => 'tci_admin6@primeforce.co.jp',
-            'code' => 'admin_suzuki',
-            'password' => Hash::make('Admin_006'),
+            'code' => 'adm_suzuki',
+            'password' => Hash::make('Adm_006'),
         ]);
         User::factory()->create([
             'name' => Crypt::encryptString('澤田 哲理'),

@@ -56,7 +56,7 @@ class MFAController extends Controller
     {
         try {
             $this->userUC->registerMFA($request->input('mfa_secret'), $request->input('mfa_code'), $id);
-            return redirect()->intended('/admin_dashboard');
+            return redirect()->intended('/user/admin_index');
         } catch (Exception $e) {
             return redirect()->intended('/error');
         }
@@ -64,6 +64,12 @@ class MFAController extends Controller
 
     public function admin_erase(int $id)
     {
+        try {
+            $this->userUC->eraseMFA($id);
+            return redirect()->intended('/user/admin_index');
+        } catch (Exception $e) {
+            return redirect()->intended('/error');
+        }
     }
 
     public function update_admin_erase(int $id)

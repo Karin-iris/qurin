@@ -58,8 +58,7 @@
             {{ __('Cancel') }}
         </x-secondary-button>
 
-        <x-primary-button class="ml-3" x-on:click="$dispatch('close')">
+        <x-danger-button class="ml-3" x-on:click="$dispatch('close')">
             {{ __('Save') }}
-        </x-primary-button>
-    </form>
+        </x-danger-button>
 </section>

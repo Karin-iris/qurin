@@ -43,7 +43,7 @@
         </div>
 
         <x-danger-button class="ml-3">
-            {{ __('Submit') }}
+            {{ __('Save') }}
         </x-danger-button>
     </form>
 </section>

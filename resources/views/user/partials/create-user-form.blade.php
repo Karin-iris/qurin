@@ -52,8 +52,8 @@
         </div>
 
         <input type="hidden" name="mode" value="create">
-        <x-danger-button class="ml-3">
-            {{ __('Submit') }}
+        <x-danger-button class="ml-3" x-on:click="$dispatch('close')">
+            {{ __('Save') }}
         </x-danger-button>
 
     </form>
