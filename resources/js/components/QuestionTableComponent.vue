@@ -60,7 +60,7 @@
             </th>
             <th>作成時間<br>更新時間</th>
             <th>編集</th>
-        </tr>
+        </tr>@if($question->is_request == 1)bg-blue-50 @elseif($question->is_remand == 1)bg-yellow-50 @elseif($question->is_approve == 1)bg-red-50 @else bg-white @endif
         </thead>
         <!--<tr v-for="(item, index) in items" :key="index" class="border-b border-gray-500 text-sm">-->
         <draggable v-model="items.data" tag="tbody" item-key="index" class="text-md">
