@@ -63,7 +63,7 @@ class TrSeeder extends Seeder
             'password' => Hash::make('Adm_005'),
         ]);
         Admin::factory()->create([
-            'name' => Crypt::encryptString('TCI_鈴木'),
+            'name' => Crypt::encryptString('adm_鈴木'),
             'email' => 'tci_admin6@primeforce.co.jp',
             'code' => 'adm_suzuki',
             'password' => Hash::make('Adm_006'),
