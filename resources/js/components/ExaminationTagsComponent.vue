@@ -1,14 +1,14 @@
 <template>
     <div>
-        <b-form-group label="Tags validation example" label-for="tags-validation" :state="state">
-            <b-form-tags
+        <x-form-group label="Tags validation example" label-for="tags-validation" :state="state">
+            <x-form-tags
                 input-id="tags-validation"
                 v-model="tags"
                 :input-attrs="{ 'aria-describedby': 'tags-validation-help' }"
                 :tag-validator="tagValidator"
                 :state="state"
                 separator=" "
-            ></b-form-tags>
+            ></x-form-tags>
 
             <template #invalid-feedback>
                 You must provide at least 3 tags and no more than 8
@@ -20,7 +20,7 @@
                     case. Enter tags separated by spaces or press enter.
                 </div>
             </template>
-        </b-form-group>
+        </x-form-group>
     </div>
 </template>
 
