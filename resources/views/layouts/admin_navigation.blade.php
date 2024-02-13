@@ -30,14 +30,13 @@
                     <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.index')">
                         {{ __('Categories') }}
                     </x-nav-link>
-                    @if (env('APP_COM_NAME') !== "tc")
+
                     <x-nav-link :href="route('import.index')" :active="request()->routeIs('import.index')">
                         {{ __('Import') }}
                     </x-nav-link>
                     <x-nav-link :href="route('export.index')" :active="request()->routeIs('export.index')">
                         {{ __('Export') }}
                     </x-nav-link>
-                    @endif
                     <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
                         {{ __('User') }}
                     </x-nav-link>

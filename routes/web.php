@@ -116,6 +116,8 @@ Route::middleware(['auth:admin', 'mfa'])->group(function () {
         Route::get('/import/question_update_from_bk', 'question_update_from_bk')->name('import.question_update_from_bk');
         Route::get('/import/import', 'import')->name('import.import');
         Route::put('/import/import_csv', 'import_csv')->name('import.import_csv');
+        Route::get('/import/import_raw', 'import_raw')->name('import.import_raw');
+        Route::put('/import/import_raw_csv', 'import_raw_csv')->name('import.import_raw_csv');
     });
     Route::controller(ExportController::class)->group(function () {
         Route::get('/export', 'index')->name('export.index');
