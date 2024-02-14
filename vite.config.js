@@ -20,7 +20,8 @@ export default defineConfig({
                 'resources/js/imageUpload.js',
                 'resources/js/toggleText.js',
                 'resources/js/levelCheckbox.js',
-                'resources/js/sectionSelect.js'
+                'resources/js/sectionSelect.js',
+                'resources/js/mySectionTable.js'
             ],
             refresh: true,
         }),

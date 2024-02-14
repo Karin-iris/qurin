@@ -18,6 +18,7 @@ class SdSeeder extends Seeder
         Admin::factory()->create([
             'name' => Crypt::encryptString('澤田 哲理(管理者)'),
             'email' => 'sawada@primeforce.co.jp',
+            'code' => 'sawada@primeforce.co.jp',
             'password' => Hash::make('password'),
         ]);
         Admin::factory()->create([

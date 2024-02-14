@@ -10,7 +10,8 @@
         'password' => 'パスワード',
         'invite' => 'ユーザー招待',
         'invite_message' => 'ユーザーを招待します。',
-
+        'code'=> 'ログインコード',
+        'icon'=> 'アイコン画像',
         'admin_invite' => '管理者招待',
         'admin_invite_message' => '管理者を招待します。',
     ];

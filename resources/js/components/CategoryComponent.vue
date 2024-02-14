@@ -67,7 +67,7 @@ import { ref, computed } from 'vue';
 import draggable from 'vuedraggable';
 
 export default {
-    setup() {
+    setup(props) {
         const primary_categories = ref([]);
         const secondary_categories = ref([]);
         const categories = ref([]);
@@ -75,6 +75,8 @@ export default {
         const selected_secondary_id = ref('');
         const selected_category_id = ref('');
         const gpt_str = ref('');
+
+
         const fetchPrimaryCategories = async () => {
             try {
                 const response = await axios.get('/api/category/get_primaries/');
@@ -116,8 +118,16 @@ export default {
         };
 
         fetchPrimaryCategories();
-
-
+        if(props.default_selected_primary_id !== null){
+            selected_primary_id.value = props.default_selected_primary_id;
+        }
+        if(props.default_selected_secondary_id !== null){
+            selected_secondary_id.value = props.default_selected_secondary_id;
+            fetchCategories();
+        }
+        if(props.default_selected_category_id !== null){
+            selected_category_id.value = props.default_selected_category_id;
+        }
 
         return {
             primary_categories,
@@ -131,6 +141,21 @@ export default {
             gpt_str
         };
     },
+    props: {
+        default_selected_primary_id: {
+            type:String,
+            default: null
+        },
+        default_selected_secondary_id: {
+            type:String,
+            default: null
+        },
+        default_selected_category_id: {
+            type:String,
+            default: null
+        }
+    },
+
     methods: {
         async onCategoryChange() {
             try {

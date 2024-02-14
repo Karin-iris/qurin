@@ -9,7 +9,7 @@ class UserConfigRepository extends Repository
 {
     protected UserConfig $userconfig;
 
-    function __construct(){
+    public function __construct(){
         $this->userconfig = new UserConfig;
     }
 }

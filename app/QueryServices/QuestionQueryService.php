@@ -35,6 +35,7 @@ class QuestionQueryService extends QueryService
                 'q.is_request as is_request',
                 'q.is_approve as is_approve',
                 'q.is_remand as is_remand',
+                'q.is_adopt as is_adopt',
                 'q.created_at as created_at',
                 'q.updated_at as updated_at',
             ]
@@ -107,6 +108,7 @@ class QuestionQueryService extends QueryService
                 'q.is_request as is_request',
                 'q.is_approve as is_approve',
                 'q.is_remand as is_remand',
+                'q.is_adopt as is_adopt',
                 'q.created_at as created_at',
                 'q.updated_at as updated_at',
             ]

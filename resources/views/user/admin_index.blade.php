@@ -20,17 +20,31 @@
                         </p>
                     </header>
 
+                    @if(session('status') === 'saved')
+                        <div class="p-4 mb-4 text-sm text-gray-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                            <span class="font-medium">管理者を登録しました。</span>
+                        </div>
+                    @elseif(session('status') === 'updated')
+                        <div class="p-4 mb-4 text-sm text-gray-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                            <span class="font-medium">管理者を編集しました。</span>
+                        </div>
+                    @elseif(session('status') === 'error')
+                        <div class="p-4 mb-4 text-sm text-gray-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                            <span class="font-medium">エラーが出ています。</span>
+                        </div>
+                    @endif
+                    @if (env('APP_COM_NAME') !== "tc")
                     <button type="button"
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                             onClick="location.href='{{ route('user.admin_invite') }}'">
                         {{ __('admins.admin_invite') }}
                     </button>
-
+                    @endif
                     <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
                         <thead
-                                class="p-10 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                class="p-10 text-sm text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr class="border-b-2 border-gray-500">
-                            <th class="w-20">User ID</th>
+                            <th class="w-20">Admin ID</th>
                             <th>{{ __('admins.name')}}</th>
                             <th>{{ __('admins.email')}}</th>
                             <th>{{ __('admins.code')}}</th>

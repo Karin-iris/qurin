@@ -32,6 +32,7 @@ class Question extends Model
         'is_request',
         'is_approve',
         'is_remand',
+        'is_adopt',
         'user_id',
     ];
 

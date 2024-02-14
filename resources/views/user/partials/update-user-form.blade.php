@@ -60,11 +60,18 @@
             <x-input-error class="mt-2" :messages="$errors->get('email')"/>
         </div>
 
+        <div>
+            <x-input-label for="code" :value="__('users.code')"/>
+            <x-text-input id="code" name="code" type="text" class="mt-1 block w-full" autofocus
+                          autocomplete="code" :value="old('code',$user->code)" />
+            <x-input-error class="mt-2" :messages="$errors->get('code')" />
+        </div>
 
+        <input type="hidden" name="id" value="{{ $user->id }}">
         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
         <input type="hidden" name="mode" value="update">
-        <x-danger-button class="ml-3" onClick="changeRequestValue();resetRemandValue();return confirm('レビュー依頼送信後は編集できません。よろしいでしょうか。')">
-            {{ __('Submit') }}
+        <x-danger-button class="ml-3" x-on:click="$dispatch('close')">
+            {{ __('Save') }}
         </x-danger-button>
     </form>
 

@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('icon_image_path')->nullable();  //カラム追加//
+        Schema::table('questions', function (Blueprint $table) {
+            $table->boolean('is_adopt')->after('is_approve')->default('0');
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('icon_image_path');//
+        Schema::table('questions', function (Blueprint $table) {
+            $table->dropColumn('is_adopt');//
         });
     }
 };

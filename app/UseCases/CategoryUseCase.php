@@ -14,14 +14,14 @@ class CategoryUseCase extends UseCase
 {
     public Category $category;
 
-    function __construct()
+    public function __construct()
     {
         $this->category = new Category;
         $this->category_primary = new CategoryPrimary();
         $this->category_secondary = new CategorySecondary();
     }
 
-    function getAllCategories()
+    public function getAllCategories()
     {
         return $this->category->select([
             'p.name as p_name',
@@ -44,7 +44,7 @@ class CategoryUseCase extends UseCase
         })->orderBy('p.order')->orderBy('s.order')->orderBy('c.order')->get();
     }
 
-    function getSimpleCategories()
+    public function getSimpleCategories()
     {
         return $this->category->select([
             'p.name as p_name',
@@ -79,7 +79,7 @@ class CategoryUseCase extends UseCase
             ->get();
     }
 
-    function getSecondaryAllCategories()
+    public function getSecondaryAllCategories()
     {
         return $this->category_secondary
             ->select([
@@ -91,7 +91,7 @@ class CategoryUseCase extends UseCase
             ->get();
     }
 
-    function getSecondaryCategories(int $p_id)
+    public function getSecondaryCategories(int $p_id)
     {
         return $this->category_secondary
             ->select([
@@ -139,15 +139,40 @@ class CategoryUseCase extends UseCase
             });
         })->where('c.id', $id)->firstOrFail();
     }
-    function getGptQuery(int $id){
+    public function getGptQuery(int $id): array|string
+    {
         $category_array = $this->getDetail($id);
-        $str="[p_name]カテゴリの、[s_name]分類の中の、[c_name]に関する問題を５つつくって";
+        if(env('APP_COM_NAME')=="dlp"){
+            $str="デジタルライフプランナー検定試験問題を作成しています。
+
+テキストも参照し、指定した知識スキル体系の大中小分類のコンピテンシーを測定するための問題を10問作ってください。
+
+[p_name][s_name][c_name]
+
+に関係する問題で、特に[c_name]を問う問題が欲しいです。[c_name]の指定がない場合はテキスト内容と知識スキル体系の分類から作成してください。
+正解が紛らわしくて、分かりにくい問題が良いです。
+
+問題文の最後の言葉に、「次のうち最も適切なものをどれですか」と質問してください。
+
+アウトプットは以下としてください。
+問題文200文字以内
+正答と解説 を４０文字前後で
+正答１問
+誤答３問
+正答の解説とそれぞれの誤答の解説";
+        }else{
+            $str = "デジタル時代の顧客接点に携わる人を認定する検定試験の試験問題制作者として、
+（[p_name]・[s_name]・[c_name]の分野）で、[c_name]に関する問題を作ってください。（100文字〜200文字）程度の問題文と4つの選択肢から1つの正答を選ぶ形式です。
+選択肢は20文字〜長くても40文字程度。正答と誤答の理由も記述してください。
+問題文は、「次のうち最も適切なものはどれですか。」という形で、最適な手順や行動を問う選択肢としてください。";
+        }
+
         $str = str_replace('[p_name]',$category_array['p_name'],$str);
         $str = str_replace('[s_name]',$category_array['s_name'],$str);
         return str_replace('[c_name]',$category_array['name'],$str);
     }
 
-    function getPrimaryDetail(int $id)
+    public function getPrimaryDetail(int $id)
     {
         return $this->category->select([
             'p.name as name',

@@ -12,7 +12,7 @@
             </tr>
         </thead>
         <!--<tr v-for="(item, index) in items" :key="index" class="border-b border-gray-500 text-sm">-->
-        <draggable v-model="items" tag="tbody" item-key="index" class="text-md">
+        <draggable v-model="items.data" tag="tbody" item-key="index" class="text-md">
             <template #item="{ element }">
                 <tr class="border-b border-gray-500 text-sm">
                     <td class="w-20">
@@ -91,8 +91,9 @@ export default {
         };
     },
     mounted() {
-        axios.get('/api/examination/get')
+        axios.get('/api/examination/paginate')
             .then(response => {
+                //this.items = response.data.data;
                 this.items = response.data;
             })
             .catch(error => {

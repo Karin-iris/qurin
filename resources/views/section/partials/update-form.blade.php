@@ -1,11 +1,11 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('sections.section_edit') }}
+            {{ __('sections.edit') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("sections.section_edit_message") }}
+            {{ __("sections.edit_message") }}
         </p>
     </header>
 
@@ -52,8 +52,8 @@
         </div>
         <input type="checkbox" name="is_default" value="1" {{ old('is_default', $section->is_default) == '1' ? 'checked' : '' }} />
 
-        <x-danger-button class="ml-3">
-            {{ __('Submit') }}
+        <x-danger-button class="ml-3" x-on:click="$dispatch('close')">
+            {{ __('Save') }}
         </x-danger-button>
     </form>
 </section>

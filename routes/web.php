@@ -61,6 +61,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth:admin'])->group(function () {
+    Route::get('/admin_profile', [ProfileController::class, 'admin_edit'])->name('profile.admin_edit');
+    Route::patch('/admin_profile', [ProfileController::class, 'admin_update'])->name('profile.admin_update');
+    Route::delete('/admin_profile', [ProfileController::class, 'admin_destroy'])->name('profile.admin_destroy');
     Route::get('/mfa/admin_login', [MFAController::class, 'admin_login'])->name('mfa.admin_login');
     Route::post('/mfa/admin_login', [MFAController::class, 'verify_admin_login'])->name('mfa.verify_admin_login');
     Route::get('/mfa/admin_register/{id}', [MFAController::class, 'admin_register'])->name('mfa.admin_register');
@@ -113,6 +116,8 @@ Route::middleware(['auth:admin', 'mfa'])->group(function () {
         Route::get('/import/question_update_from_bk', 'question_update_from_bk')->name('import.question_update_from_bk');
         Route::get('/import/import', 'import')->name('import.import');
         Route::put('/import/import_csv', 'import_csv')->name('import.import_csv');
+        Route::get('/import/import_raw', 'import_raw')->name('import.import_raw');
+        Route::put('/import/import_raw_csv', 'import_raw_csv')->name('import.import_raw_csv');
     });
     Route::controller(ExportController::class)->group(function () {
         Route::get('/export', 'index')->name('export.index');

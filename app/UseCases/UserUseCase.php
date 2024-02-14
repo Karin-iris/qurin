@@ -25,6 +25,7 @@ use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
 use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
 use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 use PragmaRX\Google2FA\Google2FA;
+use Ramsey\Collection\Collection;
 
 class UserUseCase extends UseCase
 {
@@ -33,6 +34,7 @@ class UserUseCase extends UseCase
     public Admin $admin;
     public UserRepository $userR;
     protected UserQueryService $userQS;
+
     public function __construct()
     {
         $this->user = new User();
@@ -40,9 +42,12 @@ class UserUseCase extends UseCase
         $this->userR = new UserRepository();
         $this->userQS = new UserQueryService();
     }
-    function getPaginate(Request $request){
+
+    function getPaginate(Request $request)
+    {
         return $this->userQS->getPaginate($request);
     }
+
     public function sendInviteMail(UserRegisterRequest $request): void
     {
         $name = 'ユーザーの招待が届いています。';
@@ -51,16 +56,22 @@ class UserUseCase extends UseCase
         $this->userR->saveToken($email, $token);
         Mail::send(new UserInviteMail($name, $email, $token));
     }
+
     public function generateToken($email): string
     {
-        return md5($email.Carbon::now());
+        return md5($email . Carbon::now());
     }
-    public function getEmailFromToken($token){
+
+    public function getEmailFromToken($token)
+    {
         return $this->userQS->getEmailFromToken($token);
     }
-    public function setUserFromToken(UserRegisterRequest $request,$token){
+
+    public function setUserFromToken(UserRegisterRequest $request, $token)
+    {
         return $this->userR->setUserFromToken($request);
     }
+
     public function sendAdminInviteMail(AdminRegisterRequest $request): void
     {
         $name = '管理者の招待が届いています。';
@@ -70,37 +81,48 @@ class UserUseCase extends UseCase
 
         Mail::send(new AdminInviteMail($name, $email, $token));
     }
+
     public function generateAdminToken($email): string
     {
-        return md5($email.Carbon::now());
+        return md5($email . Carbon::now());
     }
-    public function getEmailFromAdminToken($token){
+
+    public function getEmailFromAdminToken($token)
+    {
         return $this->userQS->getEmailFromAdminToken($token);
     }
-    public function setAdminFromToken(AdminRegisterRequest $request,$token){
+
+    public function setAdminFromToken(AdminRegisterRequest $request, $token)
+    {
         return $this->userR->setAdmin($request);
     }
+
     public function getUser(int $id)
     {
-        $user = $this->user->select(
-            'id', 'name', 'password', 'email', 'icon_image_path'
-        )->from('users')->where('id', $id)->firstOrFail();
+        $user = $this->user->select([
+            'id',
+            'name',
+            'code',
+            'password',
+            'email',
+            'icon_image_path'
+        ])->from('users')->where('id', $id)->firstOrFail();
         if (!empty($user)) {
             $user->name = Crypt::decryptString($user->name);
         }
         return $user;
     }
 
-    function getUsers()
+    public function getUsers(): \Illuminate\Database\Eloquent\Collection
     {
-        return $this->user->select('id', 'name','code', 'password', 'email', 'icon_image_path')->from('users')->get();
+        return $this->userQS->getData();
     }
 
     function getAdmin(int $id)
     {
         try {
             $user = $this->admin->select(
-                'id', 'name', 'password', 'email','code'
+                'id', 'name', 'password', 'email', 'code'
             )->from('admins')->where('id', $id)->firstOrFail();
             if (!empty($user)) {
                 $user->name = Crypt::decryptString($user->name);
@@ -121,124 +143,56 @@ class UserUseCase extends UseCase
 
     function getAdmins()
     {
-        return $this->admin->select('id', 'name','code',  'password', 'email', 'mfa_enabled')->from('admins')->get();
+        return $this->admin->select('id', 'name', 'code', 'password', 'email', 'mfa_enabled')->from('admins')->get();
     }
 
-    function saveUser(UserRegisterRequest $request): void
+    function add(UserRegisterRequest $request): string
     {
-        $upload_file = $request->file('icon');
-        if (!empty($upload_file)) {
-            $x = 100; // 300px
-            $y = 100; // 300px
-
-            $img = \Image::make(file_get_contents($upload_file->getRealPath()))->crop($x, $y);
-            /*$img->resize($x, $y, function($constraint) {
-                $constraint->aspectRatio(); // アスペクト比を保つ
-            });*/
-            $img->save($upload_file->getRealPath());
-
-            // アップロード先S3フォルダ名
-            $dir = 'icon';
-            $filename = time().".jpg";
-            // バケット内の指定フォルダへアップロード ※putFileはLaravel側でファイル名の一意のIDを自動的に生成してくれます。
-
-            if (env('FILE_STORAGE_METHOD')=="s3") {
-                // バケット内の指定フォルダへアップロード ※putFileはLaravel側でファイル名の一意のIDを自動的に生成してくれます。
-                $s3_upload = Storage::disk('s3')->putFile('/' . $dir, $img);
-            }
-
-            if (env('FILE_STORAGE_METHOD')=="gcs") {
-                Storage::disk('gcs')->put('/' . $dir ."/". $filename, $img);
-            }
-
-            // アップロード先パスを取得 ※ファイルダウンロード、削除で使用します。
-            $s3_path = $dir . '/' . $filename;
-            exit();
-        } else {
-            $s3_path = '';
-        }
-        $this->user->fill([
-            'name' => Crypt::encryptString($request->input('name')),
-            'email' => $request->input('email'),
-            'icon_image_path' => $s3_path,
-            'password' => Hash::make($request->input('password'))
-        ])->save();
+        return $this->userR->add($request);
     }
 
-    function updateUser(UserRegisterRequest $request, int $id)
+    function update(UserRegisterRequest $request, int $id)
     {
-        $upload_file = $request->file('icon');
-
-        if (!empty($upload_file)) {
-            $x = 100; // 300px
-            $y = 100; // 300px
-
-            $img = \Image::make($upload_file->getRealPath())->resize($x, $y, function ($constraint) {
-                $constraint->aspectRatio(); // アスペクト比を保つ
-            })->crop($x, $y)->save($upload_file->getRealPath());
-
-            // アップロード先S3フォルダ名
-            $dir = 'icon/user/'.$id."/";
-            $filename = time().".jpg";
-
-            if (env('FILE_STORAGE_METHOD')=="s3") {
-                // バケット内の指定フォルダへアップロード ※putFileはLaravel側でファイル名の一意のIDを自動的に生成してくれます。
-                $s3_upload = Storage::disk('s3')->putFile('/' . $dir, $img);
-            }
-
-            if (env('FILE_STORAGE_METHOD')=="gcs") {
-                Storage::disk('gcs')->put('/' . $dir ."/". $filename, $img);
-            }
-
-            // アップロード先パスを取得 ※ファイルダウンロード、削除で使用します。
-            $s3_path = $dir . '/' . $filename;
-        } else {
-            $s3_path = '';
-        }
-
-        $this->user->find($id)->fill([
-            'name' => Crypt::encryptString($request->input('name')),
-            'email' => $request->input('email'),
-            'icon_image_path' => $s3_path,
-            'password' => Hash::make($request->input('password'))
-        ])->save();
+        return $this->userR->update($request, $id);
     }
-
-    function saveAdmin(AdminRegisterRequest $request)
+    function updatePassword(Request $request, int $id)
     {
-        $this->admin->fill([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password'))
-        ])->save();
+        return $this->userR->updatePassword($request, $id);
+    }
+    function addAdmin(AdminRegisterRequest $request)
+    {
+        return $this->userR->addAdmin($request);
     }
 
     function updateAdmin(AdminRegisterRequest $request, int $id)
     {
-        $admin = $this->admin->find($id);
-        $admin->fill([
-            'name' => Crypt::encryptString($request->input('name')),
-            'code' => $request->input('code'),
-            'email' => $request->input('email')
-        ]);
-
-        if ($request->has('password') && !empty($request->input('password'))) {
-            $admin->password = Hash::make($request->input('password'));
-        }
-        $admin->save();
+        return $this->userR->updateAdmin($request, $id);
+    }
+    function updatePasswordAdmin(AdminRegisterRequest $request, int $id)
+    {
+        return $this->userR->updatePasswordAdmin($request, $id);
     }
 
-    function addMFA(String $mfa_secret,int $id){
+    function addMFA(string $mfa_secret, int $id)
+    {
         $this->admin->find($id)->fill([
             'mfa_secret' => $mfa_secret,
             'mfa_enabled' => 1
         ])->save();
     }
-    function checkMFA(string $mfa_secret,string $mfa_code){
+    function delMFA(int $id)
+    {
+        $this->admin->find($id)->fill([
+            'mfa_secret' => '',
+            'mfa_enabled' => 0
+        ])->save();
+    }
+    function checkMFA(string $mfa_secret, string $mfa_code)
+    {
         // MFAコードが正しいか検証
         try {
             $google2fa = new Google2FA();
-            $valid = $google2fa->verifyKey($mfa_secret,$mfa_code);
+            $valid = $google2fa->verifyKey($mfa_secret, $mfa_code);
 
             if ($valid) {
                 // MFA検証に成功した場合
@@ -252,6 +206,7 @@ class UserUseCase extends UseCase
             return response()->json(['message' => 'User not found'], 404);
         }
     }
+
     /**
      * @throws IncompatibleWithGoogleAuthenticatorException
      * @throws SecretKeyTooShortException
@@ -266,7 +221,7 @@ class UserUseCase extends UseCase
         // Google Authenticator用のQRコードURLを生成
         $google2fa_url = $google2fa->getQRCodeUrl(
             config('app.name'),
-            $admin->email,
+            $admin->code,
             $secret
         );
 
@@ -277,11 +232,13 @@ class UserUseCase extends UseCase
         $writer = new Writer($renderer);
 
         $qr_image = base64_encode($writer->writeString($google2fa_url));//, ErrorCorrectionLevel::MEDIUM));
-        return [$qr_image,$secret];
+        return [$qr_image, $secret];
     }
-    function registerMFA(string $mfa_secret,string $mfa_code,int $id){
+
+    function registerMFA(string $mfa_secret, string $mfa_code, int $id)
+    {
         $google2fa = new Google2FA();
-        try{
+        try {
             $valid = $google2fa->verifyKey($mfa_secret, $mfa_code);
 
             if ($valid) {
@@ -296,4 +253,9 @@ class UserUseCase extends UseCase
             return false;
         }
     }
+    function eraseMFA($id)
+    {
+        $this->delMFA($id);
+    }
+
 }

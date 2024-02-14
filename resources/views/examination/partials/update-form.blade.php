@@ -55,12 +55,8 @@
             {{ __('TemporarySave') }}
         </x-primary-button>
 
-        <x-primary-button class="ml-3" onClick="resetRequestValue();resetApproveValue();changeRemandValue()">
-            {{ __('SaveAndRemand') }}
-        </x-primary-button>
-
-        <x-danger-button class="ml-3" onClick="resetRequestValue();changeApproveValue();resetRemandValue()">
-            {{ __('Approve') }}
+        <x-danger-button class="ml-3" x-on:click="$dispatch('close')">
+            {{ __('Save') }}
         </x-danger-button>
     </form>
 </section>

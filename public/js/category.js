@@ -54,9 +54,19 @@ function sCategoryChange() {
             alert("エラーが発生しました。");
         });
     }
-
 }
-
+function categoryChange() {
+    var c_id = $('#categorySelect').val();
+    $.ajax({
+        type: "GET",
+        url: "/api/category/get_gpt/" + c_id,
+        dataType: "json"
+    }).done(function (data) {
+        $('#categoryGPT').val(data);
+    }).fail(function (XMLHttpRequest, textStatus, error) {
+        alert("エラーが発生しました。");
+    });
+}
 $(function () {
     if ($('#pCategorySelect').length && $('#sCategorySelect').length) {
         if ($('#pCategorySelect').val()) {
@@ -64,4 +74,20 @@ $(function () {
         }
     }
 });
+
+$(function () {
+    $('#button-copygpt').click(function () {
+        // data-urlの値を取得
+        //const url = $(this).data('url');
+        const gpt = $('#categoryGPT').val();
+        // クリップボードにコピー
+        navigator.clipboard.writeText(gpt);
+
+        // フラッシュメッセージ表示
+        $('.success-msg').fadeIn("slow", function () {
+            $(this).delay(2000).fadeOut("slow");
+        });
+    });
+});
+
 

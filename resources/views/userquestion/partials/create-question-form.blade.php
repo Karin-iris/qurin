@@ -38,6 +38,7 @@
         </div>
 
         <div id="category-app">
+            <x-input-label for="primary_id" :value="__('questions.category_id')"/>
             <category-component
                 @category-selected="onCategorySelected"
                 @secondary-category-selected="onSecondaryCategorySelected"
@@ -50,7 +51,7 @@
             <x-questions.select-compitencies name="compitency"
                                             class="mt-1 block w-full" autofocus
                                             autocomplete="compitency"
-                                            :value="old('compitency')" />
+                                            :value="old('compitency',1)" />
             <x-input-error class="mt-2" :messages="$errors->get('compitency')" />
         </div>
 

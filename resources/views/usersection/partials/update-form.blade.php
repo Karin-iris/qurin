@@ -50,10 +50,11 @@
                         autocomplete="case_text">{{old('case_text',$section->case_text)}}</x-textarea>
             <x-input-error class="mt-2" :messages="$errors->get('case_text')"/>
         </div>
-        <input type="checkbox" name="is_default" value="1" {{ old('is_default', $section->is_default) == '1' ? 'checked' : '' }} />
-
+        <div>
+            <input type="checkbox" name="is_default" value="1" {{ old('is_default', $section->is_default) == '1' ? 'checked' : '' }} />
+        </div>
         <x-danger-button class="ml-3">
-            {{ __('Submit') }}
+            {{ __('Save') }}
         </x-danger-button>
     </form>
 </section>

@@ -42,7 +42,6 @@ class QuestionUseCase extends UseCase
             'p.code as p_c_code',
             's.code as s_c_code',
             'c.code as c_code',
-            'q.user_name as user_name',
             'q.compitency as compitency',
             'q.topic as topic',
             'q.id as id',
@@ -90,6 +89,7 @@ class QuestionUseCase extends UseCase
             'q.wrong_choice_2 as wrong_choice_2',
             'q.wrong_choice_3 as wrong_choice_3',
             'q.is_remand as is_remand',
+            'q.is_adopt as is_adopt',
             'q.created_at as created_at',
             'q.updated_at as updated_at',
             'q.explanation as explanation'
@@ -160,12 +160,16 @@ class QuestionUseCase extends UseCase
                 'q.correct_choice as correct_choice',
                 'q.wrong_choice_1 as wrong_choice_1',
                 'q.wrong_choice_2 as wrong_choice_2',
-                'q.wrong_choice_3 as wrong_choice_3'
+                'q.wrong_choice_3 as wrong_choice_3',
+                'sec.sec_id as section_id',
+                'sec.title as section_title',
+                'q.is_adopt',
             ]
         )->from('questions as q')
             ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
             ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
             ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
+            ->leftJoin('sections as sec', 'sec.id', '=', 'q.section_id')
             ->Where('is_approve', '1')->get();
     }
 
@@ -226,14 +230,14 @@ class QuestionUseCase extends UseCase
         $this->questionR->saveQuestion($request);
     }
 
-    function saveUserQuestion(QuestionRequest $request): string
+    function addUserQuestion(QuestionRequest $request): string
     {
         $this->question->fill([
             'topic' => $request->input('topic'),
             'compitency' => $request->input('compitency'),
-            'user_name' => $request->input('user_name'),
             'text' => $request->input('text'),
             'quiz_id' => $request->input('quiz_id'),
+            'section_id' => $request->input('section_id'),
             'category_id' => $request->input('category_id'),
             'correct_choice' => $request->input('correct_choice'),
             'wrong_choice_1' => $request->input('wrong_choice_1'),
@@ -261,9 +265,9 @@ class QuestionUseCase extends UseCase
         ]);
     }
 
-    function updateQuestion(QuestionRequest $request, int $id): string
+    function update(QuestionRequest $request, int $id): string
     {
-        return $this->questionR->updateQuestion($request,$id);
+        return $this->questionR->update($request,$id);
     }
 
     function updateUserQuestion(QuestionRequest $request, int $id): string
@@ -271,8 +275,8 @@ class QuestionUseCase extends UseCase
         $this->question->find($id)->fill([
             'topic' => $request->input('topic'),
             'compitency' => $request->input('compitency'),
-            'user_name' => $request->input('user_name'),
             'text' => $request->input('text'),
+            'section_id' => $request->input('section_id'),
             'quiz_id' => $request->input('quiz_id'),
             'category_id' => $request->input('category_id'),
             'correct_choice' => $request->input('correct_choice'),

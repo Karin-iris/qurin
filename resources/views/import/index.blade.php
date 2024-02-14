@@ -46,6 +46,27 @@
                         <div class="max-w-xl">
                             <header>
                                 <h2 class="text-lg font-medium text-gray-900">
+                                    Qurin IDとQuiz IDの紐付け
+                                </h2>
+
+                                <p class="mt-1 text-sm text-gray-600">
+                                    Qurin IDの紐付けを行います。紐付けに必要なデータは<br>
+                                    [キー]9列目　問題文<br>
+                                    [値]2列目　QuizID<br>
+
+                                </p>
+                            </header>
+                            <button type="button"
+                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                                    onClick="location.href='{{ route('import.import_raw') }}'">Qurin ID 紐付け
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                        <div class="max-w-xl">
+                            <header>
+                                <h2 class="text-lg font-medium text-gray-900">
                                     クラウドで行われた修正の反映
                                 </h2>
 

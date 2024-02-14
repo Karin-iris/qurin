@@ -69,7 +69,7 @@ class QuestionController extends Controller
      */
     public function store(QuestionRequest $request)
     {
-        $this->questionUC->saveQuestion($request);
+        $this->questionUC->add($request);
         return Redirect::route('question.create')->with('question', 'saved');//
     }
 
@@ -99,7 +99,7 @@ class QuestionController extends Controller
      */
     public function update(QuestionRequest $request, string $id)
     {
-        $status = $this->questionUC->updateQuestion($request, $id);
+        $status = $this->questionUC->update($request, $id);
         return Redirect::route('question.index')->with('status', $status);
     }
 

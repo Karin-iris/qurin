@@ -36,9 +36,70 @@ class ImportController extends Controller
         return view('import.index');
     }
 
+    function import_raw(){
+        return view('import.import_raw');
+    }
 
     function import(){
         return view('import.import');
+    }
+
+    function import_raw_csv(QuestionFileRequest $request){
+        $filepath = $request->file('import_file')->getRealPath();
+        if (($handle = fopen($filepath, "r")) !== FALSE) {
+            // ファイルポインタから行を取得
+            $num = 0;
+            while (($line = fgetcsv($handle, 100000, ",")) !== FALSE) {
+                if($num !== 0) {
+
+                        $c = DB::table('questions')->select(['id'])
+                            ->where('text', $line[6])->first();
+
+                        if (empty($c)) {
+                            $category_id="999";
+                            $p_category=DB::table('primary_categories')->select(['id'])
+                                ->where('code', substr($line[4],0,2))->first();
+                            if($p_category){
+                                $p_category_id = $p_category->id;
+                                $s_category=DB::table('secondary_categories')->select(['id'])
+                                    ->where('primary_id', $p_category_id)
+                                    ->where('code', sprintf('%02d',substr($line[4],2,1)))
+                                    ->first();
+                                if($s_category) {
+                                    $s_category_id = $s_category->id;
+                                    $category = DB::table('categories')->select(['id'])
+                                        ->where('secondary_id', $p_category_id)
+                                        ->where('code', sprintf('%02d', substr($line[4], 4, 1)))
+                                        ->first();
+                                    if($category) {
+                                        $category_id = $category->id;
+                                    }
+                                }
+                                echo $p_category_id.$s_category_id.$category_id;
+                            }
+                            DB::table('questions')->insert(
+                                [
+                                    'category_id' => $category_id,
+                                    'topic' => $line[6],
+                                    'text' => $line[6],
+                                    'compitency' => str_replace("レベル","",$line[5]),
+                                    'correct_choice' => $line[7],
+                                    'wrong_choice_1' => $line[8],
+                                    'wrong_choice_2' => $line[9],
+                                    'wrong_choice_3' => $line[10],
+                                    'explanation' => $line[11],
+                                    'is_approve' => 1
+                                ]
+                            );
+                            echo $line[6]."<br>";
+                    }
+
+                }
+                $num++;
+            }
+            fclose($handle);
+        }
+        //var_dump($records);
     }
 
     function import_csv(QuestionFileRequest $request){

@@ -9,8 +9,6 @@
         </h2>
     </x-slot>
 
-
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
@@ -37,6 +35,14 @@
                         <div class="p-4 mb-4 text-sm text-gray-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
                             <span class="font-medium">問題を一時保存しました。</span>
                         </div>
+                    @elseif(session('status') === 'updated')
+                        <div class="p-4 mb-4 text-sm text-gray-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                            <span class="font-medium">問題を編集しました。</span>
+                        </div>
+                    @elseif(session('status') === 'error')
+                        <div class="p-4 mb-4 text-sm text-gray-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                            <span class="font-medium">エラーが出ています。</span>
+                        </div>
                     @endif
                     {{--
                     <button type="button"
@@ -45,13 +51,13 @@
                     </button>
                     --}}
                 </div>
-            </div>
-
+                @if (env('APP_COM_NAME') !== "tc")
         <div id="question-table" class="p-4 sm:p-8 bg-white shadow sm:rounded-lg mb-5">
             <table-component></table-component>
         </div>
-
-                    <!--<table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
+                @endif
+                @if (env('APP_COM_NAME') === "tc")
+                    <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
                         <thead
                             class="p-10 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr class="border-b-2 border-gray-500">
@@ -60,7 +66,6 @@
                             <th>{{ __('categories.category_s')}}</th>
                             <th>{{ __('categories.category')}}</th>
                             <th>試験問題（要約）</th>
-                            <th>作成者</th>
                             <th>作成時間<br>更新時間</th>
                             <th>編集</th>
 
@@ -92,8 +97,8 @@
                             </tr>
                         @endforeach
                         </tbody>
-                    </table>-->
-
+                    </table>
+                @endif
 
             {{--<div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="w-full">
@@ -159,6 +164,7 @@
         </div>
     </div>
     --}}
+            </div>
         </div>
     </div>
 </x-admin-layout>

@@ -9,7 +9,7 @@
         </p>
     </header>
 
-    <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('password.admin_update') }}" class="mt-6 space-y-6">
         @csrf
         @method('put')
 
@@ -25,7 +25,7 @@
             <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
         </div>
         <input type="hidden" name="mode" value="change_password">
-        <input type="hidden" name="id" value="{{ Auth::id() }}">
+        <input type="hidden" name="id" value="{{ Auth::guard('admin')->id() }}">
 
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>

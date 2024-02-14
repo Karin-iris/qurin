@@ -93,14 +93,13 @@ class UserController extends Controller
 
     public function create()
     {
-
         return view('user.create');
     }
 
     public function store(UserRegisterRequest $request): \Illuminate\Http\RedirectResponse
     {
-        $this->userUC->saveUser($request);
-        return Redirect::route('user.create')->with('user', 'saved');
+        $status = $this->userUC->add($request);
+        return Redirect::route('user.index')->with('status', $status);
     }
 
     public function edit(int $id): View
@@ -111,8 +110,8 @@ class UserController extends Controller
 
     public function update(UserRegisterRequest $request, string $id): \Illuminate\Http\RedirectResponse
     {
-        $this->userUC->updateUser($request, $id);
-        return Redirect::route('user.edit', $id)->with('user', 'saved');
+        $status = $this->userUC->update($request, $id);
+        return Redirect::route('user.index')->with('status', $status);
     }
 
     public function admin_edit(int $id): View
@@ -124,8 +123,8 @@ class UserController extends Controller
 
     public function admin_update(AdminRegisterRequest $request, string $id): \Illuminate\Http\RedirectResponse
     {
-        $this->userUC->updateAdmin($request, $id);
-        return Redirect::route('user.admin_edit', $id)->with('user', 'saved');
+        $status = $this->userUC->updateAdmin($request, $id);
+        return Redirect::route('user.admin_index', $id)->with('status', $status);
     }
 
     public function admin_config_edit(): View

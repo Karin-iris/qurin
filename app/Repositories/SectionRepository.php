@@ -3,35 +3,40 @@
 namespace App\Repositories;
 
 use App\Http\Requests\Sections\SectionRequest;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use App\Models\Section;
+use Illuminate\Support\Facades\Log;
 
 class SectionRepository extends Repository
 {
     protected Section $section;
 
-    function __construct()
+    public function __construct()
     {
         $this->section = new Section;
     }
 
-    function set(SectionRequest $request)
+    public function add(SectionRequest $request): string
     {
         try {
-            $user = $this->section::create([
+            $section = $this->section::create([
                 'title' => $request->input('title'),
                 'topic' => $request->input('topic'),
                 'is_case' => $request->input('is_case'),
                 'case_text' => $request->input('case_text')
             ]);
-            //return response()->json(['user' => $user], 201);
+            return "saved";
         } catch (QueryException $e) {
             // データベースエラーの場合、例外メッセージを返す
-            return response()->json(['error' => 'Database error occurred'], 500);
+            Log::error("An error occurred in updateQuestion: " . $e->getMessage());
+
+            // エラーをユーザーに通知するためのステータス
+            return "error";
         }
     }
 
-    function mod(SectionRequest $request,int $id)
+    public function update(SectionRequest $request, int $id): string
     {
         try {
             $section = $this->section::find($id)->fill([
@@ -42,9 +47,13 @@ class SectionRepository extends Repository
                 'is_default' => $request->input('is_default'),
                 'case_text' => strip_tags($request->input('case_text'))
             ])->save();
-            //return response()->json(['section' => $section], 201);
+            return "updated";
         } catch (QueryException $e) {
-            return response()->json(['error' => 'Database error occurred'], 500);
+            // データベースエラーの場合、例外メッセージを返す
+            Log::error("An error occurred in updateQuestion: " . $e->getMessage());
+
+            // エラーをユーザーに通知するためのステータス
+            return "error";
         }
     }
 }

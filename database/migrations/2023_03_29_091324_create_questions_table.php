@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('topic');
             $table->integer('compitency');
             $table->integer('quiz_id')->nullable();
-            $table->text('user_name');
+            $table->text('user_name')->nullable();
             $table->text('text');
             $table->text('correct_choice');
             $table->text('wrong_choice_1');

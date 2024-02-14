@@ -4,11 +4,11 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('sections.section_add') }}
+            {{ __('sections.add') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("sections.section_add_message") }}
+            {{ __("sections.add_message") }}
         </p>
     </header>
 
@@ -42,17 +42,8 @@
             <x-input-error class="mt-2" :messages="$errors->get('case_text')"/>
         </div>
 
-
-        <x-secondary-button x-on:click="$dispatch('close')">
-            {{ __('Cancel') }}
-        </x-secondary-button>
-
-        <x-primary-button class="ml-3" x-on:click="$dispatch('close')">
+        <x-danger-button class="ml-3" x-on:click="$dispatch('close')">
             {{ __('Save') }}
-        </x-primary-button>
-
-        <x-danger-button class="ml-3">
-            {{ __('Submit') }}
         </x-danger-button>
     </form>
 </section>

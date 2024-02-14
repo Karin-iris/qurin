@@ -73,14 +73,16 @@ class ExportController extends Controller
             fputcsv($createCsvFile, $columns);
 
             $questions = DB::table('questions');
-
-            $questionData = $questions
-                ->select(['id', 'text', 'correct_choice', 'wrong_choice_1', 'wrong_choice_2', 'wrong_choice_3'])
-                ->where('is_approve', 1)->get();
+            $question = new Question();
+            $questionData = $question
+                ->select(['q.id', 'text', 'correct_choice', 'wrong_choice_1', 'wrong_choice_2', 'wrong_choice_3','sec.sec_id as section_id'])
+                ->from('questions as q')
+                ->leftJoin('sections as sec', 'sec.id', '=', 'q.section_id')
+                ->where('is_approve', 1)->where('is_adopt', 1)->get();
 
             foreach ($questionData as $question) {
                 $csv = [
-                    '',
+                    $question->section_id,
                     '',
                     '',
                     '',
@@ -130,7 +132,10 @@ class ExportController extends Controller
                 '誤答選択肢２',
                 '誤答選択肢３',
                 '大分類',
-                '中分類'
+                '中分類',
+                'セクションID',
+                'セクションタイトル',
+                '採用/不採用'
             ];
 
             mb_convert_variables('SJIS-win', 'UTF-8', $columns);
@@ -150,9 +155,11 @@ class ExportController extends Controller
                     str_replace(array("\r\n", "\r", "\n"),'',$question->wrong_choice_1),
                     str_replace(array("\r\n", "\r", "\n"),'',$question->wrong_choice_2),
                     str_replace(array("\r\n", "\r", "\n"),'',$question->wrong_choice_3),
-
                     $question->p_c_code,
-                    $question->s_c_code
+                    $question->s_c_code,
+                    $question->section_id,
+                    $question->section_title,
+                    $question->is_adopt
                 ];
 
                 mb_convert_variables('SJIS-win', 'UTF-8', $csv);

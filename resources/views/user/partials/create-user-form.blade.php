@@ -16,7 +16,7 @@
     <form method="post" action="{{ route('user.create') }}" class="mt-6 space-y-6">
         @csrf
         @method('post')
-
+        {{ print_r($errors) }}
         <div>
             <x-input-label for="name" :value="__('users.name')"/>
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" autofocus
@@ -38,6 +38,13 @@
         </div>
 
         <div>
+            <x-input-label for="code" :value="__('users.code')"/>
+            <x-text-input id="code" name="code" type="text" class="mt-1 block w-full" autofocus
+                          autocomplete="code"/>
+            <x-input-error class="mt-2" :messages="$errors->get('code')"/>
+        </div>
+
+        <div>
             <x-input-label for="password" :value="__('users.password')"/>
             <x-text-input id="password" name="password" type="text" class="mt-1 block w-full" autofocus
                           autocomplete="password"/>
@@ -45,8 +52,8 @@
         </div>
 
         <input type="hidden" name="mode" value="create">
-        <x-danger-button class="ml-3">
-            {{ __('Submit') }}
+        <x-danger-button class="ml-3" x-on:click="$dispatch('close')">
+            {{ __('Save') }}
         </x-danger-button>
 
     </form>
