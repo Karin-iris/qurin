@@ -66,6 +66,15 @@ function categoryChange() {
     }).fail(function (XMLHttpRequest, textStatus, error) {
         alert("エラーが発生しました。");
     });
+    $.ajax({
+        type: "GET",
+        url: "/api/category/get_gpt2/" + c_id,
+        dataType: "json"
+    }).done(function (data) {
+        $('#categoryGPT2').val(data);
+    }).fail(function (XMLHttpRequest, textStatus, error) {
+        alert("エラーが発生しました。");
+    });
 }
 $(function () {
     if ($('#pCategorySelect').length && $('#sCategorySelect').length) {
@@ -89,5 +98,6 @@ $(function () {
         });
     });
 });
+
 
 

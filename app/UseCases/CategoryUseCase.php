@@ -139,11 +139,12 @@ class CategoryUseCase extends UseCase
             });
         })->where('c.id', $id)->firstOrFail();
     }
+
     public function getGptQuery(int $id): array|string
     {
         $category_array = $this->getDetail($id);
-        if(env('APP_COM_NAME')=="dlp"){
-            $str="デジタルライフプランナー検定試験問題を作成しています。
+        if (env('APP_COM_NAME') == "dlp") {
+            $str = "デジタルライフプランナー検定試験問題を作成しています。
 
 テキストも参照し、指定した知識スキル体系の大中小分類のコンピテンシーを測定するための問題を10問作ってください。
 
@@ -160,16 +161,33 @@ class CategoryUseCase extends UseCase
 正答１問
 誤答３問
 正答の解説とそれぞれの誤答の解説";
-        }else{
+        } else {
             $str = "デジタル時代の顧客接点に携わる人を認定する検定試験の試験問題制作者として、
 （[p_name]・[s_name]・[c_name]の分野）で、[c_name]に関する問題を作ってください。（100文字〜200文字）程度の問題文と4つの選択肢から1つの正答を選ぶ形式です。
 選択肢は20文字〜長くても40文字程度。正答と誤答の理由も記述してください。
 問題文は、「次のうち最も適切なものはどれですか。」という形で、最適な手順や行動を問う選択肢としてください。";
         }
 
-        $str = str_replace('[p_name]',$category_array['p_name'],$str);
-        $str = str_replace('[s_name]',$category_array['s_name'],$str);
-        return str_replace('[c_name]',$category_array['name'],$str);
+        $str = str_replace('[p_name]', $category_array['p_name'], $str);
+        $str = str_replace('[s_name]', $category_array['s_name'], $str);
+        return str_replace('[c_name]', $category_array['name'], $str);
+    }
+
+    public function getGptQuery2(int $id): array|string
+    {
+        $category_array = $this->getDetail($id);
+        $str = "デジタル時代の顧客接点に携わる人を認定する検定試験の試験問題制作者として、
+（[p_name]・[s_name]・[c_name]）
+で、
+（ソーシャルリスニング・アクティブサポート・リスクモニタリングサービス・FAQ制作支援）
+の業務をクライアント企業から受託するBPO企業で
+（業務内容）
+に従事する担当者が直面する業務上の課題に対する行動について考えさせる問題を作ってください。（200文字〜300文字）程度の問題文と4つの選択肢から1つの正答を選ぶ形式です。（200文字）程度の問題文と4つの選択肢から1つの正答を選ぶ形式です。 選択肢は20文字〜長くても40文字程度。正答と誤答の理由も記述してください。 問題文は、「次のうち最も適切なものはどれですか。」という形で、最適な手順や行動を問う選択肢として、3問生成してください。
+";
+
+        $str = str_replace('[p_name]', $category_array['p_name'], $str);
+        $str = str_replace('[s_name]', $category_array['s_name'], $str);
+        return str_replace('[c_name]', $category_array['name'], $str);
     }
 
     public function getPrimaryDetail(int $id)

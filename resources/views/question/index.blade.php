@@ -51,12 +51,14 @@
                     </button>
                     --}}
                 </div>
+                {{--
                 @if (env('APP_COM_NAME') !== "tc")
         <div id="question-table" class="p-4 sm:p-8 bg-white shadow sm:rounded-lg mb-5">
             <table-component></table-component>
         </div>
                 @endif
                 @if (env('APP_COM_NAME') === "tc")
+                --}}
                     <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
                         <thead
                             class="p-10 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -80,6 +82,7 @@
                                 <td>[{{$question->s_c_code}}]{{ mb_substr($question->s_c_name,0,20)}}</td>
                                 <td>[{{$question->c_code}}]{{ mb_substr($question->c_name,0,20)}}</td>
                                 <td>{{mb_substr($question->topic,0,30)}}</td>
+                                <td>@if(!empty($question->u_name)){{ \Crypt::decryptString($question->u_name) }}@endif</td>
                                 <td class="text-sm">{{$question->created_at}}<br>
                                     {{$question->updated_at}}</td>
                                 <td>
@@ -98,7 +101,7 @@
                         @endforeach
                         </tbody>
                     </table>
-                @endif
+                {{--@endif--}}
 
             {{--<div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="w-full">
