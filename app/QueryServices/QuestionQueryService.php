@@ -16,6 +16,68 @@ class QuestionQueryService extends QueryService
         $this->question = new Question;
     }
 
+    public function getPrimaryCategorySummary()
+    {
+        return $this->question->select(
+            ['p.name as p_c_name']
+        )->selectRaw('COUNT(q.id) as count_questions')
+            ->from('questions as q')
+            ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
+            ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
+            ->groupBy('s.id')->get();
+    }
+
+    public function getSecondaryCategorySummary()
+    {
+        return $this->question->select(
+            ['s.name as s_c_name']
+        )->selectRaw('COUNT(q.id) as count_questions')
+            ->from('questions as q')
+            ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
+            ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
+            ->groupBy('s.id')->get();
+    }
+
+    public function getCategorySummary()
+    {
+        return $this->question->select(
+        ['c.name as c_name']
+    )->selectRaw('COUNT(q.id) as count_questions')
+        ->from('questions as q')
+        ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
+        ->groupBy('s.id')->get();
+    }
+
+    function getQuestionExports(){
+        return $this->question->select(
+            [
+                'p.name as p_c_name',
+                's.name as s_c_name',
+                'c.name as c_name',
+                'p.code as p_c_code',
+                's.code as s_c_code',
+                'c.code as c_code',
+                'q.id as id',
+                'q.section_id as sec.id',
+                'q.quiz_id as quiz_id',
+                'q.text as text',
+                'q.topic as topic',
+                'q.explanation as explanation',
+                'q.correct_choice as correct_choice',
+                'q.wrong_choice_1 as wrong_choice_1',
+                'q.wrong_choice_2 as wrong_choice_2',
+                'q.wrong_choice_3 as wrong_choice_3',
+                'sec.sec_id as section_id',
+                'sec.title as section_title',
+                'q.is_adopt',
+            ]
+        )->from('questions as q')
+            ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
+            ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
+            ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
+            ->leftJoin('sections as sec', 'sec.id', '=', 'q.section_id')
+            ->Where('is_approve', '1')->get();
+    }
     public function getPaginate(Request $request)
     {
         $query = $this->question->select(
@@ -68,10 +130,10 @@ class QuestionQueryService extends QueryService
             $query->whereNotNull('q.quiz_id');
         }
         if ($request->input('qurinid')) {
-            $query->where('q.id','LIKE','%'.$request->query('qurinid')."%");
+            $query->where('q.id', 'LIKE', '%' . $request->query('qurinid') . "%");
         }
         if ($request->input('quizid')) {
-            $query->where('q.quiz_id','LIKE','%'.$request->query('quizid')."%");
+            $query->where('q.quiz_id', 'LIKE', '%' . $request->query('quizid') . "%");
         }
         if ($request->query('l')) {
             $l = $request->query('l');
