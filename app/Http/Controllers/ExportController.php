@@ -34,9 +34,15 @@ class ExportController extends Controller
         return view('export.index');
     }
 
-    public function csv(Response $response): \Symfony\Component\HttpFoundation\StreamedResponse
+    public function csv_swiz(Response $response): \Symfony\Component\HttpFoundation\StreamedResponse
     {
         [$callback, $headers] = $this->questionUC->exportQuestionCSV('swiz');
+        return response()->stream($callback, 200, $headers);
+
+    }
+    public function csv_pros(Response $response): \Symfony\Component\HttpFoundation\StreamedResponse
+    {
+        [$callback, $headers] = $this->questionUC->exportQuestionCSV('pros');
         return response()->stream($callback, 200, $headers);
 
     }
