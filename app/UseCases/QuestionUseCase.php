@@ -552,7 +552,8 @@ class QuestionUseCase extends UseCase
                         $question->s_c_code,
                         $question->section_id,
                         $question->section_title,
-                        $question->is_adopt
+                        $question->is_adopt,
+                        "a" . sprintf("%04d", $question->id)
                     ];
                 }
                 if ($csv_name == "syosai") {
