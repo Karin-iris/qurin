@@ -31,9 +31,19 @@ class ApiQuestionController extends ApiController
         );
     }
 
+    public function get_primary_category_summary(){
+        return response()->json(
+            $this->questionUC->getPrimaryCategorySummary()
+        );
+    }
     public function get_secondary_category_summary(){
         return response()->json(
             $this->questionUC->getSecondaryCategorySummary()
+        );
+    }
+    public function get_category_summary(){
+        return response()->json(
+            $this->questionUC->getCategorySummary()
         );
     }
 

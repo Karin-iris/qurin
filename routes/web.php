@@ -121,7 +121,8 @@ Route::middleware(['auth:admin', 'mfa'])->group(function () {
     });
     Route::controller(ExportController::class)->group(function () {
         Route::get('/export', 'index')->name('export.index');
-        Route::get('/export/csv', 'csv')->name('export.csv');
+        Route::get('/export/csv_swiz', 'csv_swiz')->name('export.csv_swiz');
+        Route::get('/export/csv_pros', 'csv_pros')->name('export.csv_pros');
         Route::get('/export/csv_learning', 'csv_learning')->name('export.csv_learning');
         Route::get('/export/csv_explanation', 'csv_explanation')->name('export.csv_explanation');
         Route::get('/export/csv_topic', 'csv_topic')->name('export.csv_topic');

@@ -129,15 +129,20 @@ class QuestionUseCase extends UseCase
             groupBy('user_id')->get();
     }
 
+    function getPrimaryCategorySummary()
+    {
+        return $this->questionQS->getPrimaryCategorySummary();
+    }
+
     function getSecondaryCategorySummary()
     {
-        return $this->question->select(
-            ['s.name as s_c_name']
-        )->selectRaw('COUNT(q.id) as count_questions')
-            ->from('questions as q')
-            ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
-            ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
-            ->groupBy('s.id')->get();
+        return $this->questionQS->getSecondaryCategorySummary();
+
+    }
+
+    function getCategorySummary()
+    {
+        return $this->questionQS->getCategorySummary();
     }
 
     function getQuestions(SearchRequest $request)
@@ -147,57 +152,9 @@ class QuestionUseCase extends UseCase
         return $this->questionQS->getQuestions($request);
     }
 
-    function getQuestionExports()
+    function getQuestionExport()
     {
-        return $this->question->select(
-            [
-                'p.code as p_c_code',
-                's.code as s_c_code',
-                'c.code as c_code',
-                'q.id as id',
-                'q.quiz_id as quiz_id',
-                'q.text as text',
-                'q.correct_choice as correct_choice',
-                'q.wrong_choice_1 as wrong_choice_1',
-                'q.wrong_choice_2 as wrong_choice_2',
-                'q.wrong_choice_3 as wrong_choice_3',
-                'sec.sec_id as section_id',
-                'sec.title as section_title',
-                'q.is_adopt',
-            ]
-        )->from('questions as q')
-            ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
-            ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
-            ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
-            ->leftJoin('sections as sec', 'sec.id', '=', 'q.section_id')
-            ->Where('is_approve', '1')->get();
-    }
-
-    function getQuestionExportDetail()
-    {
-        return $this->question->select(
-            [
-                'p.name as p_c_name',
-                's.name as s_c_name',
-                'c.name as c_name',
-                'p.code as p_c_code',
-                's.code as s_c_code',
-                'c.code as c_code',
-                'q.id as id',
-                'q.quiz_id as quiz_id',
-                'q.text as text',
-                'q.topic as topic',
-                'q.explanation as explanation',
-                'q.correct_choice as correct_choice',
-                'q.wrong_choice_1 as wrong_choice_1',
-                'q.wrong_choice_2 as wrong_choice_2',
-                'q.wrong_choice_3 as wrong_choice_3'
-            ]
-        )->from('questions as q')
-            ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
-            ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
-            ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
-            ->Where('is_approve', '1')->get();
+        return $this->questionQS->getQuestionExports();
     }
 
     function getUserQuestion(int $id)
@@ -227,7 +184,7 @@ class QuestionUseCase extends UseCase
 
     function saveQuestion(QuestionRequest $request)
     {
-        $this->questionR->saveQuestion($request);
+        return $this->questionR->saveQuestion($request);
     }
 
     function addUserQuestion(QuestionRequest $request): string
@@ -267,7 +224,7 @@ class QuestionUseCase extends UseCase
 
     function update(QuestionRequest $request, int $id): string
     {
-        return $this->questionR->update($request,$id);
+        return $this->questionR->update($request, $id);
     }
 
     function updateUserQuestion(QuestionRequest $request, int $id): string
@@ -325,6 +282,315 @@ class QuestionUseCase extends UseCase
             return $fileNameArray;
         }
 
+    }
+
+    public function exportQuestionCSV($csv_name = ""): array
+    {
+        switch ($csv_name) {
+            case "swiz":
+                $title = "試験問題インポート用リスト_s";
+                $columns = array(
+                    'SectionID',
+                    'Section Row Index',
+                    'Quiz ID',
+                    '形式',
+                    '問題文',
+                    'スコア',
+                    '解説（任意）',
+                    '追加の選択肢（任意）',
+                    '選択肢の順番をランダムにする',
+                    'Select Quiz Option Content',
+                    'Select Quiz Option Correct',
+                    'Select Quiz Option Content',
+                    'Select Quiz Option Correct',
+                    'Select Quiz Option Content',
+                    'Select Quiz Option Correct',
+                    'Select Quiz Option Content',
+                    'Select Quiz Option Correct',
+                );
+                break;
+            case "pros":
+                $title = "試験問題インポート用リスト_p";
+                $columns = array(
+                    '(※2)問題ID',
+                    '講座',
+                    'ユニット',
+                    'テスト問題カテゴリ',
+                    '問題管理コード',
+                    '※問題種別',
+                    '※解答の任意/必須',
+                    '(※1)問題文',
+                    '問題ファイル1',
+                    '問題ファイル2',
+                    '問題ファイル3',
+                    '問題ファイル4',
+                    '問題ファイル5',
+                    '選択肢1',
+                    '選択肢2',
+                    '選択肢3',
+                    '選択肢4',
+                    '選択肢5',
+                    '選択肢6',
+                    '選択肢7',
+                    '選択肢8',
+                    '選択肢9',
+                    '選択肢10',
+                    '選択肢11',
+                    '選択肢12',
+                    '選択肢13',
+                    '選択肢14',
+                    '選択肢15',
+                    '選択肢16',
+                    '選択肢17',
+                    '選択肢18',
+                    '選択肢19',
+                    '選択肢20',
+                    '選択肢画像1',
+                    '選択肢画像2',
+                    '選択肢画像3',
+                    '選択肢画像4',
+                    '選択肢画像5',
+                    '選択肢画像6',
+                    '選択肢画像7',
+                    '選択肢画像8',
+                    '選択肢画像9',
+                    '選択肢画像10',
+                    '選択肢画像11',
+                    '選択肢画像12',
+                    '選択肢画像13',
+                    '選択肢画像14',
+                    '選択肢画像15',
+                    '選択肢画像16',
+                    '選択肢画像17',
+                    '選択肢画像18',
+                    '選択肢画像19',
+                    '選択肢画像20',
+                    'ヒント',
+                    '(※1)正解',
+                    '解説',
+                    '解説画像',
+                    '備考'
+                );
+                break;
+            case "bunseki":
+                $title = "試験問題分析用リスト";
+                $columns = array(
+                    'QurinID',
+                    'QuizID',
+                    '試験問題',
+                    '正答選択肢',
+                    '誤答選択肢１',
+                    '誤答選択肢２',
+                    '誤答選択肢３',
+                    '大分類',
+                    '中分類',
+                    'セクションID',
+                    'セクションタイトル',
+                    '採用/不採用'
+                );
+                break;
+            case "syosai":
+                $title = "試験問題詳細リスト";
+                $columns = array(
+                    'QurinID',
+                    'QuizID',
+                    '試験問題',
+                    '正答選択肢',
+                    '誤答選択肢１',
+                    '誤答選択肢２',
+                    '誤答選択肢３',
+                    '解説',
+                    '大分類コード',
+                    '大分類',
+                    '中分類コード',
+                    '中分類',
+                    '小分類コード',
+                    '小分類'
+                );
+                break;
+            case "topic":
+                $title = "試験問題要約リスト";
+                $columns = array(
+                    'QurinID',
+                    'QuizID',
+                    '試験問題',
+                    '要約',
+                    '大分類コード',
+                    '大分類',
+                    '中分類コード',
+                    '中分類',
+                    '小分類コード',
+                    '小分類'
+                );
+                break;
+            default:
+                $title = "試験問題リスト";
+                $columns = array(
+                    'QurinID',
+                    'QuizID',
+                    '試験問題',
+                    '正答選択肢',
+                    '誤答選択肢１',
+                    '誤答選択肢２',
+                    '誤答選択肢３',
+                    '大分類',
+                    '中分類',
+                    'セクションID',
+                    'セクションタイトル',
+                    '採用/不採用'
+                );
+        }
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename=' . $title . '.csv',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0'
+        ];
+        $callback = function () use ($csv_name, $columns) {
+            $createCsvFile = fopen('php://output', 'w');
+
+            mb_convert_variables('SJIS-win', 'UTF-8', $columns);
+
+            fputcsv($createCsvFile, $columns);
+
+            $questionData = $this->getQuestionExport();
+
+            foreach ($questionData as $question) {
+                if ($csv_name == "swiz") {
+                    $csv = [
+                        $question->section_id,
+                        '',
+                        '',
+                        '',
+                        $question->text,
+                        '',
+                        '#' . $question->id . '#',
+                        '',
+                        'true',
+                        nl2br($question->correct_choice),
+                        'true',
+                        nl2br($question->wrong_choice_1),
+                        'false',
+                        nl2br($question->wrong_choice_2),
+                        'false',
+                        nl2br($question->wrong_choice_3),
+                        'false'
+                    ];
+                }
+                if ($csv_name == "pros") {
+                    $csv = [
+                        $question->quiz_id,
+                        '',
+                        '',
+                        '',
+                        $question->id,
+                        '選択式',
+                        '任意',
+                        $question->text,
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        nl2br($question->correct_choice),
+                        nl2br($question->wrong_choice_1),
+                        nl2br($question->wrong_choice_2),
+                        nl2br($question->wrong_choice_3),
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '1',
+                        $question->explanation
+                    ];
+                }
+                if ($csv_name == "bunseki") {
+                    $csv = [
+                        $question->id,
+                        $question->quiz_id,
+                        $question->text,
+                        str_replace(array("\r\n", "\r", "\n"), '', $question->correct_choice),
+                        str_replace(array("\r\n", "\r", "\n"), '', $question->wrong_choice_1),
+                        str_replace(array("\r\n", "\r", "\n"), '', $question->wrong_choice_2),
+                        str_replace(array("\r\n", "\r", "\n"), '', $question->wrong_choice_3),
+                        $question->p_c_code,
+                        $question->s_c_code,
+                        $question->section_id,
+                        $question->section_title,
+                        $question->is_adopt
+                    ];
+                }
+                if ($csv_name == "syosai") {
+                    $csv = [
+                        $question->id,
+                        $question->quiz_id,
+                        $question->text,
+                        str_replace(array("\r\n", "\r", "\n"), '', $question->correct_choice),
+                        str_replace(array("\r\n", "\r", "\n"), '', $question->wrong_choice_1),
+                        str_replace(array("\r\n", "\r", "\n"), '', $question->wrong_choice_2),
+                        str_replace(array("\r\n", "\r", "\n"), '', $question->wrong_choice_3),
+                        $question->explanation,
+                        $question->p_c_code,
+                        $question->p_c_name,
+                        $question->s_c_code,
+                        $question->s_c_name,
+                        $question->c_code,
+                    ];
+                }
+                if ($csv_name == "topic") {
+                    $csv = [
+                        $question->id,
+                        $question->quiz_id,
+                        $question->text,
+                        $question->topic,
+                        $question->p_c_code,
+                        $question->p_c_name,
+                        $question->s_c_code,
+                        $question->s_c_name,
+                        $question->c_code,
+                    ];
+                }
+                mb_convert_variables('SJIS-win', 'UTF-8', $csv);
+                fputcsv($createCsvFile, $csv);
+            }
+            fclose($createCsvFile);
+        };
+        return [$callback, $headers];
     }
 
     function delQuestion($id)

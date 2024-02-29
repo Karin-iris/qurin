@@ -26,6 +26,7 @@ Route::controller(ApiCategoryController::class)->group(callback: function () {
     Route::get('/category/get_secondaries/{id}', 'get_secondaries');
     Route::get('/category/get_children/{id}', 'get_children');
     Route::get('/category/get_gpt/{id}', 'get_gpt');
+    Route::get('/category/get_gpt2/{id}', 'get_gpt2');
     Route::post('/category/upload/', 'upload');
 
 });

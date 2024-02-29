@@ -148,12 +148,13 @@
             <x-input-error class="mt-2" :messages="$errors->get('explanation')"/>
         </div>
 
+        <!--
         <div>
             <x-input-label for="is_adopt" :value="__('questions.is_adopt')"/>
             <input type="hidden" name="is_adopt" value="0">
             <input type="checkbox" name="is_adopt" id="is_adopt" value="1" {{ old('is_adopt', $question->is_adopt) == '1' ? 'checked' : '' }} />
         </div>
-
+    -->
         <input type="hidden" name="is_request" value="1">
         <input type="hidden" name="is_approve" value="0">
         <input type="hidden" name="is_remand" value="{{old('is_remand', $question->is_remand)}}">
