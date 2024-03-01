@@ -118,6 +118,8 @@ Route::middleware(['auth:admin', 'mfa'])->group(function () {
         Route::put('/import/import_csv', 'import_csv')->name('import.import_csv');
         Route::get('/import/import_raw', 'import_raw')->name('import.import_raw');
         Route::put('/import/import_raw_csv', 'import_raw_csv')->name('import.import_raw_csv');
+        Route::get('/import/import_result', 'import_result')->name('import.import_result');
+        Route::put('/import/import_result_csv', 'import_result_csv')->name('import.import_result_csv');
     });
     Route::controller(ExportController::class)->group(function () {
         Route::get('/export', 'index')->name('export.index');
@@ -126,6 +128,7 @@ Route::middleware(['auth:admin', 'mfa'])->group(function () {
         Route::get('/export/csv_learning', 'csv_learning')->name('export.csv_learning');
         Route::get('/export/csv_explanation', 'csv_explanation')->name('export.csv_explanation');
         Route::get('/export/csv_topic', 'csv_topic')->name('export.csv_topic');
+        Route::get('/export/csv_result', 'csv_result')->name('export.csv_result');
     });
 
     Route::controller(CategoryController::class)->group(function () {

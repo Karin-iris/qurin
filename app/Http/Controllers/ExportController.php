@@ -63,4 +63,10 @@ class ExportController extends Controller
         [$callback, $headers] = $this->questionUC->exportQuestionCSV('topic');
         return response()->stream($callback, 200, $headers);
     }
+
+    public function csv_result(Response $response): \Symfony\Component\HttpFoundation\StreamedResponse
+    {
+        [$callback, $headers] = $this->questionUC->exportResultCSV('answer');
+        return response()->stream($callback, 200, $headers);
+    }
 }

@@ -14,6 +14,7 @@ use App\QueryServices\QuestionQueryService;
 use App\Repositories\QuestionRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
@@ -386,7 +387,8 @@ class QuestionUseCase extends UseCase
                     '中分類',
                     'セクションID',
                     'セクションタイトル',
-                    '採用/不採用'
+                    '採用/不採用',
+                    '分析用ID'
                 );
                 break;
             case "syosai":
@@ -592,6 +594,65 @@ class QuestionUseCase extends UseCase
             fclose($createCsvFile);
         };
         return [$callback, $headers];
+    }
+
+    function exportResultCSV()
+    {
+        $questions = DB::table('answer_questions')
+            ->leftJoin('questions', 'answer_questions.question_id', '=', 'questions.id')
+            ->select('answer_questions.id as id', 'answer_questions.order as order')
+            ->orderBy('order')
+            ->get();
+        $columns = array(
+            'Student_id'
+        );
+        foreach ($questions as $question) {
+            $columns[] = "第" . $question->order . "問" . "[" . $question->id . "]";
+        }
+        $title = "結果";
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename=' . $title . '.csv',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0'
+        ];
+        $callback = function () use ($questions, $columns) {
+            $createCsvFile = fopen('php://output', 'w');
+
+            mb_convert_variables('SJIS-win', 'UTF-8', $columns);
+
+            fputcsv($createCsvFile, $columns);
+            $studentData = DB::table('answer_students')
+                ->select(["name", "id"])
+                ->get();
+            foreach ($studentData as $student) {
+                $csv = [];
+                $csv[] = $student->name;
+
+                foreach ($questions as $question) {
+                    $answer = DB::table('answers')
+                        ->where("student_id", $student->id)
+                        ->where("question_id", $question->id)
+                        ->first();
+                    if (!empty($answer)) {
+                        if (!empty($answer->answer_num)) {
+                            $csv[] = $answer->answer_num;
+                        } else {
+                            $csv[] = $answer->answer_text;
+                        }
+                    }
+
+
+                }
+                mb_convert_variables('SJIS-win', 'UTF-8', $csv);
+                fputcsv($createCsvFile, $csv);
+            }
+            fclose($createCsvFile);
+        };
+        return [$callback, $headers];
+
+
     }
 
     function delQuestion($id)
