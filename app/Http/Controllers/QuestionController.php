@@ -118,6 +118,14 @@ class QuestionController extends Controller
         return Redirect::route('question.index')->with('question', 'deleted');//
     }
 
+    public function summary()
+    {
+        $p_summary = $this->questionUC->getPrimaryCategorySummary();
+        $s_summary = $this->questionUC->getSecondaryCategorySummary();
+        $summary = $this->questionUC->getCategorySummary();
+        return view('question.summary', compact('p_summary','s_summary','summary'));//
+    }
+
     function question_update_from_bk(){
         $c = DB::table('questions')->select(['id'])
             ->get();
