@@ -79,7 +79,7 @@ return [
             'username' => 'Laravel Log',
             'emoji' => ':boom:',
             'short' => true,
-            'level' => env('LOG_LEVEL', 'critical'),
+            'level' => env('LOG_SLACK_LEVEL', 'critical'),
             'replace_placeholders' => true,
         ],
 
