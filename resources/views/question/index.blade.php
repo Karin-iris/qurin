@@ -21,6 +21,7 @@
                         <p class="mt-1 text-sm text-gray-600">
                             {{ __('questions.list_explain') }}
                         </p>
+                        <a href="{{ route('question.summary') }}">集計</a>
                     </header>
 
                     @if (session('status') === 'approved')

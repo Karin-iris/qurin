@@ -100,6 +100,7 @@ Route::middleware(['auth:admin', 'mfa'])->group(function () {
         Route::put('/question/edit/{id}', 'update')->name('question.update');
         Route::get('/question/add', 'create')->name('question.create');
         Route::post('/question/add', 'store')->name('question.store');
+        Route::get('/question/summary', 'summary')->name('question.summary');
         Route::delete('/question/del/{id}', 'destroy')->name('question.destroy');
     });
 

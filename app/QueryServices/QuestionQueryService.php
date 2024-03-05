@@ -19,33 +19,46 @@ class QuestionQueryService extends QueryService
     public function getPrimaryCategorySummary()
     {
         return $this->question->select(
-            ['p.name as p_c_name']
+            ['p.name as p_c_name',
+            'p.code as p_c_code']
         )->selectRaw('COUNT(q.id) as count_questions')
             ->from('questions as q')
             ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
             ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
-            ->groupBy('s.id')->get();
+            ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
+            ->groupBy('p.id')->orderBy('p.id')->get();
     }
 
     public function getSecondaryCategorySummary()
     {
         return $this->question->select(
-            ['s.name as s_c_name']
+            ['s.name as s_c_name',
+                's.code as s_c_code',
+                'p.name as p_c_name',
+                'p.code as p_c_code']
         )->selectRaw('COUNT(q.id) as count_questions')
             ->from('questions as q')
             ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
             ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
-            ->groupBy('s.id')->get();
+            ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
+            ->groupBy('s.id')->orderBy('s.id')->get();
     }
 
     public function getCategorySummary()
     {
         return $this->question->select(
-        ['c.name as c_name']
+        ['c.name as c_name',
+            'c.code as c_code',
+            's.name as s_c_name',
+            's.code as s_c_code',
+            'p.name as p_c_name',
+            'p.code as p_c_code']
     )->selectRaw('COUNT(q.id) as count_questions')
         ->from('questions as q')
         ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
-        ->groupBy('s.id')->get();
+            ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
+            ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
+        ->groupBy('c.id')->orderBy('c.id')->get();
     }
 
     function getQuestionExports(){
