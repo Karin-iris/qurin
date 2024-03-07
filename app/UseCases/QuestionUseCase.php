@@ -607,7 +607,7 @@ class QuestionUseCase extends UseCase
             'Student_id'
         );
         foreach ($questions as $question) {
-            $columns[] = sprintf("%05d",$question->qurstion_id);
+            $columns[] = sprintf("%05d",$question->question_id);
         }
         $title = "結果";
         $headers = [
