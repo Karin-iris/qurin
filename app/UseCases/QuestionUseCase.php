@@ -600,7 +600,7 @@ class QuestionUseCase extends UseCase
     {
         $questions = DB::table('answer_questions')
             ->leftJoin('questions', 'answer_questions.question_id', '=', 'questions.id')
-            ->select('answer_questions.id as id', 'answer_questions.order as order')
+            ->select('answer_questions.id as id', 'answer_questions.order as order', 'answer_questions.question_id as question_id')
             ->orderBy('order')
             ->get();
         $columns = array(
