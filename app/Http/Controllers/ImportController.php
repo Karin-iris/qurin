@@ -400,9 +400,9 @@ class ImportController extends Controller
                                 /*$wrong_choice_1 = DB::table('questions')
                                     ->where('wrong_choice_1', $data[$i])
                                     ->count();*/
-                                similar_text($data[$i],$question_row->wrong_choice_1,$correct_percent);
+                                similar_text($data[$i],$question_row->wrong_choice_1,$wrong_choice_1_percent);
 
-                                if($wrong_choice_1){
+                                if($wrong_choice_1_percent > 90){
                                     $answer_num = 2;
                                 }
                                 $wrong_choice_2 = DB::table('questions')
