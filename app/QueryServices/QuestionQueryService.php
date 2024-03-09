@@ -214,17 +214,17 @@ class QuestionQueryService extends QueryService
         if ($request->has('is_quizid') && $request->input('is_quizid')) {
             $query->whereNotNull('q.quiz_id');
         }
-        if ($request->has('primary_id')) {
+        if ($request->has('primary_id') && !is_null($request->input('primary_id'))) {
             $query->where(function ($query) use ($request) {
                 $query->orWhere('s.primary_id', $request->input('primary_id'));
             });
         }
-        if ($request->has('secondary_id')) {
+        if ($request->has('secondary_id') && !is_null($request->input('secondary_id'))) {
             $query->where(function ($query) use ($request) {
                 $query->orWhere('c.secondary_id', $request->input('secondary_id'));
             });
         }
-        if ($request->has('category_id')) {
+        if ($request->has('category_id') && !is_null($request->input('category_id'))) {
             $query->where(function ($query) use ($request) {
                 $query->orWhere('q.category_id', $request->input('category_id'));
             });

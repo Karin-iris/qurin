@@ -1,6 +1,10 @@
 @section('page-vite')
     @vite(['resources/js/questionTable.js'])
 @endsection
+@section('page-scripts')
+    <script type="text/javascript" src="/js/category.js?q={{ time() }}"></script>
+    <script type="text/javascript" src="/js/question.js?q={{ time() }}"></script>
+@endsection
 
 <x-admin-layout>
     <x-slot name="header">
@@ -60,6 +64,37 @@
                 @endif
                 @if (env('APP_COM_NAME') === "tc")
                 --}}
+                <div>
+                    <form id="send-verification" method="post" action="{{ route('verification.send') }}">
+                        @csrf
+                    </form>
+
+                    <form method="post" action="{{ route('question.index') }}" class="mt-6 space-y-6">
+                        @csrf
+                    <x-input-label for="code" :value="__('categories.parent_category')"/>
+                    <x-categories.select-primary-categories name="primary_id"
+                                                            class="mt-1 block w-full" autofocus
+                                                            autocomplete="primary_id"
+                                                            :value="old('primary_id')" :options="$p_categories"/>
+                    <x-categories.select-secondary-categories name="secondary_id"
+                                                              class="mt-1 block w-full" autofocus
+                                                              autocomplete="secondary_id"
+                                                              :value="old('primary_id')" :options="$s_categories"
+                    />
+                    <x-categories.select-categories name="category_id"
+                                                    class="mt-1 block w-full" autofocus
+                                                    autocomplete="category_id"
+                                                    :value="old('category_id')" :options="$categories"
+                    />
+                    <x-input-error class="mt-2" :messages="$errors->get('primary_id')"/>
+                    <x-input-error class="mt-2" :messages="$errors->get('secondary_id')"/>
+                    <x-input-error class="mt-2" :messages="$errors->get('category_id')"/>
+                    <x-danger-button class="ml-3">
+                        {{ __('検索') }}
+                    </x-danger-button>
+                    </form>
+                </div>
+
                     <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
                         <thead
                             class="p-10 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -69,9 +104,9 @@
                             <th>{{ __('categories.category_s')}}</th>
                             <th>{{ __('categories.category')}}</th>
                             <th>試験問題（要約）</th>
+                            <th>問題作成者</th>
                             <th>作成時間<br>更新時間</th>
                             <th>編集</th>
-
                         </tr>
                         </thead>
                         <tbody class="text-md">
