@@ -352,7 +352,7 @@ class ImportController extends Controller
                     for ($i = 16; $i <= 275; $i += 4) {
                         $qurin_question = DB::table('questions')
                             ->where('text', $data[$i])
-                            ->orWhereRaw('substr(text,0,10) = ?', mb_substr($data[$i],0,5))
+                            ->orWhereRaw('substr(text,0,10) = ?', mb_substr($data[$i],0,10))
                             ->first();
                         if($qurin_question){
                             $qurin_question_id = $qurin_question->id;
