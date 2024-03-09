@@ -1,6 +1,10 @@
 @section('page-vite')
     @vite(['resources/js/questionTable.js'])
 @endsection
+@section('page-scripts')
+    <script type="text/javascript" src="/js/category.js?q={{ time() }}"></script>
+    <script type="text/javascript" src="/js/question.js?q={{ time() }}"></script>
+@endsection
 
 <x-admin-layout>
     <x-slot name="header">
@@ -21,7 +25,6 @@
                         <p class="mt-1 text-sm text-gray-600">
                             {{ __('questions.list_explain') }}
                         </p>
-                        <a href="{{ route('question.summary') }}">集計</a>
                     </header>
 
                     @if (session('status') === 'approved')
@@ -45,6 +48,11 @@
                             <span class="font-medium">エラーが出ています。</span>
                         </div>
                     @endif
+                    <button type="button"
+                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                            onClick="location.href='{{ route('question.summary') }}'">
+                        {{ __('questions.summary') }}
+                    </button>
                     {{--
                     <button type="button"
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
@@ -60,6 +68,39 @@
                 @endif
                 @if (env('APP_COM_NAME') === "tc")
                 --}}
+                <div>
+                    <form id="send-verification" method="post" action="{{ route('verification.send') }}">
+                        @csrf
+                    </form>
+
+                    <form method="post" action="{{ route('question.index') }}" class="mt-6 space-y-6">
+                        @csrf
+                        <x-input-label for="primary_id" :value="__('categories.category_p')"/>
+                    <x-categories.select-primary-categories name="primary_id"
+                                                            class="mt-1 block w-full" autofocus
+                                                            autocomplete="primary_id"
+                                                            :value="old('primary_id')" :options="$p_categories"/>
+                        <x-input-label for="secondary_id" :value="__('categories.category_s')"/>
+                        <x-categories.select-secondary-categories name="secondary_id"
+                                                              class="mt-1 block w-full" autofocus
+                                                              autocomplete="secondary_id"
+                                                              :value="old('secondary_id')" :options="$s_categories"
+                    />
+                        <x-input-label for="primary_id" :value="__('categories.category')"/>
+                        <x-categories.select-categories name="category_id"
+                                                    class="mt-1 block w-full" autofocus
+                                                    autocomplete="category_id"
+                                                    :value="old('category_id')" :options="$categories"
+                    />
+                    <x-input-error class="mt-2" :messages="$errors->get('primary_id')"/>
+                    <x-input-error class="mt-2" :messages="$errors->get('secondary_id')"/>
+                    <x-input-error class="mt-2" :messages="$errors->get('category_id')"/>
+                    <x-danger-button class="ml-3">
+                        {{ __('検索') }}
+                    </x-danger-button>
+                    </form>
+                </div>
+
                     <table class="w-full text-lg text-left text-gray-500 dark:text-gray-400">
                         <thead
                             class="p-10 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -69,9 +110,9 @@
                             <th>{{ __('categories.category_s')}}</th>
                             <th>{{ __('categories.category')}}</th>
                             <th>試験問題（要約）</th>
+                            <th>問題作成者</th>
                             <th>作成時間<br>更新時間</th>
                             <th>編集</th>
-
                         </tr>
                         </thead>
                         <tbody class="text-md">

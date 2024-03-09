@@ -600,14 +600,14 @@ class QuestionUseCase extends UseCase
     {
         $questions = DB::table('answer_questions')
             ->leftJoin('questions', 'answer_questions.question_id', '=', 'questions.id')
-            ->select('answer_questions.id as id', 'answer_questions.order as order')
+            ->select('answer_questions.id as id', 'answer_questions.order as order', 'answer_questions.question_id as question_id')
             ->orderBy('order')
             ->get();
         $columns = array(
             'Student_id'
         );
         foreach ($questions as $question) {
-            $columns[] = "第" . $question->order . "問" . "[" . $question->id . "]";
+            $columns[] = 'a'.sprintf("%05d",$question->question_id);
         }
         $title = "結果";
         $headers = [

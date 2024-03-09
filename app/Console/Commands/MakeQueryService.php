@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+
 class MakeQueryService extends Command
 {
     protected $signature = 'make:query-service {name}';
@@ -24,6 +25,7 @@ class MakeQueryService extends Command
         $queryServiceCode = $this->generateQueryServiceCode($name);
 
         File::put($filePath, $queryServiceCode);
+
 
         $this->info("QueryService created successfully!: {$filePath}");
     }

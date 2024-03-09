@@ -52,7 +52,7 @@ class QuestionRepository extends Repository
     public function update(QuestionRequest $request, int $id)
     {
         try {
-            $r= $this->question->find($id)->fill([
+            $this->question->find($id)->fill([
                 'topic' => $request->input('topic'),
                 'compitency' => $request->input('compitency'),
                 'text' => $request->input('text'),

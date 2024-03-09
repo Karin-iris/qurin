@@ -40,18 +40,21 @@ class ExportController extends Controller
         return response()->stream($callback, 200, $headers);
 
     }
+
     public function csv_pros(Response $response): \Symfony\Component\HttpFoundation\StreamedResponse
     {
         [$callback, $headers] = $this->questionUC->exportQuestionCSV('pros');
         return response()->stream($callback, 200, $headers);
 
     }
+
     public function csv_learning(Response $response): \Symfony\Component\HttpFoundation\StreamedResponse
     {
         [$callback, $headers] = $this->questionUC->exportQuestionCSV('bunseki');
         return response()->stream($callback, 200, $headers);
 
     }
+
     public function csv_explanation(Response $response): \Symfony\Component\HttpFoundation\StreamedResponse
     {
         [$callback, $headers] = $this->questionUC->exportQuestionCSV('syosai');
@@ -68,5 +71,12 @@ class ExportController extends Controller
     {
         [$callback, $headers] = $this->questionUC->exportResultCSV('answer');
         return response()->stream($callback, 200, $headers);
+    }
+
+    public function results()
+    {
+        $results = $this->questionUC->getData();
+
+        return view('export.results', compact('results'));
     }
 }

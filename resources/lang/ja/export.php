@@ -7,5 +7,6 @@
         'csv_learning' => '分析用CSVエクスポート',
         'csv_explanation'=>'解説付きエクスポート',
         'csv_topic'=>'要約付きエクスポート',
+        'results'=>'試験結果エクスポート'
     ];
 

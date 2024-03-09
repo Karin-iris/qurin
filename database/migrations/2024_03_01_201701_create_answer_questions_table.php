@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('answer_questions', function (Blueprint $table) {
             $table->id();
+            $table->integer('result_id');
             $table->integer('question_id')->nullable();
             $table->text('text');
             $table->integer('order');
