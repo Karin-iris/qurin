@@ -129,7 +129,7 @@ Route::middleware(['auth:admin', 'mfa'])->group(function () {
         Route::get('/export/csv_learning', 'csv_learning')->name('export.csv_learning');
         Route::get('/export/csv_explanation', 'csv_explanation')->name('export.csv_explanation');
         Route::get('/export/csv_topic', 'csv_topic')->name('export.csv_topic');
-        Route::get('/export/csv_result', 'csv_result')->name('export.csv_result');
+        Route::get('/export/results', 'results')->name('export.results');
     });
 
     Route::controller(CategoryController::class)->group(function () {
