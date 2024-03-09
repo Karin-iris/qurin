@@ -25,7 +25,6 @@
                         <p class="mt-1 text-sm text-gray-600">
                             {{ __('questions.list_explain') }}
                         </p>
-                        <a href="{{ route('question.summary') }}">集計</a>
                     </header>
 
                     @if (session('status') === 'approved')
@@ -49,6 +48,11 @@
                             <span class="font-medium">エラーが出ています。</span>
                         </div>
                     @endif
+                    <button type="button"
+                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                            onClick="location.href='{{ route('question.summary') }}'">
+                        {{ __('questions.summary') }}
+                    </button>
                     {{--
                     <button type="button"
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
