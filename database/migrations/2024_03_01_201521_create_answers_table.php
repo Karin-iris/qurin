@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('student_id');
             $table->integer('question_id');
             $table->integer('detail_id')->nullable();
+            $table->integer('result_id');
             $table->text('text');
             $table->string('answer_num')->nullable();
             $table->string('answer_text');

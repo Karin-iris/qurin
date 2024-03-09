@@ -331,7 +331,14 @@ class ImportController extends Controller
     {
         $filepath = $request->file('import_file')->getRealPath();
         if (($handle = fopen($filepath, "r")) !== false) {
-
+            if($request->input("title")){
+                $title = $request->input("title");
+            }else{
+                $title = "結果";
+            }
+            $result_id = DB::table('results')->insertGetId([
+                'title' => $title,
+            ]);
             // ファイルポインタから行を取得
             $num = 0;
             $row = 0;
@@ -345,7 +352,7 @@ class ImportController extends Controller
                     for ($i = 16; $i <= 275; $i += 4) {
                         $qurin_question = DB::table('questions')
                             ->where('text', $data[$i])
-                            ->orWhereRaw('replace(text,"\n","") = ?', $data[$i])
+                            ->orWhereRaw('substr(text,0,10) = ?', mb_substr($data[$i],0,5))
                             ->first();
                         if($qurin_question){
                             $qurin_question_id = $qurin_question->id;
@@ -354,11 +361,13 @@ class ImportController extends Controller
                         }
                         $count = DB::table('answer_questions')
                             ->where('text', $data[$i])
+                            ->where('result_id',$result_id)
                             ->count();
                         if($count === 0){
                             DB::table('answer_questions')->insert([
                                 'text' => $data[$i],
                                 'question_id' => $qurin_question_id,
+                                'result_id' => $result_id,
                                 'order' => $order,
                             ]);
                         }
@@ -368,12 +377,14 @@ class ImportController extends Controller
                 if ($row > 0) {
                     $student = DB::table('answer_students')
                         ->where('name', $data[0])
+                        ->where('result_id',$result_id)
                         ->first();
                     if(!empty($student)) {
                         $student_id = $student->id;
                     }else{
                         $student_id = DB::table('answer_students')->insertGetId([
-                            'name' => $data[0]
+                            'name' => $data[0],
+                            'result_id' => $result_id,
                         ]);
                     }
 
@@ -381,6 +392,7 @@ class ImportController extends Controller
                         $j = $i - 1;
                         $question = DB::table('answer_questions')
                             ->where('text', $data[$j])
+                            ->where('result_id',$result_id)
                             ->first();
 
                         if(!empty($question)){
@@ -393,33 +405,41 @@ class ImportController extends Controller
                                 $correct_choice = DB::table('questions')
                                     ->where('correct_choice', $data[$i])
                                     ->count();*/
+
+                                /*$wrong_choice_1 = DB::table('questions')
+                                    ->where('wrong_choice_1', $data[$i])
+                                    ->count();*/
+                                /*$wrong_choice_2 = DB::table('questions')
+                                    ->where('wrong_choice_2', $data[$i])
+                                    ->count();*/
+                                /*$wrong_choice_3 = DB::table('questions')
+                                    ->where('wrong_choice_3', $data[$i])
+                                    ->count();*/
+                                /*if($wrong_choice_3){
+                                    $answer_num = 4;
+                                }*/
                                 similar_text($data[$i],$question_row->correct_choice,$correct_percent);
                                 if($correct_percent > 90){
                                     $answer_num = 1;
                                 }
-                                /*$wrong_choice_1 = DB::table('questions')
-                                    ->where('wrong_choice_1', $data[$i])
-                                    ->count();*/
                                 similar_text($data[$i],$question_row->wrong_choice_1,$wrong_choice_1_percent);
-
                                 if($wrong_choice_1_percent > 90){
                                     $answer_num = 2;
                                 }
-                                $wrong_choice_2 = DB::table('questions')
-                                    ->where('wrong_choice_2', $data[$i])
-                                    ->count();
-                                if($wrong_choice_2){
+                                similar_text($data[$i],$question_row->wrong_choice_2,$wrong_choice_2_percent);
+                                if($wrong_choice_2_percent > 90){
                                     $answer_num = 3;
                                 }
-                                $wrong_choice_3 = DB::table('questions')
-                                    ->where('wrong_choice_3', $data[$i])
-                                    ->count();
-                                if($wrong_choice_3){
+                                similar_text($data[$i],$question_row->wrong_choice_3,$wrong_choice_3_percent);
+                                if($wrong_choice_3_percent > 90){
                                     $answer_num = 4;
                                 }
+
+
                             }
 
                             DB::table('answers')->insert([
+                                'result_id' => $result_id,
                                 'student_id' => $student_id,
                                 'question_id' => $question->id,
                                 'text' => $data[$j],

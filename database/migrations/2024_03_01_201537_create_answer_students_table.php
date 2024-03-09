@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('answer_students', function (Blueprint $table) {
 
             $table->id();
+            $table->integer('result_id');
             $table->string('name');
             $table->timestamps();
         }); //
