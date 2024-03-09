@@ -30,7 +30,6 @@ class QuestionRequest extends FormRequest
     {
         return [
             'category_id' => 'integer',
-            'quiz_id' => 'integer',
             'text' => 'required|string',
             'compitency' => 'string',
             'correct_choice' => 'required|string',

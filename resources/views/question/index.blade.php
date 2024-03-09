@@ -71,17 +71,19 @@
 
                     <form method="post" action="{{ route('question.index') }}" class="mt-6 space-y-6">
                         @csrf
-                    <x-input-label for="code" :value="__('categories.parent_category')"/>
+                        <x-input-label for="primary_id" :value="__('categories.category_p')"/>
                     <x-categories.select-primary-categories name="primary_id"
                                                             class="mt-1 block w-full" autofocus
                                                             autocomplete="primary_id"
                                                             :value="old('primary_id')" :options="$p_categories"/>
-                    <x-categories.select-secondary-categories name="secondary_id"
+                        <x-input-label for="secondary_id" :value="__('categories.category_s')"/>
+                        <x-categories.select-secondary-categories name="secondary_id"
                                                               class="mt-1 block w-full" autofocus
                                                               autocomplete="secondary_id"
-                                                              :value="old('primary_id')" :options="$s_categories"
+                                                              :value="old('secondary_id')" :options="$s_categories"
                     />
-                    <x-categories.select-categories name="category_id"
+                        <x-input-label for="primary_id" :value="__('categories.category')"/>
+                        <x-categories.select-categories name="category_id"
                                                     class="mt-1 block w-full" autofocus
                                                     autocomplete="category_id"
                                                     :value="old('category_id')" :options="$categories"
