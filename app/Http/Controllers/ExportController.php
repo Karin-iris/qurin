@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\QuestionCaseRequest;
-use App\Http\Requests\QuestionRequest;
-use App\Http\Requests\QuestionFileRequest;
-use App\Models\Question;
-use App\UseCases\CategoryUseCase;
 use App\UseCases\QuestionUseCase;
+use App\UseCases\ResultUseCase;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -20,10 +17,12 @@ use Maatwebsite\Excel\Facades\Excel;
 class ExportController extends Controller
 {
     public QuestionUseCase $questionUC;
-
+    public ResultUseCase $resultUC;
     public function __construct()
     {
         $this->questionUC = new QuestionUseCase();
+        $this->resultUC = new ResultUseCase();
+
     }
 
     /**
@@ -75,7 +74,7 @@ class ExportController extends Controller
 
     public function results()
     {
-        $results = $this->questionUC->getData();
+        $results = $this->resultUC->getData();
 
         return view('export.results', compact('results'));
     }

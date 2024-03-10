@@ -14,6 +14,23 @@ class ResultQueryService extends QueryService
     }
 
     function get(){
-        $this->result->get();
+        $results = $this->result->select([
+                'r.id as id',
+                'r.title as title'
+        ])
+        ->selectRaw('COUNT(a.id) as count_answers')
+        ->from('results as r')
+        ->leftJoin('answers as a', 'r.id', '=', 'a.result_id')
+        ->groupBy('r.id')
+        ->get();
+        foreach($results as $key => $result){
+            $results[$key]['result_failed_count'] = $this->result
+                ->from('answer_questions as aq')
+                ->where('result_id',$result->id)
+                ->whereNull('question_id')
+                ->count();
+
+        }
+        return $results;
     }
 }

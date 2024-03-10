@@ -34,6 +34,12 @@
                         </thead>
                         <tbody class="text-md">
                     @foreach($results as $result)
+                        <tr>
+                        <td>{{ $result->id }}</td>
+                        <td>{{ $result->title }}</td>
+                            <td>{{ $result->result_failed_count }}</td>
+                        <td>{{ $result->inserted_at }}</td>
+                        </tr>
                     @endforeach
                         </tbody>
                 </div>
