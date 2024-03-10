@@ -12,25 +12,41 @@ class ResultUseCase extends UseCase
     protected ResultQueryService $resultQS;
     protected ResultRepository $resultR;
 
-    function __construct(){
+    function __construct()
+    {
         $this->resultQS = new ResultQueryService;
         $this->resultR = new ResultRepository;
     }
 
-    function getData(){
+    function getData()
+    {
         return $this->resultQS->get();
 
     }
 
-    function exportCSV(int $resultId)
+    public function getFailedQuestionData(int $resultId)
+    {
+        return $this->resultQS->getFailedQuestionData($resultId);
+    }
+
+    public function getFailedQuestion(int $questionId)
+    {
+        return $this->resultQS->getFailedQuestion($questionId);
+    }
+
+    public function updateFailedQuestion(){
+
+    }
+    public function exportCSV(int $resultId)
     {
         $result = DB::table('results')
-            ->where("result_id", $resultId)
+            ->where("id", $resultId)
             ->first();
-        if($result) {
+        if ($result) {
             $questions = DB::table('answer_questions')
                 ->leftJoin('questions', 'answer_questions.question_id', '=', 'questions.id')
-                ->select('answer_questions.id as id', 'answer_questions.order as order', 'answer_questions.question_id as question_id')
+                ->select('answer_questions.id as id', 'answer_questions.order as order',
+                    'answer_questions.question_id as question_id')
                 ->where("result_id", $result->id)
                 ->orderBy('order')
                 ->get();
@@ -40,6 +56,7 @@ class ResultUseCase extends UseCase
             foreach ($questions as $question) {
                 $columns[] = 'a' . sprintf("%05d", $question->question_id);
             }
+
             $title = "結果";
             $headers = [
                 'Content-Type' => 'text/csv',
@@ -56,6 +73,7 @@ class ResultUseCase extends UseCase
                 fputcsv($createCsvFile, $columns);
                 $studentData = DB::table('answer_students')
                     ->select(["name", "id"])
+                    ->where("result_id", $result->id)
                     ->get();
                 foreach ($studentData as $student) {
                     $csv = [];
