@@ -21,7 +21,8 @@ export default defineConfig({
                 'resources/js/toggleText.js',
                 'resources/js/levelCheckbox.js',
                 'resources/js/sectionSelect.js',
-                'resources/js/mySectionTable.js'
+                'resources/js/mySectionTable.js',
+                'resources/js/searchIdQuestionText.js'
             ],
             refresh: true,
         }),

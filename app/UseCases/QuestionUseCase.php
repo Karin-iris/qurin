@@ -2,7 +2,6 @@
 
 namespace App\UseCases;
 
-use App\Http\Requests\QuestionCaseRequest;
 use App\Http\Requests\QuestionRequest;
 use App\Http\Requests\Questions\SearchRequest;
 use App\Mail\QuestionApproveMail;
@@ -28,7 +27,6 @@ class QuestionUseCase extends UseCase
     public QuestionQueryService $questionQS;
     public array $question_summary_column;
     public array $question_admin_summary_column;
-    public array $question_detail_column;
 
     function __construct()
     {
@@ -71,31 +69,6 @@ class QuestionUseCase extends UseCase
             'q.created_at as created_at',
             'q.updated_at as updated_at',
         ];
-        $this->question_detail_column = [
-            'p.name as p_c_name',
-            's.name as s_c_name',
-            'c.name as c_name',
-            'p.id as p_c_id',
-            's.id as s_c_id',
-            'c.id as c_id',
-            'q.topic as topic',
-            'q.section_id as section_id',
-            'q.user_name as user_name',
-            'q.compitency as compitency',
-            'q.id as id',
-            'q.quiz_id as quiz_id',
-            'q.text as text',
-            'q.correct_choice as correct_choice',
-            'q.wrong_choice_1 as wrong_choice_1',
-            'q.wrong_choice_2 as wrong_choice_2',
-            'q.wrong_choice_3 as wrong_choice_3',
-            'q.is_remand as is_remand',
-            'q.is_adopt as is_adopt',
-            'q.created_at as created_at',
-            'q.updated_at as updated_at',
-            'q.explanation as explanation'
-        ];
-
     }
 
     function getData()
@@ -111,7 +84,30 @@ class QuestionUseCase extends UseCase
     function getQuestion(int $id): Question
     {
         $question = $this->question->select(
-            $this->question_detail_column
+            [
+                'p.name as p_c_name',
+                's.name as s_c_name',
+                'c.name as c_name',
+                'p.id as p_c_id',
+                's.id as s_c_id',
+                'c.id as c_id',
+                'q.topic as topic',
+                'q.section_id as section_id',
+                'q.user_name as user_name',
+                'q.compitency as compitency',
+                'q.id as id',
+                'q.quiz_id as quiz_id',
+                'q.text as text',
+                'q.correct_choice as correct_choice',
+                'q.wrong_choice_1 as wrong_choice_1',
+                'q.wrong_choice_2 as wrong_choice_2',
+                'q.wrong_choice_3 as wrong_choice_3',
+                'q.is_remand as is_remand',
+                'q.is_adopt as is_adopt',
+                'q.created_at as created_at',
+                'q.updated_at as updated_at',
+                'q.explanation as explanation'
+            ]
         )->from('questions as q')
             ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
             ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
@@ -161,7 +157,30 @@ class QuestionUseCase extends UseCase
     function getUserQuestion(int $id)
     {
         $question = $this->question->select(
-            $this->question_detail_column
+            [
+                'p.name as p_c_name',
+                's.name as s_c_name',
+                'c.name as c_name',
+                'p.id as p_c_id',
+                's.id as s_c_id',
+                'c.id as c_id',
+                'q.topic as topic',
+                'q.section_id as section_id',
+                'q.user_name as user_name',
+                'q.compitency as compitency',
+                'q.id as id',
+                'q.quiz_id as quiz_id',
+                'q.text as text',
+                'q.correct_choice as correct_choice',
+                'q.wrong_choice_1 as wrong_choice_1',
+                'q.wrong_choice_2 as wrong_choice_2',
+                'q.wrong_choice_3 as wrong_choice_3',
+                'q.is_remand as is_remand',
+                'q.is_adopt as is_adopt',
+                'q.created_at as created_at',
+                'q.updated_at as updated_at',
+                'q.explanation as explanation'
+            ]
         )->from('questions as q')
             ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
             ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
@@ -221,6 +240,12 @@ class QuestionUseCase extends UseCase
             'id' => $id,
             'text' => $text
         ]);
+    }
+
+
+    function getQuestionsById($request)
+    {
+        return $this->questionQS->getQuestionsById($request);
     }
 
     function update(QuestionRequest $request, int $id): string
@@ -460,7 +485,7 @@ class QuestionUseCase extends UseCase
             $questionData = $this->getQuestionExport();
 
             foreach ($questionData as $question) {
-                if ($csv_name == "swiz") {
+                if ($csv_name === "swiz") {
                     $csv = [
                         $question->section_id,
                         '',
@@ -481,7 +506,7 @@ class QuestionUseCase extends UseCase
                         'false'
                     ];
                 }
-                if ($csv_name == "pros") {
+                if ($csv_name === "pros") {
                     $csv = [
                         $question->quiz_id,
                         '',

@@ -10,6 +10,7 @@ use App\UseCases\CategoryUseCase;
 use App\UseCases\QuestionUseCase;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
@@ -375,15 +376,22 @@ class ImportController extends Controller
                     }
                 }
                 if ($row > 0) {
+                    if(array_key_exists(1,$data) && !empty($data[1])){
+                        $name = Crypt::encryptString($data[1]);
+                    }else{
+                        $name = "";
+                    }
                     $student = DB::table('answer_students')
-                        ->where('name', $data[0])
+                        ->where('name', $name)
+                        ->where('code', $data[0])
                         ->where('result_id',$result_id)
                         ->first();
                     if(!empty($student)) {
                         $student_id = $student->id;
                     }else{
                         $student_id = DB::table('answer_students')->insertGetId([
-                            'name' => $data[0],
+                            'name' => $name,
+                            'code' => $data[0],
                             'result_id' => $result_id,
                         ]);
                     }
@@ -459,6 +467,7 @@ class ImportController extends Controller
                 $row++;
             }
         }
+        return Redirect::route('import.index');
     }
 
     function question_update_from_bk()

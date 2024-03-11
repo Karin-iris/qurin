@@ -130,6 +130,14 @@ Route::middleware(['auth:admin', 'mfa'])->group(function () {
         Route::get('/export/csv_explanation', 'csv_explanation')->name('export.csv_explanation');
         Route::get('/export/csv_topic', 'csv_topic')->name('export.csv_topic');
         Route::get('/export/results', 'results')->name('export.results');
+        Route::get('/export/csv_result/{id}', 'csv_result')->name('export.csv_result');
+        Route::get('/export/csv_raw_result/{id}', 'csv_raw_result')->name('export.csv_raw_result');
+        Route::get('/export/q_index/{resultId}', 'index_q')->name('export.index_q');
+        Route::get('/export/q_edit/{resultId}/{id}', 'edit_q')->name('export.edit_q');
+        Route::put('/export/q_update/{resultId}/{id}', 'update_q')->name('export.update_q');
+        Route::get('/export/a_index/{resultId}', 'index_a')->name('export.index_a');
+        Route::get('/export/a_edit/{resultId}/{id}', 'edit_a')->name('export.edit_a');
+        Route::put('/export/a_update/{resultId}/{id}', 'update_a')->name('export.update_a');
     });
 
     Route::controller(CategoryController::class)->group(function () {

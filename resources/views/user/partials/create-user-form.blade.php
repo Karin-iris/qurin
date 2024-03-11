@@ -16,7 +16,6 @@
     <form method="post" action="{{ route('user.create') }}" class="mt-6 space-y-6">
         @csrf
         @method('post')
-        {{ print_r($errors) }}
         <div>
             <x-input-label for="name" :value="__('users.name')"/>
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" autofocus

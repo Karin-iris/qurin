@@ -231,4 +231,20 @@ class QuestionQueryService extends QueryService
         }
         return $query->get();
     }
+
+    public function getQuestionsById(Request $request){
+        $query = $this->question->select(
+            [
+                'q.id as id',
+                'q.text as text'
+            ]
+        )->from('questions as q');
+        if ($request->has('q_id') && !is_null($request->input('q_id'))) {
+            $query->orWhere('q.id', $request->query('q_id'));
+        }
+        if ($request->has('q_text') && !is_null($request->input('q_text'))) {
+            $query->orWhere('q.text','LIKE', "%".$request->query('q_text')."%");
+        }
+        return $query->get();
+    }
 }

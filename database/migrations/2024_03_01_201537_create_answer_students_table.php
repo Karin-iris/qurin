@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->integer('result_id');
             $table->string('name');
+            $table->string('code');
             $table->timestamps();
         }); //
     }

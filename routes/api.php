@@ -34,6 +34,7 @@ Route::controller(ApiQuestionController::class)->group(callback: function () {
     Route::get('/question/paginate','paginate');
     Route::get('/question/get_user_summary', 'get_user_summary');
     Route::get('/question/get_secondary_category_summary', 'get_secondary_category_summary');
+    Route::get('/question/get_searched_data_by_id', 'get_searched_data_by_id');
 });
 
 Route::controller(ApiExaminationController::class)->group(callback: function () {

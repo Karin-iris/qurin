@@ -132,18 +132,18 @@
                     <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                         <div class="max-w-xl">
                             <h2 class="text-lg font-medium text-gray-900">
-                                QurinIDを持つ問題の一括インポート
+                                トピック（概要）のインポート
                             </h2>
 
                             <p class="mt-1 text-sm text-gray-600">
-                                クラウドで行われた修正の反映を行います。紐付けに必要なデータは<br>
+                                トピック（概要）を一括でインポートします。<br>
                                 [キー]0列目　QurinID<br>
                                 [値]1列目　概要<br>
                             </p>
 
                             <button type="button"
                                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                                    onClick="location.href='{{ route('import.topic_import') }}'">概要のインポート
+                                    onClick="location.href='{{ route('import.topic_import') }}'">トピック（概要）のインポート
                             </button>
                         </div>
                     </div>
@@ -151,13 +151,11 @@
                     <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                         <div class="max-w-xl">
                             <h2 class="text-lg font-medium text-gray-900">
-                                QurinIDを持つ問題の一括インポート
+                                試験結果のインポート
                             </h2>
 
                             <p class="mt-1 text-sm text-gray-600">
-                                クラウドで行われた修正の反映を行います。紐付けに必要なデータは<br>
-                                [キー]0列目　QurinID<br>
-                                [値]1列目　概要<br>ああ
+                                試験データをインポートして、結果をCSVでエクスポートできるようにします。<br>
                             </p>
 
                             <button type="button"
