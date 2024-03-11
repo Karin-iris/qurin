@@ -1,6 +1,6 @@
 function pCategoryChange() {
-    var p_id = $('#pCategorySelect').val();
-    var s_id = $('#sCategorySelect').val();
+    var p_id = $('#pCategoryDSelect').val();
+    var s_id = $('#sCategoryDSelect').val();
     if(p_id) {
         $("#sCategorySelect option").remove();
         $("#categorySelect option").remove();
@@ -31,8 +31,8 @@ function pCategoryChange() {
 }
 
 function sCategoryChange() {
-    var s_id = $('#sCategorySelect').val();
-    var c_id = $('#categorySelect').val();
+    var s_id = $('#sCategoryDSelect').val();
+    var c_id = $('#categoryDSelect').val();
     if(s_id != ''){
         $("#categorySelect option").remove();
         $.ajax({
@@ -57,7 +57,7 @@ function sCategoryChange() {
     }
 }
 function categoryChange() {
-    var c_id = $('#categorySelect').val();
+    var c_id = $('#categoryDSelect').val();
     if(c_id) {
         $.ajax({
             type: "GET",

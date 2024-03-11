@@ -7,3 +7,4 @@
         @endforeach
     @endif
 </select>
+<input type="hidden" id="categoryDSelect" value="{{$value}}">
