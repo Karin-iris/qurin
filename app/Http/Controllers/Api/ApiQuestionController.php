@@ -18,32 +18,45 @@ class ApiQuestionController extends ApiController
         $this->questionUC = new QuestionUseCase();
     }
 
-    public function paginate(Request $request) : JsonResponse
+    public function paginate(Request $request): JsonResponse
     {
         return response()->json(
             $this->questionUC->getPaginate($request)
         );
     }
 
-    public function get_user_summary(){
+    public function get_user_summary()
+    {
         return response()->json(
             $this->questionUC->getUserSummary()
         );
     }
 
-    public function get_primary_category_summary(){
+    public function get_primary_category_summary()
+    {
         return response()->json(
             $this->questionUC->getPrimaryCategorySummary()
         );
     }
-    public function get_secondary_category_summary(){
+
+    public function get_secondary_category_summary()
+    {
         return response()->json(
             $this->questionUC->getSecondaryCategorySummary()
         );
     }
-    public function get_category_summary(){
+
+    public function get_category_summary()
+    {
         return response()->json(
             $this->questionUC->getCategorySummary()
+        );
+    }
+
+    public function get_searched_data_by_id(Request $request): JsonResponse
+    {
+        return response()->json(
+            $this->questionUC->getQuestionsById($request)
         );
     }
 

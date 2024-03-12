@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Examinations\ExaminationRequest;
 use App\UseCases\ExaminationUseCase;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
@@ -62,7 +63,7 @@ class ExaminationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ExaminationRequest $request, string $id)
+    public function update(ExaminationRequest $request, string $id):RedirectResponse
     {
         $status = $this->examinationUC->update($request,$id);
         return Redirect::route('examination.index')->with('status', $status);////

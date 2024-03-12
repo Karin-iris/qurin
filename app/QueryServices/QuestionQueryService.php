@@ -23,7 +23,7 @@ class QuestionQueryService extends QueryService
             'p.code as p_c_code']
         )->selectRaw('COUNT(q.id) as count_questions')
             ->from('questions as q')
-            ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
+            ->rightJoin('categories as c', 'c.id', '=', 'q.category_id')
             ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
             ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
             ->groupBy('p.id')->orderBy('p.id')->get();
@@ -38,7 +38,7 @@ class QuestionQueryService extends QueryService
                 'p.code as p_c_code']
         )->selectRaw('COUNT(q.id) as count_questions')
             ->from('questions as q')
-            ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
+            ->rightJoin('categories as c', 'c.id', '=', 'q.category_id')
             ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
             ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
             ->groupBy('s.id')->orderBy('s.id')->get();
@@ -55,9 +55,9 @@ class QuestionQueryService extends QueryService
             'p.code as p_c_code']
     )->selectRaw('COUNT(q.id) as count_questions')
         ->from('questions as q')
-        ->leftJoin('categories as c', 'c.id', '=', 'q.category_id')
-            ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
-            ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
+        ->rightJoin('categories as c', 'c.id', '=', 'q.category_id')
+        ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
+        ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
         ->groupBy('c.id')->orderBy('c.id')->get();
     }
 
@@ -228,6 +228,22 @@ class QuestionQueryService extends QueryService
             $query->where(function ($query) use ($request) {
                 $query->orWhere('q.category_id', $request->input('category_id'));
             });
+        }
+        return $query->get();
+    }
+
+    public function getQuestionsById(Request $request){
+        $query = $this->question->select(
+            [
+                'q.id as id',
+                'q.text as text'
+            ]
+        )->from('questions as q');
+        if ($request->has('q_id') && !is_null($request->input('q_id'))) {
+            $query->orWhere('q.id', $request->query('q_id'));
+        }
+        if ($request->has('q_text') && !is_null($request->input('q_text'))) {
+            $query->orWhere('q.text','LIKE', "%".$request->query('q_text')."%");
         }
         return $query->get();
     }
