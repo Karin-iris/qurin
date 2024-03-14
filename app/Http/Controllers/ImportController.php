@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\QuestionCaseRequest;
 use App\Http\Requests\QuestionRequest;
 use App\Http\Requests\QuestionFileRequest;
 use App\Models\Question;
 use App\UseCases\CategoryUseCase;
 use App\UseCases\QuestionUseCase;
+use App\UseCases\ResultUseCase;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Crypt;
@@ -16,17 +16,18 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use JetBrains\PhpStorm\Pure;
-use Maatwebsite\Excel\Facades\Excel;
 
 class ImportController extends Controller
 {
-    public $categoryUC;
-    public $questionUC;
+    public CategoryUseCase $categoryUC;
+    public QuestionUseCase $questionUC;
+    public ResultUseCase $resultUC;
 
     public function __construct()
     {
         $this->categoryUC = new CategoryUseCase();
         $this->questionUC = new QuestionUseCase();
+        $this->resultUC = new ResultUseCase();
     }
 
     /**
@@ -337,15 +338,17 @@ class ImportController extends Controller
             }else{
                 $title = "結果";
             }
-            $result_id = DB::table('results')->insertGetId([
-                'title' => $title,
-            ]);
+            $result_id = $this->resultUC->insertGetId($request);
+
             // ファイルポインタから行を取得
             $num = 0;
             $row = 0;
             $question = [];
             while (($line = fgets($handle)) !== false) {
                 $line = mb_convert_encoding($line, 'UTF-8', 'auto');
+                //コード書き込みを除く。
+                $line = str_replace(array("dlp11, ","dlp12, ","dlp21, ","dlp22, ","dlp31, ","dlp32, "), "", $line);
+
                 $data = explode(",", $line);
                 $order=1;
                 if ($row === 1) {
@@ -382,7 +385,6 @@ class ImportController extends Controller
                         $name = "";
                     }
                     $student = DB::table('answer_students')
-                        ->where('name', $name)
                         ->where('code', $data[0])
                         ->where('result_id',$result_id)
                         ->first();
@@ -409,41 +411,18 @@ class ImportController extends Controller
                                 $question_row = DB::table('questions')
                                     ->where('id', $question->question_id)
                                     ->first();
-                                /*
-                                $correct_choice = DB::table('questions')
-                                    ->where('correct_choice', $data[$i])
-                                    ->count();*/
-
-                                /*$wrong_choice_1 = DB::table('questions')
-                                    ->where('wrong_choice_1', $data[$i])
-                                    ->count();*/
-                                /*$wrong_choice_2 = DB::table('questions')
-                                    ->where('wrong_choice_2', $data[$i])
-                                    ->count();*/
-                                /*$wrong_choice_3 = DB::table('questions')
-                                    ->where('wrong_choice_3', $data[$i])
-                                    ->count();*/
-                                /*if($wrong_choice_3){
-                                    $answer_num = 4;
-                                }*/
-                                similar_text($data[$i],$question_row->correct_choice,$correct_percent);
-                                if($correct_percent > 90){
+                                if($data[$i] == $question_row->correct_choice){
                                     $answer_num = 1;
                                 }
-                                similar_text($data[$i],$question_row->wrong_choice_1,$wrong_choice_1_percent);
-                                if($wrong_choice_1_percent > 90){
+                                if($data[$i] == $question_row->wrong_choice_1){
                                     $answer_num = 2;
                                 }
-                                similar_text($data[$i],$question_row->wrong_choice_2,$wrong_choice_2_percent);
-                                if($wrong_choice_2_percent > 90){
+                                if($data[$i] == $question_row->wrong_choice_2){
                                     $answer_num = 3;
                                 }
-                                similar_text($data[$i],$question_row->wrong_choice_3,$wrong_choice_3_percent);
-                                if($wrong_choice_3_percent > 90){
+                                 if($data[$i] == $question_row->wrong_choice_3){
                                     $answer_num = 4;
                                 }
-
-
                             }
 
                             DB::table('answers')->insert([

@@ -4,21 +4,26 @@ namespace App\QueryServices;
 
 use Illuminate\Support\Facades\DB;
 use App\Models\Result;
-
+use App\Models\AnswerQuestion;
+use App\Models\AnswerStudent;
 class ResultQueryService extends QueryService
 {
     protected Result $result;
-
+    protected AnswerQuestion $answerQuestion;
+    protected AnswerStudent $answerStudent;
     function __construct()
     {
         $this->result = new Result;
+        $this->answerQuestion = new AnswerQuestion;
+        $this->answerStudent = new AnswerStudent;
     }
 
     function get()
     {
         $results = $this->result->select([
             'r.id as id',
-            'r.title as title'
+            'r.title as title',
+            'r.created_at as created_at'
         ])
             ->selectRaw('COUNT(aq.id) as questions_count')
             ->from('results as r')
@@ -47,7 +52,79 @@ class ResultQueryService extends QueryService
         }
         return $results;
     }
+    function getQuestionData($resultId){
+        $questions = $this->answerQuestion
+            ->select(
+                [
+                    'aq.id as id',
+                    'aq.text as text',
+                    'aq.order as order'
+                ]
+            )
+            ->selectRaw('COUNT(a.id) as answers_count')
+            ->from('answer_questions as aq')
+            ->leftJoin('answers as a', 'aq.id', '=', 'a.question_id')
+            ->where('aq.result_id', $resultId)
+            ->groupBy('aq.id')
+            ->orderBy('aq.order')
+            ->get();
+        foreach ($questions as $key => $question) {
+            $questions[$key]['correct_count'] = $this->result
+                ->from('answers as a')
+                ->where('a.answer_num', '1')
+                ->where('a.question_id', $question->id)
+                ->count();
+        }
+        foreach ($questions as $key => $question) {
+            $questions[$key]['wrong1_count'] = $this->result
+                ->from('answers as a')
+                ->where('a.answer_num', '2')
+                ->where('a.question_id', $question->id)
+                ->count();
+        }
+        foreach ($questions as $key => $question) {
+            $questions[$key]['wrong2_count'] = $this->result
+                ->from('answers as a')
+                ->where('a.answer_num', '3')
+                ->where('a.question_id', $question->id)
+                ->count();
+        }
+        foreach ($questions as $key => $question) {
+            $questions[$key]['wrong3_count'] = $this->result
+                ->from('answers as a')
+                ->where('a.answer_num', '4')
+                ->where('a.question_id', $question->id)
+                ->count();
+        }
+        foreach ($questions as $key => $question) {
+            $questions[$key]['na_count'] = $this->result
+                ->from('answers as a')
+                ->whereNull('a.answer_num')
+                ->where('a.question_id', $question->id)
+                ->count();
+        }
+        return $questions;
+    }
 
+    function getStudentData($resultId){
+        $students = $this->answerStudent
+            ->select(
+                [
+                    'as.id as id',
+                    'as.code as code'
+                ]
+            )
+            ->selectRaw('SUM(CASE WHEN a.answer_num = 1 THEN 1 ELSE 0 END) as answers_score')
+            ->selectRaw('SUM(CASE WHEN a.answer_num IS NULL THEN 1 ELSE 0 END) as answers_null_score')
+            ->selectRaw('COUNT(a.id) as answers_count')
+            ->from('answer_students as as')
+            ->leftJoin('answers as a', 'as.id', '=', 'a.student_id')
+            ->where('as.result_id', $resultId)
+            ->groupBy('as.id')
+            ->orderBy('answers_score','desc')
+            ->get();
+        return $students;
+    }
     function getFailedQuestionData(int $resultId)
     {
 

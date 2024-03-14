@@ -41,9 +41,11 @@
             <x-input-label for="quiz_id" :value="__('questions.id')"/>
             {{ $question->id }}
         </div>
+
         <div id="search-id-text-app">
-        <search-id-question-component></search-id-question-component>
+            <search-id-question-component></search-id-question-component>
         </div>
+
         <div>
             <x-input-label for="topic" :value="__('questions.text')"/>
             <x-textarea cols="30" rows="2" id="text" name="text" type="text"

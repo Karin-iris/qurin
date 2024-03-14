@@ -47,7 +47,7 @@
                             <td>{{ $result->students_count }}</td>
                             <td>{{ $result->failed_questions_count }}</td>
                             <td>{{ $result->failed_answers_count }}</td>
-                            <td>{{ $result->inserted_at }}<br>{{ $result->updated_at }}</td>
+                            <td>{{ $result->created_at }}<br>{{ $result->updated_at }}</td>
                             <td>
                                 @if(!empty($result->id))
                                     <a href="{{ route('export.index_q', ['resultId'=> $result->id]) }}">
@@ -92,6 +92,7 @@
                         </tr>
                     @endforeach
                         </tbody>
+                    </table>
                 </div>
             </div>
         </div>

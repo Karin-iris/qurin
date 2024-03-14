@@ -50,7 +50,6 @@ class Question extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
         'created_at' => 'datetime:Y-m-d H:i',
         'updated_at' => 'datetime:Y-m-d H:i',
     ];

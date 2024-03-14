@@ -7,24 +7,32 @@ use App\Repositories\ResultRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use App\DataTransferObjects\DataTransferObject;
 
 class ResultUseCase extends UseCase
 {
     protected ResultQueryService $resultQS;
     protected ResultRepository $resultR;
+    protected DataTransferObject $DTO;
 
     function __construct()
     {
         $this->resultQS = new ResultQueryService;
         $this->resultR = new ResultRepository;
+        $this->DTO = new DataTransferObject;
     }
 
-    function getData()
+    public function getData()
     {
         return $this->resultQS->get();
 
     }
-
+    public function getQuestionData(int $resultId,Request $request){
+        return $this->resultQS->getQuestionData($resultId);
+    }
+    public function getStudentData(int $resultId,Request $request){
+        return $this->resultQS->getStudentData($resultId);
+    }
     public function getFailedQuestionData(int $resultId)
     {
         return $this->resultQS->getFailedQuestionData($resultId);
@@ -45,32 +53,72 @@ class ResultUseCase extends UseCase
         return $this->resultQS->getFailedAnswer($answerId);
     }
 
+    public function insertGetId(Request $request)
+    {
+        $title = $request->input('title');
+        return $this->resultR->insertGetId($title);
+    }
+
     public function updateFailedQuestion(Request $request, int $id): string
     {
         $status = $this->resultR->updateFailedQuestion($request, $id);
+
+        //取り込みできなかったQuestionのAnswerを全部取得
+        $answers = DB::table('answers')
+            ->where('question_id', $id)
+            ->whereNull('answer_num')
+            ->get();
+        foreach ($answers as $answer) {
+            $question_row = DB::table('questions')
+                ->where('id', $request->input('question_id'))
+                ->first();
+            $answer_num = NULL;
+            if ($answer->answer_text == $question_row->correct_choice) {
+                $answer_num = 1;
+            }
+            if ($answer->answer_text == $question_row->wrong_choice_1) {
+                $answer_num = 2;
+            }
+            if ($answer->answer_text == $question_row->wrong_choice_2) {
+                $answer_num = 3;
+            }
+            if ($answer->answer_text == $question_row->wrong_choice_3) {
+                $answer_num = 4;
+            }
+            $paramArray = array(
+                'answer_num' => $answer_num,
+            );
+            $this->resultR->updateFailedAnswer($paramArray, $answer->id);
+        }
+
         return $status;
     }
 
     public function updateFailedAnswer(Request $request, int $id): string
     {
-        $status = $this->resultR->updateFailedAnswer($request, $id);
+        $paramArray = array(
+            'answer_num' => $request->input('answer_num'),
+        );
+        $status = $this->resultR->updateFailedAnswer($paramArray, $id);
         return $status;
     }
 
     public function updateFailedAnswers(Request $request): string
     {
-        $result_id = $request->input('result_id');
-        $answer_text = $request->input('answer_text');
-        $answer_num = $request->input('answer_num');
+        $paramArray = array(
+            'result_id' => $request->input('result_id'),
+            'answer_text' => $request->input('answer_text'),
+            'answer_num' => $request->input('answer_num')
+        );
+        return $this->resultR->updateFailedAnswers($paramArray);
 
-        $status = $this->resultR->updateFailedAnswers($result_id, $answer_text,$answer_num);
-        echo $status;
-        return $status;
     }
 
 
     public function exportCSV(int $resultId)
     {
+        $callback = null;
+        $headers = null;
         $result = DB::table('results')
             ->where("id", $resultId)
             ->first();
@@ -101,7 +149,7 @@ class ResultUseCase extends UseCase
             $title = "結果";
             $headers = [
                 'Content-Type' => 'text/csv',
-                'Content-Disposition' => 'attachment; filename=' . $title . '.csv',
+                'Content-Disposition' => 'attachment; filename=' . $result->title . '.csv',
                 'Pragma' => 'no-cache',
                 'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
                 'Expires' => '0'
@@ -142,13 +190,15 @@ class ResultUseCase extends UseCase
                 }
                 fclose($createCsvFile);
             };
-            return [$callback, $headers];
+
         }
-
-
+        return [$callback, $headers];
     }
+
     public function exportRawCSV(int $resultId)
     {
+        $callback = null;
+        $headers = null;
         $result = DB::table('results')
             ->where("id", $resultId)
             ->first();
@@ -180,7 +230,7 @@ class ResultUseCase extends UseCase
             $title = "結果";
             $headers = [
                 'Content-Type' => 'text/csv',
-                'Content-Disposition' => 'attachment; filename=' . $title . '.csv',
+                'Content-Disposition' => 'attachment; filename=' . $result->title . '_raw.csv',
                 'Pragma' => 'no-cache',
                 'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
                 'Expires' => '0'
@@ -207,7 +257,7 @@ class ResultUseCase extends UseCase
                             ->where("result_id", $result->id)
                             ->first();
                         if (!empty($answer)) {
-                                $csv[] = $answer->answer_text;
+                            $csv[] = $answer->answer_text;
                         }
 
 
@@ -217,9 +267,9 @@ class ResultUseCase extends UseCase
                 }
                 fclose($createCsvFile);
             };
-            return [$callback, $headers];
-        }
 
+        }
+        return [$callback, $headers];
 
     }
 }
