@@ -38,14 +38,36 @@ class ImportController extends Controller
         return view('import.index');
     }
 
-    function import_raw()
-    {
-        return view('import.import_raw');
-    }
 
     function import()
     {
         return view('import.import');
+    }
+
+    function import_csv(QuestionFileRequest $request)
+    {
+        $filepath = $request->file('import_file')->getRealPath();
+        if (($handle = fopen($filepath, "r")) !== false) {
+            // ファイルポインタから行を取得
+            $num = 0;
+            while (($line = fgetcsv($handle, 65535000, ",")) !== false) {
+                if ($num !== 0) {
+                    $c = DB::table('questions')->select(['id'])
+                        ->where('text', $line[4])->first();
+                    if (!empty($c)) {
+                        DB::table('questions')->where('id', $c->id)->update(['quiz_id' => $line[2]]);
+                        echo "QurinID" . $c->id . "とQuizID" . $line[2] . "の紐付けに成功しました。<br>";
+                    }
+                }
+                $num++;
+            }
+            fclose($handle);
+        }
+        //var_dump($records);
+    }
+    function import_raw()
+    {
+        return view('import.import_raw');
     }
 
     function import_raw_csv(QuestionFileRequest $request)
@@ -54,7 +76,7 @@ class ImportController extends Controller
         if (($handle = fopen($filepath, "r")) !== false) {
             // ファイルポインタから行を取得
             $num = 0;
-            while (($line = fgetcsv($handle, 100000, ",")) !== false) {
+            while (($line = fgetcsv($handle, 65535000, ",")) !== false) {
                 if ($num !== 0) {
 
                     $c = DB::table('questions')->select(['id'])
@@ -107,28 +129,6 @@ class ImportController extends Controller
         //var_dump($records);
     }
 
-    function import_csv(QuestionFileRequest $request)
-    {
-        $filepath = $request->file('import_file')->getRealPath();
-        if (($handle = fopen($filepath, "r")) !== false) {
-            // ファイルポインタから行を取得
-            $num = 0;
-            while (($line = fgetcsv($handle, 1000, ",")) !== false) {
-                if ($num !== 0) {
-                    $c = DB::table('questions')->select(['id'])
-                        ->where('text', $line[4])->first();
-                    if (!empty($c)) {
-                        DB::table('questions')->where('id', $c->id)->update(['quiz_id' => $line[2]]);
-                        echo "QurinID" . $c->id . "とQuizID" . $line[2] . "の紐付けに成功しました。<br>";
-                    }
-                }
-                $num++;
-            }
-            fclose($handle);
-        }
-        //var_dump($records);
-    }
-
     function modify_import()
     {
         return view('import.modify_import'
@@ -141,7 +141,7 @@ class ImportController extends Controller
         if (($handle = fopen($filepath, "r")) !== false) {
             // ファイルポインタから行を取得
             $num = 0;
-            while (($line = fgetcsv($handle, 1000, ",")) !== false) {
+            while (($line = fgetcsv($handle, 65535000, ",")) !== false) {
                 if ($num !== 0) {
                     $c = DB::table('questions')->select([
                         'id',
@@ -205,7 +205,7 @@ class ImportController extends Controller
         if (($handle = fopen($filepath, "r")) !== false) {
             // ファイルポインタから行を取得
             $num = 0;
-            while (($line = fgetcsv($handle, 1000, ",")) !== false) {
+            while (($line = fgetcsv($handle, 65535000, ",")) !== false) {
 
                 if ($num !== 0 && !empty($line[0]) && is_numeric($line[0])) {
                     //print_r($line);
@@ -287,7 +287,7 @@ class ImportController extends Controller
         if (($handle = fopen($filepath, "r")) !== false) {
             // ファイルポインタから行を取得
             $num = 0;
-            while (($line = fgetcsv($handle, 1000, ",")) !== false) {
+            while (($line = fgetcsv($handle, 65535000, ",")) !== false) {
                 $c = DB::table('questions')->select(['id'])
                     ->where('id', $line[0])->first();
                 if ($num !== 0 && !empty($line[0]) && is_numeric($line[0])) {
@@ -311,7 +311,7 @@ class ImportController extends Controller
         if (($handle = fopen($filepath, "r")) !== false) {
             // ファイルポインタから行を取得
             $num = 0;
-            while (($line = fgetcsv($handle, 1000, ",")) !== false) {
+            while (($line = fgetcsv($handle, 65535000, ",")) !== false) {
                 $c = DB::table('questions')->select(['id'])
                     ->where('id', $line[0])->first();
                 if ($num !== 0 && !empty($line[1]) && is_numeric($line[0])) {
