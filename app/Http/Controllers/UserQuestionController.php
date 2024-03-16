@@ -13,17 +13,21 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use JetBrains\PhpStorm\Pure;
+use App\UseCases\ExaminationUseCase;
 
 class UserQuestionController extends Controller
 {
     public CategoryUseCase $categoryUC;
     public QuestionUseCase $questionUC;
     protected SectionUseCase $sectionUC;
+    protected ExaminationUseCase $examinationUC;
+
     #[Pure] public function __construct()
     {
         $this->categoryUC = new CategoryUseCase();
         $this->questionUC = new QuestionUseCase();
         $this->sectionUC = new SectionUseCase();
+        $this->examinationUC = new ExaminationUseCase();
     }
 
     /**
@@ -44,9 +48,9 @@ class UserQuestionController extends Controller
         $s_categories = $this->categoryUC->getSecondaryAllCategories();
         $categories = $this->categoryUC->getSimpleCategories();
         $user_question = $this->questionUC->getUserQuestion($id);
-        $sections =$this->sectionUC->getList();
+        $sections = $this->sectionUC->getList();
         return view('userquestion.edit',
-            compact('user_question','p_categories', 's_categories', 'categories','sections')
+            compact('user_question', 'p_categories', 's_categories', 'categories', 'sections')
         );
     }
 
@@ -56,7 +60,7 @@ class UserQuestionController extends Controller
     public function update(QuestionRequest $request, int $id): RedirectResponse
     {
         $status = $this->questionUC->updateUserQuestion($request, $id);
-        $this->questionUC->updateUserQuestionImage($request,$id);
+        $this->questionUC->updateUserQuestionImage($request, $id);
         return Redirect::route('userquestion.index')->with('status', $status);
     }
 
@@ -65,8 +69,10 @@ class UserQuestionController extends Controller
         $p_categories = $this->categoryUC->getPrimaryCategories();
         $s_categories = $this->categoryUC->getSecondaryAllCategories();
         $categories = $this->categoryUC->getSimpleCategories();
-        $sections =$this->sectionUC->getList();
-        return view('userquestion.create', compact('p_categories', 's_categories', 'categories','sections'));
+        $sections = $this->sectionUC->getList();
+        $examinations = $this->examinationUC->getList();
+        return view('userquestion.create',
+            compact('p_categories', 's_categories', 'categories', 'sections', 'examinations'));
     }
 
     public function store(QuestionRequest $request)
@@ -74,6 +80,7 @@ class UserQuestionController extends Controller
         $status = $this->questionUC->addUserQuestion($request);
         return Redirect::route('userquestion.index')->with('status', $status);//
     }
+
     /**
      * Remove the specified resource from storage.
      */

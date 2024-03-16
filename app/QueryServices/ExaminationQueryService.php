@@ -3,17 +3,21 @@
 namespace App\QueryServices;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Models\Examination;
 use Intervention\Image\Exception\NotFoundException;
 
+
 class ExaminationQueryService extends QueryService
 {
     protected Examination $examination;
+
     public function __construct()
     {
         $this->examination = new Examination;
     }
+
     public function getPaginate(Request $request): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         $query = $this->examination->query();
@@ -34,15 +38,33 @@ class ExaminationQueryService extends QueryService
         };
         return $query->paginate($perpage);
     }
-    public function get($id){
+
+    public function get($id)
+    {
         try {
             return $this->examination::findOrFail($id);
-        }catch(NotFoundException $e){
+        } catch (NotFoundException $e) {
             return response()->json(['message' => 'User not found'], 404);
         }
     }
-    public function getExaminations(){
+
+    public function getList(): Collection
+    {
+        return $this->examination->get()->pluck('title', 'id');
+    }
+
+    public function getData()
+    {
         return $this->examination->get();
+    }
+
+    public function getGptString($examinationId)
+    {
+        $examination = $this->examination
+            ->select('gpt_prompt')
+            ->where('id', $examinationId)
+            ->first();
+        return $examination['gpt_prompt'];
     }
 
 

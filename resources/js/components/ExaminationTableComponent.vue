@@ -3,12 +3,11 @@
         <thead
             class="p-10 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr class="border-b-2 border-gray-500">
-                <th class="w-20">Qurin Examination ID<br>Examination ID</th>
+                <th class="w-20">Examination ID</th>
                 <th>試験タイトル</th>
-                <th>作成者</th>
-                <th>関連問題数</th>
-                <th>作成時間<br>更新時間</th>
-                <th>編集</th>
+                <th>概要</th>
+                <th class="w-30">作成時間<br>更新時間</th>
+                <th class="w-10">編集</th>
             </tr>
         </thead>
         <!--<tr v-for="(item, index) in items" :key="index" class="border-b border-gray-500 text-sm">-->
@@ -18,24 +17,11 @@
                     <td class="w-20">
                         {{ element.id }}
                     </td>
-                    <td>{{ element.topic }}
-                        <!--<ul v-if="item.showChildren">
-                            <li v-for="(child, childIndex) in item.children" :key="childIndex">
-                                {{ child.topic }}
-                            </li>
-                        </ul>-->
-                        <!--
-                        <ul v-if="activeChildIndex === index">
-                            <li v-for="(child, childIndex) in item.children" :key="childIndex">
-                                {{ child.name }}
-                            </li>
-                        </ul>-->
+                    <td>
+                        {{ element.title }}
                     </td>
                     <td>
-                        {{ element.user_id }}
-                    </td>
-                    <td>
-                        {{ element.text }}
+                        {{ element.topic }}
                     </td>
                     <td>
                         <p>{{ element.created_at }}</p>

@@ -8,12 +8,15 @@ use App\Http\Requests\CategorySecondaryRequest;
 use App\Models\Category;
 use App\Models\CategoryPrimary;
 use App\Models\CategorySecondary;
+use App\QueryServices\CategoryQueryService;
 use App\UseCases\UseCase;
 
 class CategoryUseCase extends UseCase
 {
     public Category $category;
-
+    protected CategoryPrimary $category_primary;
+    protected CategorySecondary $category_secondary;
+    public CategoryQueryService $categoryQS;
     public function __construct()
     {
         $this->category = new Category;
@@ -119,31 +122,13 @@ class CategoryUseCase extends UseCase
 
     function getDetail(int $id)
     {
-        return $this->category->select([
-            'p.name as p_name',
-            's.name as s_name',
-            'c.name as name',
-            'c.id as id',
-            'p.id as p_id',
-            's.id as s_id',
-            'c.order as order',
-            'c.code as code',
-            'p.code as p_code',
-            's.code as s_code',
-            'c.updated_at as updated_at',
-            'c.created_at as created_at',
-        ])->from('categories as c')->rightJoin('secondary_categories as s', function ($join) {
-            $join->on('c.secondary_id', '=', 's.id');
-            $join->rightJoin('primary_categories as p', function ($join) {
-                $join->on('s.primary_id', '=', 'p.id');
-            });
-        })->where('c.id', $id)->firstOrFail();
+        return $this->categoryQS->getDetail($id);
     }
 
     public function getGptQuery(int $id): array|string
     {
         $category_array = $this->getDetail($id);
-        if (env('APP_COM_NAME') == "dlp") {
+        if (env('APP_COM_NAME') === "dlp") {
             $str = "デジタルライフプランナー検定試験問題を作成しています。
 
 テキストも参照し、指定した知識スキル体系の大中小分類のコンピテンシーを測定するための問題を10問作ってください。

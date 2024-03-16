@@ -22,7 +22,6 @@
             {{ $examination->id }}
         </div>
 
-
         <div>
             <x-input-label for="title" :value="__('examinations.title')"/>
             <x-text-input id="title" name="title" type="text" class="mt-1 block w-full" autofocus
@@ -38,15 +37,8 @@
         </div>
 
         <div>
-            <x-input-label for="text" :value="__('examinations.text')"/>
-            <x-textarea cols="30" rows="4" id="text" name="text" class="mt-1 block w-full" required autofocus
-                        autocomplete="text">{{old('text', $examination->text)}}</x-textarea>
-            <x-input-error class="mt-2" :messages="$errors->get('text')"/>
-        </div>
-
-        <div>
             <x-input-label for="text" :value="__('examinations.gpt_prompt')"/>
-            <x-textarea cols="30" rows="4" id="text" name="gpt_prompt" class="mt-1 block w-full" required autofocus
+            <x-textarea cols="30" rows="4" id="gpt_prompt" name="gpt_prompt" class="mt-1 block w-full" required autofocus
                         autocomplete="gpt_prompt">{{old('gpt_prompt', $examination->gpt_prompt)}}</x-textarea>
             <x-input-error class="mt-2" :messages="$errors->get('gpt_prompt')"/>
         </div>
@@ -58,12 +50,8 @@
             <x-input-error class="mt-2" :messages="$errors->get('explanation')"/>
         </div>
 
-        <x-primary-button class="ml-3">
-            {{ __('TemporarySave') }}
-        </x-primary-button>
-
         <x-danger-button class="ml-3" x-on:click="$dispatch('close')">
-            {{ __('Save') }}
+            {{ __('Update') }}
         </x-danger-button>
     </form>
 </section>

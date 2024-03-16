@@ -55,6 +55,7 @@
             <x-input-error class="mt-2" :messages="$errors->get('secondary_id')" />
             <x-input-error class="mt-2" :messages="$errors->get('category_id')" />
         </div>
+
         <div>
             <x-input-label for="categoryGPT" value="GPTクエリ"/>
             <div class="relative w-full flex flex-wrap items-stretch">

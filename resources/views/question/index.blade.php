@@ -110,9 +110,9 @@
                             <th>{{ __('categories.category_s')}}</th>
                             <th>{{ __('categories.category')}}</th>
                             <th>試験問題（要約）</th>
-                            <th>問題作成者</th>
-                            <th>作成時間<br>更新時間</th>
-                            <th>編集</th>
+                            <th class="w-30">問題作成者</th>
+                            <th class="w-40">作成時間<br>更新時間</th>
+                            <th class="w-10">編集</th>
                         </tr>
                         </thead>
                         <tbody class="text-md">

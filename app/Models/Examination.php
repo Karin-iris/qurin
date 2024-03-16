@@ -16,7 +16,9 @@ class Examination extends Model
      */
     protected $fillable = [
         'title',
-        'topic'
+        'topic',
+        'gpt_prompt',
+        'explanation'
     ];
 
     protected $casts = [
