@@ -1,3 +1,8 @@
+@section('page-vite')
+    @vite(['resources/js/category.js',
+'resources/js/searchIdQuestionText.js'
+])
+@endsection
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">

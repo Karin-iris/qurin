@@ -8,17 +8,28 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
-<form method="post" action="{{ route('import.import_result_csv') }}" enctype="multipart/form-data">
-    @csrf
-    @method('put')
-    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload file</label>
-    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" name="import_file" id="file_input" type="file">
-    <x-primary-button class="ml-3">
-        {{ __('TemporarySave') }}
-    </x-primary-button>
-</form>
-    </div>
-    </div>
-    </div>
+                    <form method="post" action="{{ route('import.import_result_csv') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
+                        @csrf
+                        @method('put')
+                        <div>
+                            <x-input-label for="title" :value="__('questions.title')" />
+                            <x-text-input id="title" name="title" type="text" class="mt-1 block w-full" autofocus
+                                          autocomplete="title" :value="old('title')"/>
+                            <x-input-error class="mt-2" :messages="$errors->get('question_id')"/>
+                        </div>
+
+                        <div>
+                            <x-input-label for="file_input" :value="__('questions.file_input')" />
+                            <input  class="mt-1 block w-full" name="import_file" id="file_input" type="file">
+                            <x-input-error class="mt-2" :messages="$errors->get('file_input')"/>
+                        </div>
+
+                        <x-primary-button class="ml-3">
+                            {{ __('TemporarySave') }}
+                        </x-primary-button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </x-admin-layout>

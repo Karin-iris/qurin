@@ -9,6 +9,8 @@ use App\Models\AnswerQuestion;
 use App\Models\Answer;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use App\DataTransferObjects\DataTransferObject;
 
 class ResultRepository extends Repository
 {
@@ -22,14 +24,19 @@ class ResultRepository extends Repository
         $this->answer_question = new AnswerQuestion;
         $this->answer = new Answer;
     }
-
+    function insertGetId($title){
+        $id = $this->result->insertGetId([
+            'title' => $title,
+            'created_at' => Carbon::now()
+        ]);
+        return $id;
+    }
     function updateFailedQuestion(Request $request, int $id)
     {
         try {
              $this->answer_question::find($id)->fill([
                 'question_id' => $request->input('question_id'),
             ])->save();
-
             return "updated";
         } catch (QueryException $e) {
             // データベースエラーの場合、例外メッセージを返す
@@ -39,11 +46,12 @@ class ResultRepository extends Repository
             return "error";
         }
     }
-    function updateFailedAnswer(Request $request, int $id)
+    function updateFailedAnswer(Array $paramArray, int $id)
     {
         try {
+            $answer_num = $paramArray['answer_num'];
             $this->answer::find($id)->fill([
-                'answer_num' => $request->input('answer_num'),
+                'answer_num' => $answer_num,
             ])->save();
             return "updated";
         } catch (QueryException $e) {
@@ -54,12 +62,12 @@ class ResultRepository extends Repository
             return "error";
         }
     }
-    public function updateFailedAnswers(int $result_id,String $answer_text,int $answer_num){
+    public function updateFailedAnswers(Array $paramArray){
         try {
             DB::table('answers')
-                ->where('answer_text', $answer_text/*$request->input('answer_text')*/)
-                ->where('result_id', $result_id/*$request->input('result_id')*/)
-                ->update(['answer_num' => $answer_num/*$request->input('answer_num')*/]);
+                ->where('answer_text', $paramArray['answer_text'])
+                ->where('result_id', $paramArray['result_id'])
+                ->update(['answer_num' => $paramArray['answer_num']]);
             return "updated";
         } catch (QueryException $e) {
             // データベースエラーの場合、例外メッセージを返す

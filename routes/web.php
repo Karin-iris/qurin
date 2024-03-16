@@ -7,6 +7,7 @@ use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\ResultController;
 use App\Http\Controllers\UserSectionController;
 use App\Http\Controllers\UserQuestionController;
 use App\Http\Controllers\UserController;
@@ -139,7 +140,10 @@ Route::middleware(['auth:admin', 'mfa'])->group(function () {
         Route::get('/export/a_edit/{resultId}/{id}', 'edit_a')->name('export.edit_a');
         Route::put('/export/a_update/{resultId}/{id}', 'update_a')->name('export.update_a');
     });
-
+    Route::controller(ResultController::class)->group(function () {
+        Route::get('/result/a_q_index/{resultId}', 'index_a_q')->name('result.index_a_q');
+        Route::get('/result/a_s_index/{resultId}', 'index_a_s')->name('result.index_a_s');
+    });
     Route::controller(CategoryController::class)->group(function () {
         Route::get('/category', 'index')->name('category.index');
         Route::get('/category/edit/{id}', 'edit')->name('category.edit');

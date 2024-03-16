@@ -1,5 +1,7 @@
 @section('page-vite')
-    @vite(['resources/js/category.js'])
+    @vite(['resources/js/category.js',
+'resources/js/searchIdQuestionText.js'
+])
 @endsection
 
 <section>
@@ -67,6 +69,11 @@
             <x-text-input id="topic" name="topic" type="text" class="mt-1 block w-full" autofocus
                           autocomplete="name" :value="old('topic')" />
             <x-input-error class="mt-2" :messages="$errors->get('name')"/>
+        </div>
+
+        <div id="search-id-text-app">
+            <x-input-label for="name" :value="__('questions.simillarsearch')"/>
+            <search-id-question-component></search-id-question-component>
         </div>
 
         <div>

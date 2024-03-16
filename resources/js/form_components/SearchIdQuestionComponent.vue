@@ -1,7 +1,7 @@
 <template>
     <div>
         <input type="text" v-model="searchQuery" placeholder="IDを入力" @input="fetchSuggestions">
-        <input type="text" v-model="searchTextQuery" placeholder="問題文を入力" @input="fetchSuggestions">
+        <input type="text" v-model="searchTextQuery" placeholder="問題文の一部を入力" @input="fetchSuggestions">
         <ul v-if="suggestions.length">
             <li v-for="suggestion in suggestions" :key="suggestion.id">[{{ suggestion.id }}]{{ suggestion.text }}</li>
         </ul>

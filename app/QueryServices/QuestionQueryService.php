@@ -167,7 +167,7 @@ class QuestionQueryService extends QueryService
         return $query->paginate($perpage);
     }
 
-    public function getQuestions(SearchRequest $request)
+    public function getQuestions($request)
     {
         $query = $this->question->select(
             [
