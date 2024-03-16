@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class ResultController extends Controller
 {
+    public ResultUseCase $resultUC;
     public function __construct()
     {
         $this->resultUC = new ResultUseCase();

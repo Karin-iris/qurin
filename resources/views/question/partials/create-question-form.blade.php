@@ -103,7 +103,7 @@
         </x-primary-button>
 
         <x-danger-button class="ml-3">
-            {{ __('Submit') }}
+            {{ __('Create') }}
         </x-danger-button>
     </form>
 </section>

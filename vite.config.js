@@ -22,6 +22,7 @@ export default defineConfig({
                 'resources/js/levelCheckbox.js',
                 'resources/js/sectionSelect.js',
                 'resources/js/mySectionTable.js',
+                'resources/js/gptPromptText.js',
                 'resources/js/searchIdQuestionText.js'
             ],
             refresh: true,

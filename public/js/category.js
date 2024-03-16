@@ -9,7 +9,6 @@ function pCategoryChange() {
             url: "/api/category/get_secondaries/" + p_id,
             dataType: "json"
         }).done(function (data) {
-            var str = "";
             $('#sCategorySelect').append("<option value=''></option>");
             $.map(data, function (element, index) {
                 var selected = '';

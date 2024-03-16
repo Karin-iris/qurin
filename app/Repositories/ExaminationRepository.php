@@ -20,18 +20,16 @@ class ExaminationRepository extends Repository
     public function add(ExaminationRequest $request)
     {
         try {
-            // ユーザーの作成
             $user = $this->examination::create([
                 'title' => $request->input('title'),
-                'topic' => $request->input('topic')
+                'topic' => $request->input('topic'),
+                'gpt_prompt' => $request->input('gpt_prompt'),
+                'explanation' => $request->input('explanation')
             ]);
             return "saved";
-            //response()->json(['user' => $user], 201);
         } catch (QueryException $e) {
             // データベースエラーの場合、例外メッセージを返す
-            Log::error("An error occurred in updateQuestion: " . $e->getMessage());
-
-            // エラーをユーザーに通知するためのステータス
+            Log::error("An error occurred in createQuestion: " . $e->getMessage());
             return "error";
         }
     }
@@ -39,17 +37,16 @@ class ExaminationRepository extends Repository
     public function update(ExaminationRequest $request, int $id)
     {
         try {
-            // ユーザーの作成
             $user = $this->examination::find($id)->fill([
                 'title' => $request->input('title'),
-                'topic' => $request->input('topic')
+                'topic' => $request->input('topic'),
+                'gpt_prompt' => $request->input('gpt_prompt'),
+                'explanation' => $request->input('explanation'),
             ])->save();
             return "updated";
         } catch (QueryException $e) {
             // データベースエラーの場合、例外メッセージを返す
             Log::error("An error occurred in updateQuestion: " . $e->getMessage());
-
-            // エラーをユーザーに通知するためのステータス
             return "error";
         }
     }

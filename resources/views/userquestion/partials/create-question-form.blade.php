@@ -1,6 +1,5 @@
 @section('page-vite')
-    @vite(['resources/js/category.js',
-'resources/js/searchIdQuestionText.js'
+    @vite(['resources/js/category.js'
 ])
 @endsection
 
@@ -28,7 +27,6 @@
     <form method="post" action="{{ route('userquestion.store') }}" class="mt-6 space-y-6">
         @csrf
         @method('post')
-
 
         <div>
             <x-input-label for="section_id" :value="__('questions.section_id')"/>
@@ -69,11 +67,6 @@
             <x-text-input id="topic" name="topic" type="text" class="mt-1 block w-full" autofocus
                           autocomplete="name" :value="old('topic')" />
             <x-input-error class="mt-2" :messages="$errors->get('name')"/>
-        </div>
-
-        <div id="search-id-text-app">
-            <x-input-label for="name" :value="__('questions.simillarsearch')"/>
-            <search-id-question-component></search-id-question-component>
         </div>
 
         <div>

@@ -99,17 +99,19 @@ class ResultUseCase extends UseCase
                 ->where('id', $request->input('question_id'))
                 ->first();
             $answer_num = NULL;
-            if ($answer->answer_text == $question_row->correct_choice) {
-                $answer_num = 1;
-            }
-            if ($answer->answer_text == $question_row->wrong_choice_1) {
-                $answer_num = 2;
-            }
-            if ($answer->answer_text == $question_row->wrong_choice_2) {
-                $answer_num = 3;
-            }
-            if ($answer->answer_text == $question_row->wrong_choice_3) {
-                $answer_num = 4;
+            if(!empty($question_row)) {
+                if ($answer->answer_text == $question_row->correct_choice) {
+                    $answer_num = 1;
+                }
+                if ($answer->answer_text == $question_row->wrong_choice_1) {
+                    $answer_num = 2;
+                }
+                if ($answer->answer_text == $question_row->wrong_choice_2) {
+                    $answer_num = 3;
+                }
+                if ($answer->answer_text == $question_row->wrong_choice_3) {
+                    $answer_num = 4;
+                }
             }
             $paramArray = array(
                 'answer_num' => $answer_num,
@@ -125,8 +127,7 @@ class ResultUseCase extends UseCase
         $paramArray = array(
             'answer_num' => $request->input('answer_num'),
         );
-        $status = $this->resultR->updateFailedAnswer($paramArray, $id);
-        return $status;
+        return $this->resultR->updateFailedAnswer($paramArray, $id);
     }
 
     public function updateFailedAnswers(Request $request): string
@@ -181,7 +182,7 @@ class ResultUseCase extends UseCase
                 'Expires' => '0'
             ];
             $callback = function () use ($questions, $columns, $columns_j, $result) {
-                $createCsvFile = fopen('php://output', 'w');
+                $createCsvFile = fopen('php://output', 'wb');
 
                 mb_convert_variables('SJIS-win', 'UTF-8', $columns_j);
                 mb_convert_variables('SJIS-win', 'UTF-8', $columns);
@@ -202,7 +203,7 @@ class ResultUseCase extends UseCase
                             ->where("result_id", $result->id)
                             ->first();
                         if (!empty($answer)) {
-                            if (isset($answer->answer_num)) {
+                            if ($answer->answer_num) {
                                 $csv[] = $answer->answer_num;
                             } else {
                                 $csv[] = $answer->answer_text;
@@ -262,7 +263,7 @@ class ResultUseCase extends UseCase
                 'Expires' => '0'
             ];
             $callback = function () use ($questions, $columns, $columns_j, $result) {
-                $createCsvFile = fopen('php://output', 'w');
+                $createCsvFile = fopen('php://output', 'wb');
 
                 mb_convert_variables('SJIS-win', 'UTF-8', $columns_j);
                 mb_convert_variables('SJIS-win', 'UTF-8', $columns);
