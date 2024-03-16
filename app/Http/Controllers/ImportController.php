@@ -430,20 +430,15 @@ class ImportController extends Controller
                                 if($correct_percent > 90){
                                     $answer_num = 1;
                                 }
-                                similar_text($data[$i],$question_row->wrong_choice_1,$wrong_choice_1_percent);
-                                if($wrong_choice_1_percent > 90){
+                                if($data[$i] == $question_row->wrong_choice_1){
                                     $answer_num = 2;
                                 }
-                                similar_text($data[$i],$question_row->wrong_choice_2,$wrong_choice_2_percent);
-                                if($wrong_choice_2_percent > 90){
+                                if($data[$i] == $question_row->wrong_choice_2){
                                     $answer_num = 3;
                                 }
-                                similar_text($data[$i],$question_row->wrong_choice_3,$wrong_choice_3_percent);
-                                if($wrong_choice_3_percent > 90){
+                                if($data[$i] == $question_row->wrong_choice_3){
                                     $answer_num = 4;
                                 }
-
-
                             }
 
                             DB::table('answers')->insert([

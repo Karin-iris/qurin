@@ -45,6 +45,13 @@
         </div>
 
         <div>
+            <x-input-label for="text" :value="__('examinations.gpt_prompt')"/>
+            <x-textarea cols="30" rows="4" id="text" name="gpt_prompt" class="mt-1 block w-full" required autofocus
+                        autocomplete="gpt_prompt">{{old('gpt_prompt', $examination->gpt_prompt)}}</x-textarea>
+            <x-input-error class="mt-2" :messages="$errors->get('gpt_prompt')"/>
+        </div>
+
+        <div>
             <x-input-label for="name" :value="__('examinations.explanation')"/>
             <x-textarea cols="30" rows="8" id="explanation" name="explanation" class="mt-1 block w-full" required autofocus
                         autocomplete="explanation">{{old('explanation', $examination->explanation)}}</x-textarea>
