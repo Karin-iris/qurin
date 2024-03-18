@@ -27,12 +27,37 @@ class ResultUseCase extends UseCase
         return $this->resultQS->get();
 
     }
-    public function getQuestionData(int $resultId,Request $request){
+
+    public function getQuestionData(int $resultId, Request $request)
+    {
         return $this->resultQS->getQuestionData($resultId);
     }
-    public function getStudentData(int $resultId,Request $request){
+
+    public function getStudentData(int $resultId, Request $request)
+    {
         return $this->resultQS->getStudentData($resultId);
     }
+
+    public function getQurinQuestionData(Request $request)
+    {
+        return $this->resultQS->getQurinQuestionData();
+    }
+
+    public function getQurinQuestion(int $questionId, Request $request)
+    {
+        return $this->resultQS->getQurinQuestion($questionId);
+    }
+
+    public function getStudentResultData(Request $request)
+    {
+        return $this->resultQS->getStudentResultData();
+    }
+
+    public function getStudentResult(int $studentId, Request $request)
+    {
+        return $this->resultQS->getStudentResult($studentId);
+    }
+
     public function getFailedQuestionData(int $resultId)
     {
         return $this->resultQS->getFailedQuestionData($resultId);
@@ -42,6 +67,7 @@ class ResultUseCase extends UseCase
     {
         return $this->resultQS->getFailedAnswerData($resultId);
     }
+
 
     public function getFailedQuestion(int $questionId)
     {

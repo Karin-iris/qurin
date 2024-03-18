@@ -143,6 +143,10 @@ Route::middleware(['auth:admin', 'mfa'])->group(function () {
     Route::controller(ResultController::class)->group(function () {
         Route::get('/result/a_q_index/{resultId}', 'index_a_q')->name('result.index_a_q');
         Route::get('/result/a_s_index/{resultId}', 'index_a_s')->name('result.index_a_s');
+        Route::get('/result/q_index', 'index_q')->name('result.index_q');
+        Route::get('/result/q_view/{questionId}', 'view_q')->name('result.view_q');
+        Route::get('/result/s_index', 'index_s')->name('result.index_s');
+        Route::get('/result/s_view/{studentId}', 'view_s')->name('result.view_s');
     });
     Route::controller(CategoryController::class)->group(function () {
         Route::get('/category', 'index')->name('category.index');
