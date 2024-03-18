@@ -120,14 +120,14 @@ class CategoryUseCase extends UseCase
             ->get();
     }
 
-    function getDetail(int $id)
+    function getDetail(int $id): Array
     {
         return $this->categoryQS->getDetail($id);
     }
 
     public function getGptQuery(int $id): array|string
     {
-        $category_array = $this->getDetail($id);
+
         if (env('APP_COM_NAME') === "dlp") {
             $str = "デジタルライフプランナー検定試験問題を作成しています。
 
@@ -152,7 +152,7 @@ class CategoryUseCase extends UseCase
 選択肢は20文字〜長くても40文字程度。正答と誤答の理由も記述してください。
 問題文は、「次のうち最も適切なものはどれですか。」という形で、最適な手順や行動を問う選択肢として、5問生成してください。";
         }
-
+        $category_array = $this->getDetail($id);
         $str = str_replace('[p_name]', $category_array['p_name'], $str);
         $str = str_replace('[s_name]', $category_array['s_name'], $str);
         return str_replace('[c_name]', $category_array['name'], $str);
@@ -160,7 +160,7 @@ class CategoryUseCase extends UseCase
 
     public function getGptQuery2(int $id): array|string
     {
-        $category_array = $this->getDetail($id);
+
         $str = "デジタル時代の顧客接点に携わる人を認定する検定試験の試験問題制作者として、
 （[p_name]・[s_name]・[c_name]）
 で、
@@ -169,7 +169,7 @@ class CategoryUseCase extends UseCase
 （業務内容）
 に従事する担当者が直面する業務上の課題に対する行動について考えさせる問題を作ってください。（200文字〜300文字）程度の問題文と4つの選択肢から1つの正答を選ぶ形式です。（200文字）程度の問題文と4つの選択肢から1つの正答を選ぶ形式です。 選択肢は20文字〜長くても40文字程度。正答と誤答の理由も記述してください。 問題文は、「次のうち最も適切なものはどれですか。」という形で、最適な手順や行動を問う選択肢として、3問生成してください。
 ";
-
+        $category_array = $this->getDetail($id);
         $str = str_replace('[p_name]', $category_array['p_name'], $str);
         $str = str_replace('[s_name]', $category_array['s_name'], $str);
         return str_replace('[c_name]', $category_array['name'], $str);
