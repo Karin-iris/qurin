@@ -13,10 +13,9 @@ use App\QueryServices\QuestionQueryService;
 use App\Repositories\QuestionRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
 
 class QuestionUseCase extends UseCase
 {
@@ -416,6 +415,22 @@ class QuestionUseCase extends UseCase
                     '分析用ID'
                 );
                 break;
+            case "raw":
+                $title = "試験問題詳細リスト";
+                $columns = array(
+                    'QurinID',
+                    'QuizID',
+                    'SectionID',
+                    '',
+                    '分類コード',
+                    'コンピテンシー',
+                    '正答選択肢',
+                    '誤答選択肢１',
+                    '誤答選択肢２',
+                    '誤答選択肢３',
+                    '解説'
+                );
+                break;
             case "syosai":
                 $title = "試験問題詳細リスト";
                 $columns = array(
@@ -566,6 +581,22 @@ class QuestionUseCase extends UseCase
                         $question->explanation
                     ];
                 }
+                if ($csv_name == "raw") {
+                    $csv = [
+                        $question->id,
+                        $question->quiz_id,
+                        $question->section_id,
+                        '',
+                        $question->p_c_code . $question->s_c_code . $question->c_code,
+                        $question->compitency,
+                        $question->text,
+                        str_replace(array("\r\n", "\r", "\n"), '', $question->correct_choice),
+                        str_replace(array("\r\n", "\r", "\n"), '', $question->wrong_choice_1),
+                        str_replace(array("\r\n", "\r", "\n"), '', $question->wrong_choice_2),
+                        str_replace(array("\r\n", "\r", "\n"), '', $question->wrong_choice_3),
+                        $question->explanation
+                    ];
+                }
                 if ($csv_name == "bunseki") {
                     $csv = [
                         $question->id,
@@ -620,7 +651,6 @@ class QuestionUseCase extends UseCase
         };
         return [$callback, $headers];
     }
-
 
 
     function delQuestion($id)

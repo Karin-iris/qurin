@@ -5,13 +5,10 @@ namespace App\Http\Controllers;
 use App\UseCases\QuestionUseCase;
 use App\UseCases\ResultUseCase;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\View\View;
-use JetBrains\PhpStorm\Pure;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
 
 class ExportController extends Controller
 {
@@ -47,6 +44,13 @@ class ExportController extends Controller
 
     }
 
+    public function csv_raw(Response $response): \Symfony\Component\HttpFoundation\StreamedResponse
+    {
+        [$callback, $headers] = $this->questionUC->exportQuestionCSV('raw');
+        return response()->stream($callback, 200, $headers);
+
+    }
+
     public function csv_learning(Response $response): \Symfony\Component\HttpFoundation\StreamedResponse
     {
         [$callback, $headers] = $this->questionUC->exportQuestionCSV('bunseki');
@@ -78,6 +82,7 @@ class ExportController extends Controller
         [$callback, $headers] = $this->resultUC->exportCSV($id);
         return response()->stream($callback, 200, $headers);
     }
+
     public function csv_raw_result(Response $response, int $id): \Symfony\Component\HttpFoundation\StreamedResponse
     {
         [$callback, $headers] = $this->resultUC->exportRawCSV($id);
