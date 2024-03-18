@@ -75,6 +75,7 @@ class QuestionQueryService extends QueryService
                 'q.quiz_id as quiz_id',
                 'q.text as text',
                 'q.topic as topic',
+                'q.compitency as compitency',
                 'q.explanation as explanation',
                 'q.correct_choice as correct_choice',
                 'q.wrong_choice_1 as wrong_choice_1',
