@@ -20,8 +20,9 @@
                             {{ __('import.list_explain') }}
                         </p>
                     </header>
-
-                    <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                </div>
+            </div>
+                     <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                         <div class="max-w-xl">
                             <header>
                                 <h2 class="text-lg font-medium text-gray-900">

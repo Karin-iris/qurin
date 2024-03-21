@@ -2,6 +2,7 @@
 
 namespace App\UseCases;
 
+use App\Http\Requests\QuestionFileRequest;
 use App\Http\Requests\QuestionRequest;
 use App\Http\Requests\Questions\SearchRequest;
 use App\Mail\QuestionApproveMail;
@@ -13,6 +14,7 @@ use App\QueryServices\QuestionQueryService;
 use App\Repositories\QuestionRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -581,7 +583,7 @@ class QuestionUseCase extends UseCase
                         $question->explanation
                     ];
                 }
-                if ($csv_name == "raw") {
+                if ($csv_name === "raw") {
                     $csv = [
                         $question->id,
                         $question->quiz_id,
@@ -589,15 +591,15 @@ class QuestionUseCase extends UseCase
                         '',
                         $question->p_c_code . $question->s_c_code . $question->c_code,
                         $question->compitency,
-                        $question->text,
+                        str_replace(array("\r\n", "\r", "\n"), '', $question->text),
                         str_replace(array("\r\n", "\r", "\n"), '', $question->correct_choice),
                         str_replace(array("\r\n", "\r", "\n"), '', $question->wrong_choice_1),
                         str_replace(array("\r\n", "\r", "\n"), '', $question->wrong_choice_2),
                         str_replace(array("\r\n", "\r", "\n"), '', $question->wrong_choice_3),
-                        $question->explanation
+                        str_replace(array("\r\n", "\r", "\n"), '', $question->explanation)
                     ];
                 }
-                if ($csv_name == "bunseki") {
+                if ($csv_name === "bunseki") {
                     $csv = [
                         $question->id,
                         $question->quiz_id,
@@ -614,7 +616,7 @@ class QuestionUseCase extends UseCase
                         "a" . sprintf("%04d", $question->id)
                     ];
                 }
-                if ($csv_name == "syosai") {
+                if ($csv_name === "syosai") {
                     $csv = [
                         $question->id,
                         $question->quiz_id,
@@ -631,7 +633,7 @@ class QuestionUseCase extends UseCase
                         $question->c_code,
                     ];
                 }
-                if ($csv_name == "topic") {
+                if ($csv_name === "topic") {
                     $csv = [
                         $question->id,
                         $question->quiz_id,
@@ -652,6 +654,199 @@ class QuestionUseCase extends UseCase
         return [$callback, $headers];
     }
 
+    function importQuestionCSV(QuestionFileRequest $request, $csv_name)
+    {
+        $filepath = $request->file('import_file')->getRealPath();
+        if (($handle = fopen($filepath, "r")) !== false) {
+            // ファイルポインタから行を取得
+            $num = 0;
+            while ($line = fgets($handle) !== false) {
+                $line = mb_convert_encoding($line, 'UTF-8', 'auto');
+                $data = explode(",", $line);
+                if ($csv_name === "quiz_id") {
+                    $c = DB::table('questions')->select(['id'])
+                        ->where('text', $data[4])->first();
+                    if (!empty($c)) {
+                        DB::table('questions')->where('id', $c->id)->update(['quiz_id' => $data[2]]);
+                        echo "QurinID" . $c->id . "とQuizID" . $data[2] . "の紐付けに成功しました。<br>";
+                    }
+                }
+                if ($csv_name === "modify") {
+                    $c = DB::table('questions')->select([
+                        'id',
+                        'text',
+                        'correct_choice',
+                        'wrong_choice_1',
+                        'wrong_choice_2',
+                        'wrong_choice_3'
+                    ])
+                        ->where('quiz_id', $data[2])->first();
+                    if (!empty($c)) {
+                        //print_r($line);
+                        if ($c->text !== $data[4]) {
+                            echo "QurinID" . $c->id . "の問題文<br>" .
+                                "旧" . $c->text . "<br>" .
+                                "新" . $data[4] . "<br>";
+                            DB::table('questions')->where('id', $c->id)->update(['text' => $data[4]]);
+                        }
+                        if ($c->correct_choice !== $data[9]) {
+                            echo "QurinID" . $c->id . "の正解選択肢<br>" .
+                                "旧" . $c->correct_choice . "<br>" .
+                                "新" . $data[9] . "<br>";
+                            DB::table('questions')->where('id', $c->id)->update(['correct_choice' => $data[9]]);
+                        }
+                        if ($c->wrong_choice_1 !== $data[11]) {
+                            echo "QurinID" . $c->id . "の誤答選択肢１<br>" .
+                                "旧" . $c->wrong_choice_1 . "<br>" .
+                                "新" . $line[11] . "<br>";
+                            DB::table('questions')->where('id', $c->id)->update(['wrong_choice_1' => $data[11]]);
+                        }
+                        if ($c->wrong_choice_2 !== $data[13]) {
+                            echo "QurinID" . $c->id . "の誤答選択肢２<br>" .
+                                "旧" . $c->wrong_choice_2 . "<br>" .
+                                "新" . $line[13] . "<br>";
+                            DB::table('questions')->where('id', $c->id)->update(['wrong_choice_2' => $data[13]]);
+                        }
+                        if ($c->wrong_choice_3 !== $data[15]) {
+                            echo "QurinID" . $c->id . "の誤答選択肢３<br>" .
+                                "旧" . $c->wrong_choice_3 . "<br>" .
+                                "新" . $line[15] . "<br>";
+                            DB::table('questions')->where('id', $c->id)->update(['wrong_choice_3' => $line[15]]);
+                        }
+                    }
+                }
+                if ($csv_name == "all") {
+                    if (!empty($data[0]) && is_numeric($data[0])) {
+                        $c = DB::table('questions')->select([
+                            'id',
+                            'quiz_id',
+                            'category_id',
+                            'topic',
+                            'text',
+                            'correct_choice',
+                            'wrong_choice_1',
+                            'wrong_choice_2',
+                            'wrong_choice_3'
+                        ])
+                            ->where('id', $data[0])->first();
+                        //print_r($c);
+                        if (!empty($c)) {
+                            if ($c->text !== $data[3]) {
+                                echo "QurinID" . $c->id . "の問題文<br>" .
+                                    "旧" . $c->text . "<br>" .
+                                    "新" . $data[3] . "<br>";
+                                //DB::table('questions')->where('id', $c->id)->update(['text' => $data[3]]);
+                            }
+                            if ($c->category_id != '999' && !empty($data[8]) && !empty($data[9]) && !empty($data[10])) {
+                                $p = DB::table('categories as c')->select(['c.id'])
+                                    ->leftJoin('secondary_categories as s', 'c.secondary_id', '=', 's.id')
+                                    ->leftJoin('primary_categories as p', 's.primary_id', '=', 'p.id')
+                                    ->where([
+                                        ['p.code', "=", $data[8]],
+                                        ['s.code', "=", sprintf("%02d", $data[9])],
+                                        ['c.code', "=", sprintf("%02d", $data[10])]
+                                    ])
+                                    ->first();
+                                if (!empty($p)) {
+                                    DB::table('questions')->where('id', $c->id)->update(['category_id' => $p->id]);
+                                }
+                            }
+                            if ($c->quiz_id == null) {
+                                if (!empty($data[1])) {
+                                    DB::table('questions')->where('id', $c->id)->update(['quiz_id' => $data[1]]);
+                                }
+                            }
+                            /*}else {
+                                //$this->questionUC->saveTmpQuestion($data[0],$data[3]);
+                                echo $data[0];
+                                DB::table('questions')->insert(['id' => $data[0],
+                                    'text' => $data[3],
+                                    'category_id' => "999",
+                                    'topic' => "",
+                                    'compitency' => "9",
+                                    'user_name' => 'test',
+                                    'correct_choice' => $data[4],
+                                    'wrong_choice_1' => $data[5],
+                                    'wrong_choice_2' => $data[6],
+                                    'wrong_choice_3' => $data[7],
+                                    'explanation' => '',
+                                    'is_request' => 0,
+                                    'is_remand' => 0,
+                                ]);
+                            */
+                        }
+                    }
+                }
+                if ($csv_name == "raw") {
+                    if ($num !== 0) {
+                        if (!empty($data[6])) {
+                            $c = DB::table('questions')->select(['id'])
+                                ->where('text', $data[6])->first();
+                        }
+
+                        if (empty($c) && !empty($data[4])) {
+                            $p_category_id = "";
+                            $s_category_id = "";
+                            $category_id = "999";
+                            $p_category = DB::table('primary_categories')->select(['id'])
+                                ->where('code', substr($data[4], 0, 2))->first();
+                            if ($p_category) {
+                                $p_category_id = $p_category->id;
+                                $s_category = DB::table('secondary_categories')->select(['id'])
+                                    ->where('primary_id', $p_category_id)
+                                    ->where('code', sprintf('%02d', substr($data[4], 2, 1)))
+                                    ->first();
+                                if ($s_category) {
+                                    $s_category_id = $s_category->id;
+                                    $category = DB::table('categories')->select(['id'])
+                                        ->where('secondary_id', $s_category_id)
+                                        ->where('code', sprintf('%02d', substr($data[4], 4, 1)))
+                                        ->first();
+                                    if ($category) {
+                                        $category_id = $category->id;
+                                    }
+                                }
+                            }
+                            DB::table('questions')->insert(
+                                [
+                                    'category_id' => $category_id,
+                                    'topic' => $data[6],
+                                    'text' => $data[6],
+                                    'compitency' => str_replace("レベル", "", $data[5]),
+                                    'correct_choice' => $data[7],
+                                    'wrong_choice_1' => $data[8],
+                                    'wrong_choice_2' => $data[9],
+                                    'wrong_choice_3' => $data[10],
+                                    'explanation' => $data[11],
+                                    'is_approve' => 1
+                                ]
+                            );
+                        }
+                    }
+                }
+                if ($csv_name == "explain") {
+                    $c = DB::table('questions')->select(['id'])
+                        ->where('id', $data[0])->first();
+                    if ($num !== 0 && !empty($data[0]) && is_numeric($data[0])) {
+                        if (!empty($data[3])) {
+                            DB::table('questions')->where('id', $c->id)->update(['explanation' => $data[3]]);
+                        }
+                    }
+                }
+                if ($csv_name == "topic") {
+                    $c = DB::table('questions')->select(['id'])
+                        ->where('id', $data[0])->first();
+                    if ($num !== 0 && !empty($data[1]) && is_numeric($data[0])) {
+                        if (!empty($data[1])) {
+                            DB::table('questions')->where('id', $c->id)->update(['topic' => $data[1]]);
+                        }
+                    }
+                }
+                $num++;
+            }
+            fclose($handle);
+        }
+    }
 
     function delQuestion($id)
     {
