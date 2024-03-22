@@ -178,6 +178,30 @@
                             </button>
                         </div>
                     </div>
+
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="max-w-xl">
+                    <h2 class="text-lg font-medium text-gray-900">
+                        最終結果のインポート
+                    </h2>
+
+                    <p class="mt-1 text-sm text-gray-600">
+                        試験データをインポートして、結果をCSVでエクスポートできるようにします。<br>
+                        [ファイル] S解答形式<br>
+                        <br>
+                        <br>
+                    </p>
+
+                    <p class="mt-1 text-sm text-gray-600">
+
+                    </p>
+
+                    <button type="button"
+                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                            onClick="location.href='{{ route('import.import_finalresult') }}'">結果のインポート
+                    </button>
+                </div>
+            </div>
                 </div>
             </div>
         </div>

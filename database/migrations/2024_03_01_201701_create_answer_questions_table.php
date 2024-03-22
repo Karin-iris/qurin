@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('question_id')->nullable();
             $table->text('text');
             $table->integer('order');
+            $table->boolean('is_dummy')->default('0');
             $table->timestamps();
         }); //
     }

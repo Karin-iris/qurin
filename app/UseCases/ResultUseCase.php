@@ -28,6 +28,11 @@ class ResultUseCase extends UseCase
 
     }
 
+    public function getSummary()
+    {
+        return array();
+    }
+
     public function getQuestionData(int $resultId, Request $request)
     {
         return $this->resultQS->getQuestionData($resultId);
@@ -58,6 +63,10 @@ class ResultUseCase extends UseCase
         return $this->resultQS->getStudentResult($studentId);
     }
 
+    public function getStudent(int $studentId,int $resultId)
+    {
+        return $this->resultQS->getStudent($studentId,$resultId);
+    }
     public function getFailedQuestionData(int $resultId)
     {
         return $this->resultQS->getFailedQuestionData($resultId);
@@ -99,7 +108,7 @@ class ResultUseCase extends UseCase
                 ->where('id', $request->input('question_id'))
                 ->first();
             $answer_num = NULL;
-            if(!empty($question_row)) {
+            if (!empty($question_row)) {
                 if ($answer->answer_text == $question_row->correct_choice) {
                     $answer_num = 1;
                 }
@@ -298,5 +307,19 @@ class ResultUseCase extends UseCase
         }
         return [$callback, $headers];
 
+    }
+
+    public function updateQuestionsDummy(Request $request)
+    {
+        foreach ($request->input('questions') as $key => $value) {
+            $this->resultR->updateQuestionsDummy($key, $value);
+        }
+    }
+
+    public function updateStudentsDummy(Request $request)
+    {
+        foreach ($request->input('students') as $key => $value) {
+            $this->resultR->updateStudentsDummy($key, $value);
+        }
     }
 }

@@ -8,9 +8,17 @@ use Illuminate\Http\Request;
 class ResultController extends Controller
 {
     public ResultUseCase $resultUC;
+
     public function __construct()
     {
         $this->resultUC = new ResultUseCase();
+    }
+
+    public function index()
+    {
+        $result_summary = $this->resultUC->getSummary();
+        $results = $this->resultUC->getData();
+        return view('result.index', compact('result_summary', 'results'));
     }
 
     public function index_a_q(Request $request, int $resultId)
@@ -21,8 +29,8 @@ class ResultController extends Controller
 
     public function index_a_s(Request $request, int $resultId)
     {
-        $students = $this->resultUC->getStudentData($resultId, $request);
-        return view('result.index_a_s', compact('students', 'resultId'));
+        [$summary, $students] = $this->resultUC->getStudentData($resultId, $request);
+        return view('result.index_a_s', compact('students', 'summary', 'resultId'));
     }
 
     public function index_q(Request $request)
@@ -47,5 +55,22 @@ class ResultController extends Controller
     {
         $student = $this->resultUC->getStudentResult($studentId, $request);
         return view('result.view_s', compact('student'));
+    }
+
+    public function updates_q(Request $request, int $resultId)
+    {
+        $this->resultUC->updateQuestionsDummy($request);
+        exit();
+    }
+
+    public function view_a_s(int $resultId,int $studentId){
+        [$summary,$student,$questions] = $this->resultUC->getStudent($studentId,$resultId);
+        return view('result.view_a_s', compact('student','summary','questions'));
+    }
+
+    public function updates_s(Request $request, int $resultId)
+    {
+        $this->resultUC->updateStudentsDummy($request);
+        exit();
     }
 }

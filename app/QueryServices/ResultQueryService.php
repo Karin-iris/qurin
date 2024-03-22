@@ -29,6 +29,8 @@ class ResultQueryService extends QueryService
             'r.created_at as created_at'
         ])
             ->selectRaw('COUNT(aq.id) as questions_count')
+            ->selectRaw('SUM(CASE WHEN aq.is_dummy = 1 THEN 1 ELSE 0 END) as dummy_count')
+            ->selectRaw('COUNT(aq.id) - SUM(CASE WHEN aq.is_dummy = 1 THEN 1 ELSE 0 END) as true_questions_count')
             ->from('results as r')
             ->leftJoin('answer_questions as aq', 'r.id', '=', 'aq.result_id')
             ->groupBy('r.id')
@@ -53,6 +55,34 @@ class ResultQueryService extends QueryService
                 ->where('result_id', $result->id)
                 ->count();
         }
+        foreach ($results as $key => $result) {
+            $results[$key]['result_summary'] = $this->answerStudent
+                ->selectRaw('AVG(correct_rate) as avg')
+                ->selectRaw('MAX(correct_rate) as max_score')
+                ->selectRaw('MIN(correct_rate) as min_score')
+                ->selectRaw('100 * SUM(CASE WHEN is_passed = 1 THEN 1 ELSE 0 END)/COUNT(code) as passed_rate')
+                ->selectRaw('STDDEV_POP(correct_rate) as stddev')
+                ->from('answer_students as as')
+                ->fromSub(
+                    function (Builder $query) use ($result) {
+                        $query
+                            ->select(['as.code'])
+                            ->selectRaw('MAX(is_passed) as is_passed')
+                            ->selectRaw('100 * SUM(CASE WHEN a.answer_num = 1 THEN 1 ELSE 0 END)/COUNT(a.id) as correct_rate')
+                            ->from('answer_students as as')
+                            ->leftJoin('answers as a', 'as.id', '=', 'a.student_id')
+                            ->leftJoin('answer_questions as aq', function ($join) {
+                                $join->on('aq.id', '=', 'a.question_id');
+                            })
+                            ->where('aq.is_dummy', "!=", "1")
+                            ->where('as.is_dummy', "!=", "1")
+                            ->where('as.result_id', $result->id)
+                            ->groupBy('as.code')
+                            ->orderBy('correct_rate', 'desc')
+                            ->get();
+                    }, 'ss')
+                ->first();
+        }
         return $results;
     }
 
@@ -63,6 +93,7 @@ class ResultQueryService extends QueryService
                 [
                     'aq.id as id',
                     'aq.text as text',
+                    'aq.is_dummy as is_dummy',
                     'aq.order as order'
                 ]
             )
@@ -82,25 +113,68 @@ class ResultQueryService extends QueryService
 
     function getStudentData($resultId)
     {
+        $summary = $this->answerStudent
+            ->selectRaw('AVG(correct_rate) as avg')
+            ->selectRaw('STDDEV_POP(correct_rate) as stddev')
+            ->selectRaw('MAX(correct_rate) as max_score')
+            ->selectRaw('MIN(correct_rate) as min_score')
+            ->selectRaw('MIN(score_passed) as min_passed_score')
+            ->selectRaw('MAX(score_non_passed) as max_non_passed_score')
+            ->selectRaw('100 * SUM(CASE WHEN is_passed = 1 THEN 1 ELSE 0 END)/COUNT(code) as passed_rate')
+            ->from('answer_students as as')
+            ->fromSub(
+                function (Builder $query) use ($resultId){
+                    $query
+                        ->select(['as.code'])
+                        ->selectRaw('MAX(is_passed) as is_passed')
+                        ->selectRaw('100 * SUM(CASE WHEN a.answer_num = 1 THEN 1 ELSE 0 END)/COUNT(a.id) as correct_rate')
+                        ->selectRaw('CASE WHEN MAX(is_passed) = 1 THEN 100 * SUM(CASE WHEN a.answer_num = 1 THEN 1 ELSE 0 END)/COUNT(a.id) ELSE 100 END as score_passed')
+                        ->selectRaw('CASE WHEN MAX(is_passed) = 0 THEN 100 * SUM(CASE WHEN a.answer_num = 1 THEN 1 ELSE 0 END)/COUNT(a.id) ELSE 0 END as score_non_passed')
+                        ->from('answer_students as as')
+                        ->leftJoin('answers as a', 'as.id', '=', 'a.student_id')
+                        ->leftJoin('answer_questions as aq', function ($join) {
+                            $join->on('aq.id', '=', 'a.question_id');
+
+                        })
+                        ->where('aq.is_dummy', "!=", "1")
+                        ->where('as.is_dummy', "!=", "1")
+                        ->where('as.result_id', $resultId)
+                        ->groupBy('as.code')
+                        ->orderBy('correct_rate', 'desc')
+                        ->get();
+                }, 'ss')
+            ->first();
         $students = $this->answerStudent
             ->select(
                 [
                     'as.id as id',
-                    'as.code as code'
+                    'as.code as code',
+                    'as.score as score',
+                    'as.score_count as score_count',
+                    'as.is_passed as is_passed',
+                    'as.is_dummy as is_dummy'
                 ]
             )
             ->selectRaw('COUNT(a.question_id) as questions_count')
             ->selectRaw('SUM(CASE WHEN a.answer_num = 1 THEN 1 ELSE 0 END) as answers_score')
             ->selectRaw('SUM(CASE WHEN a.answer_num IS NOT NULL AND a.answer_num != 1 THEN 1 ELSE 0 END) as answers_wrong_score')
             ->selectRaw('SUM(CASE WHEN a.answer_num IS NULL THEN 1 ELSE 0 END) as answers_null_score')
+            ->selectRaw('SUM(CASE WHEN a.answer_num = 1 THEN 1 ELSE 0 END) as correct_count')
+            ->selectRaw('(100 * SUM(CASE WHEN a.answer_num = 1 THEN 1 ELSE 0 END)/COUNT(a.id)) - ' . $summary->avg . '/' . $summary->stddev . ' as stddevv')
+            ->selectRaw('100 * SUM(CASE WHEN a.answer_num = 1 THEN 1 ELSE 0 END)/COUNT(a.id) as correct_rate')
             ->selectRaw('COUNT(a.id) as answers_count')
             ->from('answer_students as as')
             ->leftJoin('answers as a', 'as.id', '=', 'a.student_id')
+            ->leftJoin('answer_questions as aq', function ($join) {
+                $join->on('aq.id', '=', 'a.question_id');
+
+            })
+            ->where('aq.is_dummy', "!=", "1")
             ->where('as.result_id', $resultId)
             ->groupBy('as.id')
             ->orderBy('answers_score', 'desc')
             ->get();
-        return $students;
+        return [$summary,$students];
     }
 
     function getQurinQuestionData()
@@ -233,6 +307,77 @@ class ResultQueryService extends QueryService
             ->orderBy('correct_rate', 'desc')
             ->get();
         return $student;
+    }
+
+    function getStudent(int $studentId,int $resultId)
+    {
+        $summary = $this->answerQuestion
+            ->selectRaw('AVG(correct_rate) as avg')
+            ->selectRaw('STDDEV_POP(correct_rate) as stddev')
+            ->from('answer_students as as')
+            ->fromSub(
+                function (Builder $query) use ($resultId) {
+                    $query
+                        ->selectRaw('100 * SUM(CASE WHEN a.answer_num = 1 THEN 1 ELSE 0 END)/COUNT(a.id) as correct_rate')
+                        ->from('answer_students as as')
+                        ->leftJoin('answers as a', 'as.id', '=', 'a.student_id')
+                        ->where('as.result_id', $resultId)
+                        ->groupBy('as.code')
+                        ->orderBy('correct_rate', 'desc')
+                        ->get();
+                }, 'ss')
+            ->first();
+        $student = $this->answerQuestion
+            ->select(
+                [
+                    'as.code as code'
+                ]
+            )
+            ->selectRaw('COUNT(a.id) as answers_count')
+            ->selectRaw('SUM(CASE WHEN a.answer_num = 1 THEN 1 ELSE 0 END) as correct_count')
+            ->selectRaw('(100 * SUM(CASE WHEN a.answer_num = 1 THEN 1 ELSE 0 END)/COUNT(a.id)) - ' . $summary->avg . '/' . $summary->stddev . ' as stddevv')
+            ->selectRaw('100 * SUM(CASE WHEN a.answer_num = 1 THEN 1 ELSE 0 END)/COUNT(a.id) as correct_rate')
+            ->from('answer_students as as')
+            ->leftJoin('answers as a', 'as.id', '=', 'a.student_id')
+            ->where('as.id', $studentId)
+            ->where('as.result_id', $resultId)
+            ->groupBy('as.code')
+            ->orderBy('correct_rate', 'desc')
+            ->first();
+        $summary = $this->answerQuestion
+            ->selectRaw('AVG(correct_rate) as avg')
+            ->selectRaw('STDDEV_POP(correct_rate) as stddev')
+            ->from('answer_students as as')
+            ->fromSub(
+                function (Builder $query) use ($resultId) {
+                    $query
+                        ->selectRaw('100 * SUM(CASE WHEN a.answer_num = 1 THEN 1 ELSE 0 END)/COUNT(a.id) as correct_rate')
+                        ->from('answer_students as as')
+                        ->leftJoin('answers as a', 'as.id', '=', 'a.student_id')
+                        ->where('as.result_id', $resultId)
+                        ->groupBy('as.code')
+                        ->orderBy('correct_rate', 'desc')
+                        ->get();
+                }, 'ss')
+            ->first();
+        $questions = $this->answerQuestion
+            ->select(
+                [
+                    'aq.question_id as qurin_question_id',
+                    'a.answer_num',
+                    'a.answer_text',
+                    'aq.order',
+                    'aq.text',
+                    'aq.is_dummy',
+                ]
+            )
+            ->from('answer_questions as aq')
+            ->leftJoin('answers as a', 'aq.id', '=', 'a.question_id')
+            ->where('a.student_id', $studentId)
+            ->where('aq.result_id', $resultId)
+            ->orderBy('aq.order')
+            ->get();
+        return [$summary,$student,$questions];
     }
 
     function getFailedQuestionData(int $resultId)

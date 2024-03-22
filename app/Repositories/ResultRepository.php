@@ -24,17 +24,20 @@ class ResultRepository extends Repository
         $this->answer_question = new AnswerQuestion;
         $this->answer = new Answer;
     }
-    function insertGetId($title){
+
+    function insertGetId($title)
+    {
         $id = $this->result->insertGetId([
             'title' => $title,
             'created_at' => Carbon::now()
         ]);
         return $id;
     }
+
     function updateFailedQuestion(Request $request, int $id)
     {
         try {
-             $this->answer_question::find($id)->fill([
+            $this->answer_question::find($id)->fill([
                 'question_id' => $request->input('question_id'),
             ])->save();
             return "updated";
@@ -46,7 +49,8 @@ class ResultRepository extends Repository
             return "error";
         }
     }
-    function updateFailedAnswer(Array $paramArray, int $id)
+
+    function updateFailedAnswer(array $paramArray, int $id)
     {
         try {
             $answer_num = $paramArray['answer_num'];
@@ -62,7 +66,9 @@ class ResultRepository extends Repository
             return "error";
         }
     }
-    public function updateFailedAnswers(Array $paramArray){
+
+    public function updateFailedAnswers(array $paramArray)
+    {
         try {
             DB::table('answers')
                 ->where('answer_text', $paramArray['answer_text'])
@@ -77,5 +83,37 @@ class ResultRepository extends Repository
             return "error";
         }
 
+    }
+
+    public function updateQuestionsDummy(int $id, string $is_dummy)
+    {
+        try {
+            DB::table('answer_questions')
+                ->where('id', $id)
+                ->update(['is_dummy' => $is_dummy]);
+            return "updated";
+        } catch (QueryException $e) {
+            // データベースエラーの場合、例外メッセージを返す
+            Log::error("An error occurred in updateFailedAnswer: " . $e->getMessage());
+
+            // エラーをユーザーに通知するためのステータス
+            return "error";
+        }
+    }
+
+    public function updateStudentsDummy(int $id, string $is_dummy)
+    {
+        try {
+            DB::table('answer_students')
+                ->where('id', $id)
+                ->update(['is_dummy' => $is_dummy]);
+            return "updated";
+        } catch (QueryException $e) {
+            // データベースエラーの場合、例外メッセージを返す
+            Log::error("An error occurred in updateFailedAnswer: " . $e->getMessage());
+
+            // エラーをユーザーに通知するためのステータス
+            return "error";
+        }
     }
 }

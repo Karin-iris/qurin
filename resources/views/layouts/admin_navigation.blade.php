@@ -36,6 +36,11 @@
                     <x-nav-link :href="route('export.index')" :active="request()->routeIs('export.index')">
                         {{ __('Export') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('result.index')" :active="request()->routeIs('result.index')">
+                        {{ __('Result') }}
+                    </x-nav-link>
+
                     <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
                         {{ __('User') }}
                     </x-nav-link>

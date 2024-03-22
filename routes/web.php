@@ -122,6 +122,8 @@ Route::middleware(['auth:admin', 'mfa'])->group(function () {
         Route::put('/import/import_raw_csv', 'import_raw_csv')->name('import.import_raw_csv');
         Route::get('/import/import_result', 'import_result')->name('import.import_result');
         Route::put('/import/import_result_csv', 'import_result_csv')->name('import.import_result_csv');
+        Route::get('/import/import_finalresult', 'import_finalresult')->name('import.import_finalresult');
+        Route::put('/import/import_finalresult_csv', 'import_finalresult_csv')->name('import.import_finalresult_csv');
     });
     Route::controller(ExportController::class)->group(function () {
         Route::get('/export', 'index')->name('export.index');
@@ -148,6 +150,10 @@ Route::middleware(['auth:admin', 'mfa'])->group(function () {
         Route::get('/result/q_view/{questionId}', 'view_q')->name('result.view_q');
         Route::get('/result/s_index', 'index_s')->name('result.index_s');
         Route::get('/result/s_view/{studentId}', 'view_s')->name('result.view_s');
+        Route::get('/result/a_s_view/{resultId}/{studentId}', 'view_a_s')->name('result.view_a_s');
+        Route::get('/result', 'index')->name('result.index');
+        Route::put('/result/q_updates/{resultId}', 'updates_q')->name('result.updates_q');
+        Route::put('/result/s_updates/{resultId}', 'updates_s')->name('result.updates_s');
     });
     Route::controller(CategoryController::class)->group(function () {
         Route::get('/category', 'index')->name('category.index');

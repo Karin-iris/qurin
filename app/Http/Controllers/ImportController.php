@@ -43,7 +43,7 @@ class ImportController extends Controller
 
     function import_csv(QuestionFileRequest $request)
     {
-        $this->questionUC->importQuestionCSV($request,'quiz_id');
+        $this->questionUC->importQuestionCSV($request, 'quiz_id');
     }
 
     function import_raw()
@@ -53,7 +53,7 @@ class ImportController extends Controller
 
     function import_raw_csv(QuestionFileRequest $request)
     {
-        $this->questionUC->importQuestionCSV($request,'raw');
+        $this->questionUC->importQuestionCSV($request, 'raw');
     }
 
     function modify_import()
@@ -64,7 +64,7 @@ class ImportController extends Controller
 
     function modify_import_csv(QuestionFileRequest $request)
     {
-        $this->questionUC->importQuestionCSV($request,'modify');
+        $this->questionUC->importQuestionCSV($request, 'modify');
     }
 
     function all_import()
@@ -75,7 +75,7 @@ class ImportController extends Controller
 
     function all_import_csv(QuestionFileRequest $request)
     {
-        $this->questionUC->importQuestionCSV($request,'all');
+        $this->questionUC->importQuestionCSV($request, 'all');
     }
 
     function explain_import()
@@ -85,7 +85,7 @@ class ImportController extends Controller
 
     function explain_import_csv(QuestionFileRequest $request)
     {
-        $this->questionUC->importQuestionCSV($request,'explain');
+        $this->questionUC->importQuestionCSV($request, 'explain');
     }
 
     function topic_import()
@@ -95,7 +95,7 @@ class ImportController extends Controller
 
     function topic_import_csv(QuestionFileRequest $request)
     {
-        $this->questionUC->importQuestionCSV($request,'topic');
+        $this->questionUC->importQuestionCSV($request, 'topic');
     }
 
     function import_result()
@@ -238,6 +238,57 @@ class ImportController extends Controller
             }
         }
         return Redirect::route('import.index');
+    }
+
+    function import_finalresult()
+    {
+        return view('import.finalresult_import');
+    }
+
+    function import_finalresult_csv(QuestionFileRequest $request)
+    {
+        $filepath = $request->file('import_file')->getRealPath();
+        if (($handle = fopen($filepath, "r")) !== false) {
+            /*if ($request->input("title")) {
+                $title = $request->input("title");
+            } else {
+                $title = "結果";
+            }
+            $result_id = DB::table('results')->insertGetId([
+                'title' => $title,
+            ]);
+            // ファイルポインタから行を取得
+            $num = 0;
+
+            $question = [];*/
+            $row = 0;
+            $result_id = 12;
+            while (($line = fgets($handle)) !== false) {
+                $line = mb_convert_encoding($line, 'UTF-8', 'auto');
+                $data = explode(",", $line);
+                $student = DB::table('answer_students')
+                    //->where('name', $data[3])
+                    ->where('code', $data[1])
+                    ->where('result_id', $result_id)
+                    ->first();
+                print_r($student);
+                if (!empty($student)) {
+                    DB::table('answer_students')
+                        ->where('id', $student->id)
+                        ->update([
+                            'score' => $data[7],
+                            'score_count' => $data[4],
+                            'is_passed' => $data[8] == "合格" ? 1 : 0,
+                            'exam_code' => $data[2],
+                            'pos'=> $data[0]
+                        ]);
+                }
+                //print_r($data);
+                $row++;
+            }
+        }
+        //return Redirect::route('import.index');
+        exit();
     }
 
     function question_update_from_bk()

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('result_id');
             $table->string('name');
             $table->string('code');
+            $table->boolean('is_dummy')->default('0');
             $table->timestamps();
         }); //
     }
